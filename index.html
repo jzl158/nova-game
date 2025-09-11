@@ -185,7 +185,7 @@
                     <div class="bg-slate-600 rounded-full h-3 overflow-hidden">
                         <div id="xp-bar" class="xp-bar h-full rounded-full" style="width: 0%"></div>
                     </div>
-                    <div class="text-xs text-gray-300 mt-1">
+                    <div class="text-xs text-gray-200 mt-1">
                         <span id="current-xp">0</span> / <span id="xp-needed">100</span> XP
                     </div>
                 </div>
@@ -201,7 +201,7 @@
             <h1 class="text-4xl sm:text-6xl font-bold bg-gradient-to-r from-blue-400 via-yellow-400 to-green-400 bg-clip-text text-transparent tracking-wider" style="font-family: 'Playfair Display', serif;">
                 The N.O.V.A. Challenge
             </h1>
-            <p class="text-xl text-gray-300 mt-2">NFL × Crypto Edition</p>
+            <p class="text-xl text-gray-200 mt-2">NFL × Crypto Edition</p>
             <p class="text-sm text-gray-400 mt-1">Nurture, Optimize, Visualize & Amplify the Future of Sports</p>
             <div id="combo-display" class="mt-2 text-center hidden">
                 <span class="combo-multiplier bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold">
@@ -215,12 +215,12 @@
             <!-- Seed Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
                 <h2 class="text-2xl font-bold mb-4 text-green-400 card-title">🌱 SEED</h2>
-                <p class="text-gray-300 mb-4">Pick your NFL crypto idea</p>
+                <p class="text-gray-100 mb-4">Pick your NFL crypto idea</p>
                 <div id="seed-deck-container" class="card-deck mb-2" onclick="drawCard('seed')">
                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">🌱</div>
                         <h3 class="font-bold text-xl card-title">SEED</h3>
-                        <p class="text-sm text-gray-300">Click to draw</p>
+                        <p class="text-sm text-gray-100">Click to draw</p>
                     </div>
                     <div id="seed-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
@@ -230,12 +230,12 @@
             <!-- Nurture Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
                 <h2 class="text-2xl font-bold mb-4 text-yellow-400 card-title">🌿 NURTURE</h2>
-                <p class="text-gray-300 mb-4">Grow the idea with context</p>
+                <p class="text-gray-100 mb-4">Grow the idea with context</p>
                 <div id="nurture-deck-container" class="card-deck mb-2" onclick="drawCard('nurture')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">🌿</div>
                         <h3 class="font-bold text-xl card-title">NURTURE</h3>
-                        <p class="text-sm text-gray-300">Click to draw</p>
+                        <p class="text-sm text-gray-100">Click to draw</p>
                     </div>
                     <div id="nurture-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
@@ -245,12 +245,12 @@
             <!-- Optimize Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
                 <h2 class="text-2xl font-bold mb-4 text-blue-400 card-title">⚡ OPTIMIZE</h2>
-                <p class="text-gray-300 mb-4">Sharpen for impact</p>
+                <p class="text-gray-100 mb-4">Sharpen for impact</p>
                 <div id="optimize-deck-container" class="card-deck mb-2" onclick="drawCard('optimize')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">⚡</div>
                         <h3 class="font-bold text-xl card-title">OPTIMIZE</h3>
-                        <p class="text-sm text-gray-300">Click to draw</p>
+                        <p class="text-sm text-gray-100">Click to draw</p>
                     </div>
                     <div id="optimize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
@@ -260,12 +260,12 @@
             <!-- Visualize Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
                 <h2 class="text-2xl font-bold mb-4 text-purple-400 card-title">🎨 VISUALIZE</h2>
-                <p class="text-gray-300 mb-4">Make it tangible</p>
+                <p class="text-gray-100 mb-4">Make it tangible</p>
                 <div id="visualize-deck-container" class="card-deck mb-2" onclick="drawCard('visualize')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">🎨</div>
                         <h3 class="font-bold text-xl card-title">VISUALIZE</h3>
-                        <p class="text-sm text-gray-300">Click to draw</p>
+                        <p class="text-sm text-gray-100">Click to draw</p>
                     </div>
                     <div id="visualize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
@@ -276,7 +276,7 @@
         <!-- Amplify Zone -->
         <div id="amplify-zone" class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-8 text-center hidden border border-red-400">
             <h2 class="text-3xl font-bold mb-4 text-red-400 card-title">📢 AMPLIFY ZONE</h2>
-            <p class="text-gray-300 mb-6">How can all this happen? Synthesize the cards and share your vision.</p>
+            <p class="text-gray-100 mb-6">How can all this happen? Synthesize the cards and share your vision.</p>
             <textarea id="vision-input" class="w-full h-40 bg-slate-900 text-white p-4 rounded-lg border border-blue-500 focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Type your answer here..."></textarea>
             <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">Submit Vision</button>
         </div>
@@ -302,7 +302,7 @@
         <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-md w-full text-center border border-orange-400">
             <h2 class="text-3xl font-bold mb-4 text-orange-400 card-title">⭐ Daily Playbook</h2>
             <div id="daily-challenge-content">
-                <p class="text-gray-300 mb-4">Today's challenge: Create a concept that...</p>
+                <p class="text-gray-100 mb-4">Today's challenge: Create a concept that...</p>
                 <p id="daily-challenge-text" class="text-blue-300 font-semibold mb-4 text-lg"></p>
                 <p class="text-sm text-gray-400 mb-6">Complete for <span class="text-yellow-400 font-bold">+250 XP</span> bonus!</p>
             </div>
@@ -336,7 +336,7 @@
                 <span class="text-2xl text-yellow-400">+<span id="reward-points">0</span> Coins!</span>
                 <span class="text-lg text-blue-400 ml-4">+<span id="reward-xp">0</span> XP!</span>
              </div>
-             <p class="text-gray-300 mb-6">You've successfully created an innovative NFL × Crypto vision! Here's your N.O.V.A. combination:</p>
+             <p class="text-gray-100 mb-6">You've successfully created an innovative NFL × Crypto vision! Here's your N.O.V.A. combination:</p>
              <div id="modal-content" class="text-left bg-slate-900 p-6 rounded-lg mb-6 border border-gray-600">
                 <p><strong class="text-green-400">🌱 Seed:</strong> <span id="modal-seed"></span></p>
                 <p><strong class="text-yellow-400">🌿 Nurture:</strong> <span id="modal-nurture"></span></p>
@@ -353,7 +353,7 @@
     <div id="alert-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
         <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-sm w-full text-center border border-yellow-400">
              <h2 id="alert-title" class="text-2xl font-bold mb-4 text-yellow-400 card-title">Timeout!</h2>
-             <p id="alert-message" class="text-gray-300 mb-6"></p>
+             <p id="alert-message" class="text-gray-100 mb-6"></p>
              <button id="alert-ok" class="btn-primary font-bold py-2 px-6 rounded-full">Resume Game</button>
         </div>
     </div>
