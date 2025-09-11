@@ -10,10 +10,11 @@ The N.O.V.A. Challenge NFL × Crypto Edition is an interactive business innovati
 
 ### 🎴 The N.O.V.A. Framework
 
-- **🌱 NURTURE Zone**: Grow your NFL crypto concept with foundational ideas and pioneering players
+- **🌱 SEED Zone**: Choose your core NFL crypto business idea or pioneering player concept
+- **🌿 NURTURE Zone**: Add context, backstory, and meaning to grow your idea
 - **⚡ OPTIMIZE Zone**: Enhance with blockchain technology, AI, and Web3 innovations
 - **🎨 VISUALIZE Zone**: Create tangible representations, apps, and fan experiences  
-- **📢 AMPLIFY Zone**: Scale your innovation across leagues and global sports markets
+- **📢 AMPLIFY Zone**: Write your synthesis combining all elements into a revolutionary vision
 
 ## 🏆 Gamification Features
 
@@ -39,11 +40,11 @@ The N.O.V.A. Challenge NFL × Crypto Edition is an interactive business innovati
 
 ## 🏈 How to Play
 
-1. **Nurture**: Draw cards to establish your NFL crypto foundation with pioneering players and concepts
-2. **Optimize**: Add blockchain technologies and Web3 innovations to enhance your idea
-3. **Visualize**: Create tangible apps, platforms, and fan experiences to make your concept real
-4. **Amplify**: Scale your innovation globally across sports leagues and markets
-5. **Synthesize**: Combine all four N.O.V.A. elements into your revolutionary vision
+1. **Seed**: Draw a card to choose your core NFL crypto business idea or pioneer concept
+2. **Nurture**: Add context, backstory, and meaning to grow your foundational idea
+3. **Optimize**: Enhance with blockchain technologies, DeFi, and Web3 innovations
+4. **Visualize**: Create tangible apps, platforms, and fan experiences to make it real
+5. **Amplify**: Write your synthesis combining all four elements into a revolutionary vision
 6. **Earn Rewards**: Get points, XP, and unlock achievements as you master the N.O.V.A. framework!
 
 ## 🛠 Technical Features
@@ -85,10 +86,10 @@ nova-game/
 
 ### Adding New Cards
 Edit the `decks` object in the JavaScript section:
-- `nurture`: NFL crypto pioneers, foundational concepts, and contract structures
-- `optimize`: Blockchain, AI, and Web3 technologies for enhancement
-- `visualize`: Apps, platforms, and tangible fan experiences
-- `amplify`: Scaling strategies and global expansion concepts
+- `seed`: NFL crypto business ideas, pioneering players, and core concepts
+- `nurture`: Context, backstory, and foundational meaning for ideas
+- `optimize`: Blockchain, AI, DeFi, and Web3 technologies for enhancement
+- `visualize`: Apps, platforms, marketing materials, and tangible experiences
 
 ### Modifying Achievements
 Update the `achievementsList` array with:
