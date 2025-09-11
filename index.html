@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The N.O.V.A. Challenge - Gamified</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+        .card {
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            min-height: 240px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 255, 255, 0.2);
+        }
+        .card-deck {
+            perspective: 1000px;
+            position: relative;
+            height: 240px;
+            width: 180px;
+        }
+        .card-deck .card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-deck .card-back {
+             transform: rotateY(0deg);
+        }
+        .card-deck.flipped .card-back {
+            transform: rotateY(-180deg);
+        }
+        .card-deck.flipped .card-front {
+            transform: rotateY(0deg);
+        }
+        .card-front {
+             transform: rotateY(180deg);
+        }
+        .card-title {
+            font-family: 'Playfair Display', serif;
+        }
+        .card-icon {
+            font-size: 3rem;
+            line-height: 1;
+        }
+        .playmat-zone {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px dashed #444;
+            min-height: 280px;
+        }
+        .selected-card {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255,255, 0.3);
+            border-color: #00ffff;
+        }
+        .btn-primary {
+            background-color: #00ffff;
+            color: #1a1a1a;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #00d0d0;
+            transform: scale(1.05);
+        }
+        .modal {
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        /* Gamification Styles */
+        .points-animation {
+            animation: pointsFloat 2s ease-out forwards;
+        }
+        
+        @keyframes pointsFloat {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-50px); }
+        }
+        
+        .achievement-popup {
+            animation: achievementBounce 0.5s ease-out;
+        }
+        
+        @keyframes achievementBounce {
+            0% { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+            50% { transform: scale(1.1) rotate(5deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        
+        .streak-fire {
+            animation: fireFlicker 1s infinite alternate;
+        }
+        
+        @keyframes fireFlicker {
+            0% { transform: scale(1) rotate(-2deg); }
+            100% { transform: scale(1.1) rotate(2deg); }
+        }
+        
+        .xp-bar {
+            background: linear-gradient(90deg, #00ffff, #0099ff, #6600ff);
+            transition: width 0.8s ease-out;
+        }
+        
+        .level-badge {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1a1a1a;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            margin: 0.25rem;
+        }
+        
+        .badge-bronze { background-color: #cd7f32; }
+        .badge-silver { background-color: #c0c0c0; }
+        .badge-gold { background-color: #ffd700; color: #1a1a1a; }
+        .badge-platinum { background: linear-gradient(135deg, #e5e4e2, #fff); color: #1a1a1a; }
+        
+        .combo-multiplier {
+            animation: pulse 0.5s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 sm:p-8">
+    <div class="container mx-auto">
+
+        <!-- Gamification Header -->
+        <div class="bg-gray-800 rounded-lg p-4 mb-6 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-6">
+                <div class="level-badge px-3 py-1 rounded-full font-bold">
+                    Level <span id="player-level">1</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-cyan-300 font-semibold">🏆 <span id="total-points">0</span></span>
+                    <span class="text-yellow-300 font-semibold">🔥 <span id="streak-count">0</span></span>
+                </div>
+                <div class="flex-1 max-w-xs">
+                    <div class="bg-gray-700 rounded-full h-3 overflow-hidden">
+                        <div id="xp-bar" class="xp-bar h-full rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div class="text-xs text-gray-400 mt-1">
+                        <span id="current-xp">0</span> / <span id="xp-needed">100</span> XP
+                    </div>
+                </div>
+            </div>
+            <div class="flex space-x-2 mt-2 sm:mt-0">
+                <button id="achievements-btn" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm">🏅 Achievements</button>
+                <button id="daily-challenge-btn" class="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded text-sm">⭐ Daily</button>
+                <button id="leaderboard-btn" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">📊 Leaderboard</button>
+            </div>
+        </div>
+
+        <header class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-bold text-cyan-300 tracking-wider" style="font-family: 'Playfair Display', serif;">The N.O.V.A. Challenge</h1>
+            <p class="text-lg text-gray-400 mt-2">A Game of Collective Creativity & Vision</p>
+            <div id="combo-display" class="mt-2 text-center hidden">
+                <span class="combo-multiplier bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold">
+                    🔥 <span id="combo-count">0</span>x COMBO!
+                </span>
+            </div>
+        </header>
+
+        <!-- Playmat / Vision Board -->
+        <div id="playmat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <!-- Seed Zone -->
+            <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                <h2 class="text-2xl font-bold mb-4 text-green-300 card-title">🌱 Seed Zone</h2>
+                <p class="text-gray-400 mb-4">Pick a business idea to begin.</p>
+                <div id="seed-deck-container" class="card-deck mb-2" onclick="drawCard('seed')">
+                    <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
+                        <div class="card-icon">🌱</div>
+                        <h3 class="font-bold text-xl card-title">SEED</h3>
+                        <p class="text-sm text-gray-400">Click to draw</p>
+                    </div>
+                    <div id="seed-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                </div>
+                <button id="refresh-seed" onclick="redrawCard('seed')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+            </div>
+
+            <!-- Nurture Zone -->
+            <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                <h2 class="text-2xl font-bold mb-4 text-yellow-300 card-title">🌿 Nurture Zone</h2>
+                <p class="text-gray-400 mb-4">Grow the idea with context.</p>
+                <div id="nurture-deck-container" class="card-deck mb-2" onclick="drawCard('nurture')">
+                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
+                        <div class="card-icon">🌿</div>
+                        <h3 class="font-bold text-xl card-title">NURTURE</h3>
+                        <p class="text-sm text-gray-400">Click to draw</p>
+                    </div>
+                    <div id="nurture-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                </div>
+                <button id="refresh-nurture" onclick="redrawCard('nurture')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+            </div>
+
+            <!-- Optimize Zone -->
+            <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                <h2 class="text-2xl font-bold mb-4 text-blue-300 card-title">⚡ Optimize Zone</h2>
+                <p class="text-gray-400 mb-4">Sharpen the idea for impact.</p>
+                <div id="optimize-deck-container" class="card-deck mb-2" onclick="drawCard('optimize')">
+                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
+                        <div class="card-icon">⚡</div>
+                        <h3 class="font-bold text-xl card-title">OPTIMIZE</h3>
+                        <p class="text-sm text-gray-400">Click to draw</p>
+                    </div>
+                    <div id="optimize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                </div>
+                <button id="refresh-optimize" onclick="redrawCard('optimize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+            </div>
+
+            <!-- Visualize Zone -->
+            <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                <h2 class="text-2xl font-bold mb-4 text-purple-300 card-title">🎨 Visualize Zone</h2>
+                <p class="text-gray-400 mb-4">Make the idea tangible.</p>
+                <div id="visualize-deck-container" class="card-deck mb-2" onclick="drawCard('visualize')">
+                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
+                        <div class="card-icon">🎨</div>
+                        <h3 class="font-bold text-xl card-title">VISUALIZE</h3>
+                        <p class="text-sm text-gray-400">Click to draw</p>
+                    </div>
+                    <div id="visualize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                </div>
+                <button id="refresh-visualize" onclick="redrawCard('visualize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+            </div>
+        </div>
+
+        <!-- Amplify Zone -->
+        <div id="amplify-zone" class="bg-gray-800 rounded-lg p-8 text-center hidden">
+            <h2 class="text-3xl font-bold mb-4 text-red-300 card-title">📢 Amplify Zone</h2>
+            <p class="text-gray-400 mb-6">How can all this happen? Synthesize the cards and share your vision.</p>
+            <textarea id="vision-input" class="w-full h-40 bg-gray-900 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Type your answer here..."></textarea>
+            <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">Submit Vision</button>
+        </div>
+
+    </div>
+
+    <!-- Points Animation Overlay -->
+    <div id="points-overlay" class="fixed inset-0 pointer-events-none z-50"></div>
+
+    <!-- Achievement Popup -->
+    <div id="achievement-popup" class="fixed top-20 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-black p-4 rounded-lg shadow-lg hidden z-50">
+        <div class="flex items-center space-x-2">
+            <span class="text-2xl">🏆</span>
+            <div>
+                <div class="font-bold" id="achievement-title">Achievement Unlocked!</div>
+                <div class="text-sm" id="achievement-description"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Challenge Modal -->
+    <div id="daily-challenge-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full text-center">
+            <h2 class="text-3xl font-bold mb-4 text-orange-300 card-title">⭐ Daily Challenge</h2>
+            <div id="daily-challenge-content">
+                <p class="text-gray-300 mb-4">Create a business concept that:</p>
+                <p id="daily-challenge-text" class="text-cyan-300 font-semibold mb-4 text-lg"></p>
+                <p class="text-sm text-gray-400 mb-6">Complete for <span class="text-yellow-300 font-bold">+200 XP</span> bonus!</p>
+            </div>
+            <button id="close-daily-challenge" class="btn-primary font-bold py-2 px-6 rounded-full">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Achievements Modal -->
+    <div id="achievements-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full">
+            <h2 class="text-3xl font-bold mb-6 text-purple-300 card-title text-center">🏅 Achievements</h2>
+            <div id="achievements-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto"></div>
+            <button id="close-achievements" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Close</button>
+        </div>
+    </div>
+
+    <!-- Leaderboard Modal -->
+    <div id="leaderboard-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full">
+            <h2 class="text-3xl font-bold mb-6 text-green-300 card-title text-center">📊 Leaderboard</h2>
+            <div id="leaderboard-content" class="space-y-3 max-h-96 overflow-y-auto"></div>
+            <button id="close-leaderboard" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal for showing result -->
+    <div id="result-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center">
+             <h2 class="text-3xl font-bold mb-4 text-cyan-300 card-title">🎉 Vision Amplified! 🎉</h2>
+             <div id="completion-reward" class="mb-4 text-center">
+                <span class="text-2xl text-yellow-300">+<span id="reward-points">0</span> Points!</span>
+                <span class="text-lg text-cyan-300 ml-4">+<span id="reward-xp">0</span> XP!</span>
+             </div>
+             <p class="text-gray-300 mb-6">You've successfully combined the elements to create a unique business concept. Here's your vision:</p>
+             <div id="modal-content" class="text-left bg-gray-900 p-6 rounded-lg mb-6">
+                <p><strong class="text-green-300">Seed:</strong> <span id="modal-seed"></span></p>
+                <p><strong class="text-yellow-300">Nurture:</strong> <span id="modal-nurture"></span></p>
+                <p><strong class="text-blue-300">Optimize:</strong> <span id="modal-optimize"></span></p>
+                <p><strong class="text-purple-300">Visualize:</strong> <span id="modal-visualize"></span></p>
+                <hr class="my-4 border-gray-600">
+                <p><strong class="text-red-300">Your Vision:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
+             </div>
+             <button id="restart-game" class="btn-primary font-bold py-3 px-8 rounded-full">Play Again</button>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alert-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-sm w-full text-center">
+             <h2 id="alert-title" class="text-2xl font-bold mb-4 text-yellow-300 card-title">Alert</h2>
+             <p id="alert-message" class="text-gray-300 mb-6"></p>
+             <button id="alert-ok" class="btn-primary font-bold py-2 px-6 rounded-full">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const decks = {
+            seed: [
+                "A new sneaker brand", "A neighborhood park", "Hemp-based product", "A podcast about dreams",
+                "Community mural", "Eco-friendly food truck", "AI personal assistant for teens", "A rooftop garden",
+                "Pop-up bookstore", "Recycled fashion line", "Local farmers' co-op", "Interactive art festival",
+                "Smart bike helmet", "A mobile meditation booth", "Esports café", "Self-sustaining tiny home",
+                "Music mentorship program", "Solar-powered streetlights", "Dog park with AI toys", "Upcycled furniture brand",
+                "Kids coding camp", "AR city walking tour", "Blockchain-based charity fund", "Immersive theater show",
+                "Zero-waste grocery store", "Floating community center", "Plant-based skincare line", "Drone-powered delivery for seniors",
+                "Wellness retreat in the city", "Onchain scavenger hunt", "Musical instrument rental service", "Virtual classroom for elders",
+                "Streetwear NFT brand", "Smart vending machines", "Podcasting van", "Community kitchen hub",
+                "Skate park with solar panels", "Language learning game", "Mobile repair co-op", "Festival powered by bikes",
+                "Wearable health tracker jewelry", "Gamified fitness challenge", "Eco-conscious nightclub", "Podcast for kids",
+                "Floating garden barge", "Crypto-funded art residency", "Outdoor VR arena"
+            ],
+            nurture: [
+                "Add a backstory about why it matters", "Name one resource it would need", "Connect it to a global issue",
+                "Add a personal memory", "Name a group it could empower", "Tell how it reduces stress",
+                "Link it to education", "Add a cultural influence", "Make it connect to nature", "Add a family-friendly angle",
+                "Tie it to history", "Make it seasonal", "Show how it helps a city", "Add a wellness benefit",
+                "Connect it to music", "Add a sports connection", "Make it youth-focused", "Tie it to local traditions",
+                "Add a mentor role", "Give it a hero story", "Connect it to art", "Show how it heals or repairs",
+                "Add a tech angle", "Tie it to community pride", "Make it mobile", "Add a festival vibe",
+                "Connect it to health", "Add a sustainability story", "Tie it to water or air", "Make it intergenerational",
+                "Add a storytelling angle", "Link it to fashion", "Connect it to science", "Tie it to spirituality",
+                "Add a food element", "Connect it to local businesses", "Make it global", "Make it neighborhood-focused",
+                "Add a play or game aspect", "Show how it creates jobs", "Tie it to joy and fun", "Make it activist-driven",
+                "Add a volunteer angle", "Connect it to digital culture", "Show how it saves time", "Add a personal testimony",
+                "Make it ritualistic"
+            ],
+            optimize: [
+                "Add AI automation", "Cut costs by half", "Make it solar-powered", "Add blockchain for trust",
+                "Scale it globally", "Make it subscription-based", "Add gamification", "Optimize supply chain",
+                "Partner with schools", "Reduce waste", "Add open-source collaboration", "Create a digital twin",
+                "Add predictive analytics", "Localize it for different cultures", "Add real-time feedback", "Cut steps from process",
+                "Add AR/VR", "Add personalization", "Build loyalty rewards", "Make it crowdfundable",
+                "Add self-service", "Make it voice-activated", "Add community voting", "Use recycled materials",
+                "Automate marketing", "Add referral program", "Streamline with QR codes", "Add delivery or pickup options",
+                "Tie to existing platforms", "Reduce energy consumption", "Add sponsorship model", "Create modular design",
+                "Add smart contracts", "Optimize for accessibility", "Add data insights dashboard", "Create tiers of engagement",
+                "Add live streaming", "Reduce carbon footprint", "Add mobile-first experience", "Create an API for others",
+                "Make it hackathon-friendly", "Add plug-and-play features", "Build a marketplace layer", "Simplify sign-up process",
+                "Add AI agents", "Connect to wearable tech", "Add hybrid virtual/in-person model"
+            ],
+            visualize: [
+                "Write a 5-word slogan", "Draw or describe a logo", "Pitch it like a startup",
+                "Make a quick jingle/chant", "Sketch the first customer", "Name the flagship product",
+                "Write a 30-second ad script", "Act out a user interaction", "Design a collectible version",
+                "Create a social media post", "Write the first press headline", "Create a meme for it",
+                "Draw the physical space", "Write its theme song title", "Roleplay the first customer review",
+                "Create a mascot", "Write a tweet thread starter", "Make a TikTok challenge idea",
+                "Imagine its first billboard", "Draft a press release title", "Create its mobile app splash screen",
+                "Name the launch event", "Create a fictional testimonial", "Draw the packaging",
+                "Describe its website homepage", "Write a short brand manifesto", "Create a character that uses it",
+                "Imagine the first news clip", "Write a product haiku", "Design a futuristic prototype sketch",
+                "Draft a loyalty program idea", "Name the first sponsor/partner", "Write an elevator pitch",
+                "Create its first AR filter", "Make up a commercial tagline", "Design its uniforms or merch",
+                "Write its first 1-star review", "Roleplay the founder speech", "Create the crowdfunding pitch title",
+                "Design a limited-edition version", "Write the opening scene of its movie", "Create a meme reaction for it",
+                "Draw its app icon", "Write the first podcast ad read", "Name its community hub",
+                "Create the launch party invite", "Make the first billboard slogan"
+            ]
+        };
+
+        const icons = {
+            seed: '🌱',
+            nurture: '🌿',
+            optimize: '⚡',
+            visualize: '🎨'
+        };
+
+        const colors = {
+            seed: 'green',
+            nurture: 'yellow',
+            optimize: 'blue',
+            visualize: 'purple'
+        };
+
+        // Gamification State
+        let gameState = {
+            totalPoints: 0,
+            currentXP: 0,
+            level: 1,
+            streak: 0,
+            gamesCompleted: 0,
+            achievements: new Set(),
+            lastPlayDate: null,
+            comboMultiplier: 1,
+            cardsDrawnToday: 0,
+            dailyChallenge: null,
+            leaderboard: []
+        };
+
+        // Achievements Definition
+        const achievementsList = [
+            { id: 'first_game', title: 'First Vision', description: 'Complete your first N.O.V.A. challenge', xp: 50, icon: '🎯' },
+            { id: 'streak_3', title: 'On Fire', description: 'Complete 3 games in a row', xp: 100, icon: '🔥' },
+            { id: 'streak_7', title: 'Week Warrior', description: 'Complete 7 games in a row', xp: 200, icon: '⚡' },
+            { id: 'level_5', title: 'Rising Star', description: 'Reach level 5', xp: 150, icon: '⭐' },
+            { id: 'level_10', title: 'Innovation Master', description: 'Reach level 10', xp: 300, icon: '👑' },
+            { id: 'cards_100', title: 'Card Collector', description: 'Draw 100 cards total', xp: 100, icon: '🃏' },
+            { id: 'daily_champion', title: 'Daily Champion', description: 'Complete a daily challenge', xp: 200, icon: '🏆' },
+            { id: 'speed_demon', title: 'Speed Demon', description: 'Complete a game in under 2 minutes', xp: 150, icon: '💨' },
+            { id: 'wordsmith', title: 'Wordsmith', description: 'Write a vision with over 200 characters', xp: 100, icon: '✍️' },
+            { id: 'perfect_combo', title: 'Perfect Combo', description: 'Draw all 4 cards without refreshing', xp: 250, icon: '💎' }
+        ];
+
+        // Daily Challenges
+        const dailyChallenges = [
+            "Focuses on sustainability and environmental impact",
+            "Involves community collaboration and social good", 
+            "Uses cutting-edge technology (AI, blockchain, AR/VR)",
+            "Targets Gen Z or younger demographics",
+            "Solves a problem in urban environments",
+            "Combines physical and digital experiences",
+            "Focuses on health and wellness benefits",
+            "Has a global reach and scalability",
+            "Incorporates elements of gamification",
+            "Addresses accessibility and inclusion"
+        ];
+
+        let drawnCards = {
+            seed: null,
+            nurture: null,
+            optimize: null,
+            visualize: null
+        };
+         
+        let remainingDecks = {...decks};
+        let gameStartTime = null;
+        let refreshCount = 0;
+
+        // Initialize game state from localStorage
+        function initializeGameState() {
+            const saved = localStorage.getItem('nova-gamified-state');
+            if (saved) {
+                const savedState = JSON.parse(saved);
+                gameState = { ...gameState, ...savedState };
+                gameState.achievements = new Set(savedState.achievements || []);
+            }
+            
+            // Generate daily challenge
+            generateDailyChallenge();
+            
+            updateUI();
+        }
+
+        // Save game state to localStorage
+        function saveGameState() {
+            const stateToSave = {
+                ...gameState,
+                achievements: Array.from(gameState.achievements)
+            };
+            localStorage.setItem('nova-gamified-state', JSON.stringify(stateToSave));
+        }
+
+        // Update UI elements
+        function updateUI() {
+            document.getElementById('total-points').textContent = gameState.totalPoints;
+            document.getElementById('player-level').textContent = gameState.level;
+            document.getElementById('streak-count').textContent = gameState.streak;
+            
+            const xpForNextLevel = getXPForLevel(gameState.level + 1);
+            const xpForCurrentLevel = getXPForLevel(gameState.level);
+            const xpNeeded = xpForNextLevel - xpForCurrentLevel;
+            const currentLevelXP = gameState.currentXP - xpForCurrentLevel;
+            const xpPercent = (currentLevelXP / xpNeeded) * 100;
+            
+            document.getElementById('xp-bar').style.width = `${xpPercent}%`;
+            document.getElementById('current-xp').textContent = currentLevelXP;
+            document.getElementById('xp-needed').textContent = xpNeeded;
+            
+            // Update streak fire effect
+            const streakElement = document.getElementById('streak-count');
+            if (gameState.streak >= 3) {
+                streakElement.classList.add('streak-fire');
+            } else {
+                streakElement.classList.remove('streak-fire');
+            }
+            
+            // Show combo multiplier
+            if (gameState.comboMultiplier > 1) {
+                document.getElementById('combo-count').textContent = gameState.comboMultiplier;
+                document.getElementById('combo-display').classList.remove('hidden');
+            } else {
+                document.getElementById('combo-display').classList.add('hidden');
+            }
+        }
+
+        // Calculate XP needed for a given level
+        function getXPForLevel(level) {
+            return Math.floor(100 * Math.pow(1.5, level - 1));
+        }
+
+        // Add XP and handle level ups
+        function addXP(amount) {
+            gameState.currentXP += amount;
+            
+            const xpForNextLevel = getXPForLevel(gameState.level + 1);
+            if (gameState.currentXP >= xpForNextLevel) {
+                levelUp();
+            }
+            
+            updateUI();
+            saveGameState();
+        }
+
+        // Handle level up
+        function levelUp() {
+            gameState.level++;
+            showPointsAnimation(`LEVEL ${gameState.level}!`, 'level-up');
+            
+            // Check for level achievements
+            if (gameState.level === 5) unlockAchievement('level_5');
+            if (gameState.level === 10) unlockAchievement('level_10');
+        }
+
+        // Add points with animation
+        function addPoints(amount, element = null) {
+            gameState.totalPoints += amount * gameState.comboMultiplier;
+            
+            if (element) {
+                showPointsAnimation(`+${amount * gameState.comboMultiplier}`, 'points', element);
+            }
+            
+            updateUI();
+            saveGameState();
+        }
+
+        // Show points animation
+        function showPointsAnimation(text, type = 'points', sourceElement = null) {
+            const overlay = document.getElementById('points-overlay');
+            const animation = document.createElement('div');
+            
+            animation.className = `points-animation fixed text-2xl font-bold z-50 pointer-events-none`;
+            animation.textContent = text;
+            
+            if (type === 'level-up') {
+                animation.className += ' text-yellow-300 text-4xl';
+                animation.style.left = '50%';
+                animation.style.top = '30%';
+                animation.style.transform = 'translateX(-50%)';
+            } else {
+                animation.className += ' text-cyan-300';
+                if (sourceElement) {
+                    const rect = sourceElement.getBoundingClientRect();
+                    animation.style.left = `${rect.left + rect.width / 2}px`;
+                    animation.style.top = `${rect.top}px`;
+                    animation.style.transform = 'translateX(-50%)';
+                } else {
+                    animation.style.right = '20px';
+                    animation.style.top = '100px';
+                }
+            }
+            
+            overlay.appendChild(animation);
+            
+            setTimeout(() => {
+                overlay.removeChild(animation);
+            }, 2000);
+        }
+
+        // Unlock achievement
+        function unlockAchievement(achievementId) {
+            if (gameState.achievements.has(achievementId)) return;
+            
+            const achievement = achievementsList.find(a => a.id === achievementId);
+            if (!achievement) return;
+            
+            gameState.achievements.add(achievementId);
+            addXP(achievement.xp);
+            
+            // Show achievement popup
+            const popup = document.getElementById('achievement-popup');
+            document.getElementById('achievement-title').textContent = achievement.title;
+            document.getElementById('achievement-description').textContent = achievement.description;
+            
+            popup.classList.remove('hidden');
+            popup.classList.add('achievement-popup');
+            
+            setTimeout(() => {
+                popup.classList.add('hidden');
+                popup.classList.remove('achievement-popup');
+            }, 4000);
+            
+            saveGameState();
+        }
+
+        // Generate daily challenge
+        function generateDailyChallenge() {
+            const today = new Date().toDateString();
+            if (gameState.dailyChallenge?.date !== today) {
+                const challengeIndex = new Date().getDate() % dailyChallenges.length;
+                gameState.dailyChallenge = {
+                    date: today,
+                    text: dailyChallenges[challengeIndex],
+                    completed: false
+                };
+                saveGameState();
+            }
+        }
+
+        // Check if vision meets daily challenge
+        function checkDailyChallenge(visionText) {
+            if (!gameState.dailyChallenge || gameState.dailyChallenge.completed) return false;
+            
+            // Simple keyword matching - in a real app, this could be more sophisticated
+            const challengeKeywords = gameState.dailyChallenge.text.toLowerCase().split(' ');
+            const visionLower = visionText.toLowerCase();
+            
+            const matches = challengeKeywords.filter(keyword => 
+                keyword.length > 3 && visionLower.includes(keyword)
+            );
+            
+            if (matches.length >= 2) {
+                gameState.dailyChallenge.completed = true;
+                unlockAchievement('daily_champion');
+                addXP(200);
+                showPointsAnimation('Daily Challenge Complete! +200 XP', 'level-up');
+                return true;
+            }
+            
+            return false;
+        }
+
+        function drawCard(deckName) {
+            if (drawnCards[deckName]) return;
+
+            if (!gameStartTime) {
+                gameStartTime = Date.now();
+                refreshCount = 0;
+            }
+
+            if (remainingDecks[deckName] && remainingDecks[deckName].length > 0) {
+                const cardIndex = Math.floor(Math.random() * remainingDecks[deckName].length);
+                const cardText = remainingDecks[deckName][cardIndex];
+                
+                remainingDecks[deckName].splice(cardIndex, 1);
+
+                drawnCards[deckName] = cardText;
+                const cardElement = document.getElementById(`${deckName}-card`);
+                
+                cardElement.innerHTML = `
+                    <div class="card-icon">${icons[deckName]}</div>
+                    <p class="font-semibold text-lg">${cardText}</p>
+                `;
+                
+                const deckContainer = document.getElementById(`${deckName}-deck-container`);
+                deckContainer.classList.add('flipped');
+                
+                document.getElementById(`refresh-${deckName}`).classList.remove('hidden');
+
+                // Gamification: Add points and XP
+                const basePoints = 25;
+                const baseXP = 20;
+                
+                addPoints(basePoints, deckContainer);
+                addXP(baseXP);
+                
+                // Update combo multiplier
+                const cardsDrawn = Object.values(drawnCards).filter(card => card !== null).length;
+                gameState.comboMultiplier = cardsDrawn;
+                updateUI();
+                
+                // Track cards drawn
+                gameState.cardsDrawnToday++;
+                if (gameState.cardsDrawnToday >= 100) {
+                    unlockAchievement('cards_100');
+                }
+
+                if (Object.values(drawnCards).every(card => card !== null)) {
+                    document.getElementById('amplify-zone').classList.remove('hidden');
+                    
+                    // Check for perfect combo achievement
+                    if (refreshCount === 0) {
+                        unlockAchievement('perfect_combo');
+                    }
+                }
+            }
+        }
+
+        function redrawCard(deckName) {
+            const currentCardText = drawnCards[deckName];
+            refreshCount++;
+
+            if (currentCardText) {
+                remainingDecks[deckName].push(currentCardText);
+                drawnCards[deckName] = null;
+
+                const deckContainer = document.getElementById(`${deckName}-deck-container`);
+                deckContainer.classList.remove('flipped');
+                
+                document.getElementById(`refresh-${deckName}`).classList.add('hidden');
+                document.getElementById('amplify-zone').classList.add('hidden');
+
+                // Reset combo multiplier
+                const cardsDrawn = Object.values(drawnCards).filter(card => card !== null).length;
+                gameState.comboMultiplier = Math.max(1, cardsDrawn);
+                updateUI();
+
+                setTimeout(() => {
+                    const cardElement = document.getElementById(`${deckName}-card`);
+                    cardElement.innerHTML = '';
+                }, 300);
+            }
+        }
+
+        function showAlert(message, title = 'Alert') {
+            document.getElementById('alert-title').textContent = title;
+            document.getElementById('alert-message').textContent = message;
+            document.getElementById('alert-modal').style.display = 'flex';
+        }
+         
+        document.getElementById('alert-ok').addEventListener('click', () => {
+            document.getElementById('alert-modal').style.display = 'none';
+        });
+
+        document.getElementById('submit-vision').addEventListener('click', () => {
+            const visionText = document.getElementById('vision-input').value;
+            if (visionText.trim() === '') {
+                showAlert('Please share your vision before submitting.');
+                return;
+            }
+
+            const gameTime = Date.now() - gameStartTime;
+            const completionBonus = Math.max(100, 500 - Math.floor(gameTime / 1000) * 5); // Bonus for speed
+            const visionBonus = Math.floor(visionText.length / 10) * 5; // Bonus for detailed vision
+            const streakBonus = gameState.streak * 50;
+            
+            const totalPoints = completionBonus + visionBonus + streakBonus;
+            const totalXP = 100 + (visionText.length > 200 ? 50 : 0);
+
+            // Update streak
+            const today = new Date().toDateString();
+            if (gameState.lastPlayDate === today) {
+                // Same day, no streak change
+            } else {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                if (gameState.lastPlayDate === yesterday.toDateString()) {
+                    gameState.streak++;
+                } else {
+                    gameState.streak = 1;
+                }
+            }
+            gameState.lastPlayDate = today;
+            gameState.gamesCompleted++;
+
+            // Check achievements
+            if (gameState.gamesCompleted === 1) unlockAchievement('first_game');
+            if (gameState.streak === 3) unlockAchievement('streak_3');
+            if (gameState.streak === 7) unlockAchievement('streak_7');
+            if (gameTime < 120000) unlockAchievement('speed_demon'); // Under 2 minutes
+            if (visionText.length > 200) unlockAchievement('wordsmith');
+
+            // Check daily challenge
+            checkDailyChallenge(visionText);
+
+            // Add rewards
+            addPoints(totalPoints);
+            addXP(totalXP);
+
+            // Update modal with rewards
+            document.getElementById('reward-points').textContent = totalPoints;
+            document.getElementById('reward-xp').textContent = totalXP;
+
+            document.getElementById('modal-seed').textContent = drawnCards.seed;
+            document.getElementById('modal-nurture').textContent = drawnCards.nurture;
+            document.getElementById('modal-optimize').textContent = drawnCards.optimize;
+            document.getElementById('modal-visualize').textContent = drawnCards.visualize;
+            document.getElementById('modal-vision').textContent = visionText;
+
+            document.getElementById('result-modal').style.display = 'flex';
+
+            saveGameState();
+        });
+
+        document.getElementById('restart-game').addEventListener('click', () => {
+            drawnCards = { seed: null, nurture: null, optimize: null, visualize: null };
+            remainingDecks = JSON.parse(JSON.stringify(decks));
+
+            document.getElementById('result-modal').style.display = 'hidden';
+            ['seed', 'nurture', 'optimize', 'visualize'].forEach(deckName => {
+                const deckContainer = document.getElementById(`${deckName}-deck-container`);
+                deckContainer.classList.remove('flipped');
+                const cardElement = document.getElementById(`${deckName}-card`);
+                cardElement.innerHTML = '';
+                document.getElementById(`refresh-${deckName}`).classList.add('hidden');
+            });
+
+            document.getElementById('amplify-zone').classList.add('hidden');
+            document.getElementById('vision-input').value = '';
+            document.getElementById('result-modal').style.display = 'none';
+            
+            gameStartTime = null;
+            gameState.comboMultiplier = 1;
+            updateUI();
+        });
+
+        // Modal handlers
+        document.getElementById('achievements-btn').addEventListener('click', () => {
+            showAchievements();
+        });
+
+        document.getElementById('daily-challenge-btn').addEventListener('click', () => {
+            showDailyChallenge();
+        });
+
+        document.getElementById('leaderboard-btn').addEventListener('click', () => {
+            showLeaderboard();
+        });
+
+        document.getElementById('close-achievements').addEventListener('click', () => {
+            document.getElementById('achievements-modal').style.display = 'none';
+        });
+
+        document.getElementById('close-daily-challenge').addEventListener('click', () => {
+            document.getElementById('daily-challenge-modal').style.display = 'none';
+        });
+
+        document.getElementById('close-leaderboard').addEventListener('click', () => {
+            document.getElementById('leaderboard-modal').style.display = 'none';
+        });
+
+        function showAchievements() {
+            const grid = document.getElementById('achievements-grid');
+            grid.innerHTML = '';
+            
+            achievementsList.forEach(achievement => {
+                const unlocked = gameState.achievements.has(achievement.id);
+                const div = document.createElement('div');
+                div.className = `p-4 rounded-lg ${unlocked ? 'bg-gray-700' : 'bg-gray-900'} text-center`;
+                div.innerHTML = `
+                    <div class="text-3xl mb-2 ${unlocked ? '' : 'grayscale opacity-50'}">${achievement.icon}</div>
+                    <div class="font-bold text-sm ${unlocked ? 'text-yellow-300' : 'text-gray-500'}">${achievement.title}</div>
+                    <div class="text-xs text-gray-400 mt-1">${achievement.description}</div>
+                    <div class="text-xs text-cyan-300 mt-1">+${achievement.xp} XP</div>
+                    ${unlocked ? '<div class="badge badge-gold mt-2">UNLOCKED</div>' : ''}
+                `;
+                grid.appendChild(div);
+            });
+            
+            document.getElementById('achievements-modal').style.display = 'flex';
+        }
+
+        function showDailyChallenge() {
+            document.getElementById('daily-challenge-text').textContent = gameState.dailyChallenge.text;
+            document.getElementById('daily-challenge-modal').style.display = 'flex';
+        }
+
+        function showLeaderboard() {
+            // In a real app, this would fetch from a server
+            const mockLeaderboard = [
+                { name: 'You', points: gameState.totalPoints, level: gameState.level },
+                { name: 'Alice', points: Math.max(0, gameState.totalPoints - 150), level: Math.max(1, gameState.level - 1) },
+                { name: 'Bob', points: Math.max(0, gameState.totalPoints - 300), level: Math.max(1, gameState.level - 2) },
+                { name: 'Charlie', points: Math.max(0, gameState.totalPoints - 450), level: Math.max(1, gameState.level - 2) },
+                { name: 'Diana', points: Math.max(0, gameState.totalPoints - 600), level: Math.max(1, gameState.level - 3) }
+            ].sort((a, b) => b.points - a.points);
+
+            const content = document.getElementById('leaderboard-content');
+            content.innerHTML = '';
+            
+            mockLeaderboard.forEach((player, index) => {
+                const div = document.createElement('div');
+                div.className = `flex justify-between items-center p-3 rounded ${player.name === 'You' ? 'bg-cyan-900' : 'bg-gray-700'}`;
+                div.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="text-2xl">${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</span>
+                        <div>
+                            <div class="font-bold ${player.name === 'You' ? 'text-cyan-300' : ''}">${player.name}</div>
+                            <div class="text-xs text-gray-400">Level ${player.level}</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-yellow-300">${player.points}</div>
+                        <div class="text-xs text-gray-400">points</div>
+                    </div>
+                `;
+                content.appendChild(div);
+            });
+            
+            document.getElementById('leaderboard-modal').style.display = 'flex';
+        }
+
+        // Initialize the game
+        initializeGameState();
+
+    </script>
+</body>
+</html>
