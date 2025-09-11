@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The N.O.V.A. Challenge - Gamified</title>
+    <title>The GRIDIRON Challenge - NFL × Crypto Innovation Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a1a;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             color: #f0f0f0;
         }
         .card {
-            background-color: #2c2c2c;
-            border: 1px solid #444;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border: 2px solid #3b82f6;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
             min-height: 240px;
@@ -23,8 +23,9 @@
             justify-content: space-between;
         }
         .card:hover {
-            transform: translateY(-10px) rotate(2deg);
-            box-shadow: 0 15px 30px rgba(0, 255, 255, 0.2);
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+            border-color: #fbbf24;
         }
         .card-deck {
             perspective: 1000px;
@@ -60,26 +61,39 @@
             line-height: 1;
         }
         .playmat-zone {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 2px dashed #444;
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px dashed #3b82f6;
             min-height: 280px;
+            backdrop-filter: blur(10px);
         }
         .selected-card {
             transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(0, 255,255, 0.3);
-            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+            border-color: #fbbf24;
         }
         .btn-primary {
-            background-color: #00ffff;
-            color: #1a1a1a;
-            transition: background-color 0.3s, transform 0.3s;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            transition: all 0.3s;
+            border: 1px solid #2563eb;
         }
         .btn-primary:hover {
-            background-color: #00d0d0;
+            background: linear-gradient(135deg, #2563eb, #1e40af);
             transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
         .modal {
-            background-color: rgba(0,0,0,0.8);
+            background-color: rgba(0,0,0,0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* NFL Theme Styling */
+        .nfl-gradient {
+            background: linear-gradient(135deg, #1a472a 0%, #16a34a 50%, #fbbf24 100%);
+        }
+        
+        .crypto-gradient {
+            background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 50%, #fbbf24 100%);
         }
         
         /* Gamification Styles */
@@ -112,12 +126,12 @@
         }
         
         .xp-bar {
-            background: linear-gradient(90deg, #00ffff, #0099ff, #6600ff);
+            background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
             transition: width 0.8s ease-out;
         }
         
         .level-badge {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
             color: #1a1a1a;
             text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
@@ -132,9 +146,9 @@
             margin: 0.25rem;
         }
         
-        .badge-bronze { background-color: #cd7f32; }
-        .badge-silver { background-color: #c0c0c0; }
-        .badge-gold { background-color: #ffd700; color: #1a1a1a; }
+        .badge-bronze { background: linear-gradient(135deg, #cd7f32, #b8860b); }
+        .badge-silver { background: linear-gradient(135deg, #c0c0c0, #a8a8a8); }
+        .badge-gold { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #1a1a1a; }
         .badge-platinum { background: linear-gradient(135deg, #e5e4e2, #fff); color: #1a1a1a; }
         
         .combo-multiplier {
@@ -145,116 +159,126 @@
             0% { transform: scale(1); }
             100% { transform: scale(1.1); }
         }
+        
+        .field-lines {
+            background-image: 
+                linear-gradient(90deg, rgba(59, 130, 246, 0.2) 1px, transparent 1px),
+                linear-gradient(rgba(59, 130, 246, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
     </style>
 </head>
-<body class="min-h-screen p-4 sm:p-8">
+<body class="min-h-screen p-4 sm:p-8 field-lines">
     <div class="container mx-auto">
 
         <!-- Gamification Header -->
-        <div class="bg-gray-800 rounded-lg p-4 mb-6 flex flex-wrap justify-between items-center">
+        <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-4 mb-6 flex flex-wrap justify-between items-center border border-blue-500">
             <div class="flex items-center space-x-6">
                 <div class="level-badge px-3 py-1 rounded-full font-bold">
-                    Level <span id="player-level">1</span>
+                    Level <span id="player-level">1</span> GM
                 </div>
                 <div class="flex items-center space-x-2">
-                    <span class="text-cyan-300 font-semibold">🏆 <span id="total-points">0</span></span>
-                    <span class="text-yellow-300 font-semibold">🔥 <span id="streak-count">0</span></span>
+                    <span class="text-yellow-300 font-semibold">💰 <span id="total-points">0</span></span>
+                    <span class="text-orange-400 font-semibold">🔥 <span id="streak-count">0</span></span>
                 </div>
                 <div class="flex-1 max-w-xs">
-                    <div class="bg-gray-700 rounded-full h-3 overflow-hidden">
+                    <div class="bg-slate-600 rounded-full h-3 overflow-hidden">
                         <div id="xp-bar" class="xp-bar h-full rounded-full" style="width: 0%"></div>
                     </div>
-                    <div class="text-xs text-gray-400 mt-1">
+                    <div class="text-xs text-gray-300 mt-1">
                         <span id="current-xp">0</span> / <span id="xp-needed">100</span> XP
                     </div>
                 </div>
             </div>
             <div class="flex space-x-2 mt-2 sm:mt-0">
-                <button id="achievements-btn" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm">🏅 Achievements</button>
-                <button id="daily-challenge-btn" class="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded text-sm">⭐ Daily</button>
-                <button id="leaderboard-btn" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">📊 Leaderboard</button>
+                <button id="achievements-btn" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm">🏆 Hall of Fame</button>
+                <button id="daily-challenge-btn" class="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded text-sm">⭐ Daily Play</button>
+                <button id="leaderboard-btn" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">📊 League</button>
             </div>
         </div>
 
         <header class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-cyan-300 tracking-wider" style="font-family: 'Playfair Display', serif;">The N.O.V.A. Challenge</h1>
-            <p class="text-lg text-gray-400 mt-2">A Game of Collective Creativity & Vision</p>
+            <h1 class="text-4xl sm:text-6xl font-bold bg-gradient-to-r from-blue-400 via-yellow-400 to-green-400 bg-clip-text text-transparent tracking-wider" style="font-family: 'Playfair Display', serif;">
+                The GRIDIRON Challenge
+            </h1>
+            <p class="text-xl text-gray-300 mt-2">NFL × Crypto Innovation Game</p>
+            <p class="text-sm text-gray-400 mt-1">Build the Future of Sports Economics</p>
             <div id="combo-display" class="mt-2 text-center hidden">
                 <span class="combo-multiplier bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold">
-                    🔥 <span id="combo-count">0</span>x COMBO!
+                    🔥 <span id="combo-count">0</span>x TOUCHDOWN COMBO!
                 </span>
             </div>
         </header>
 
-        <!-- Playmat / Vision Board -->
+        <!-- Playmat / Innovation Board -->
         <div id="playmat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <!-- Seed Zone -->
+            <!-- Player Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-green-300 card-title">🌱 Seed Zone</h2>
-                <p class="text-gray-400 mb-4">Pick a business idea to begin.</p>
-                <div id="seed-deck-container" class="card-deck mb-2" onclick="drawCard('seed')">
+                <h2 class="text-2xl font-bold mb-4 text-green-400 card-title">🏈 PLAYER</h2>
+                <p class="text-gray-300 mb-4">Choose your NFL innovator</p>
+                <div id="player-deck-container" class="card-deck mb-2" onclick="drawCard('player')">
                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">🌱</div>
-                        <h3 class="font-bold text-xl card-title">SEED</h3>
-                        <p class="text-sm text-gray-400">Click to draw</p>
+                        <div class="card-icon">🏈</div>
+                        <h3 class="font-bold text-xl card-title">PLAYER</h3>
+                        <p class="text-sm text-gray-300">Click to draft</p>
                     </div>
-                    <div id="seed-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                    <div id="player-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-seed" onclick="redrawCard('seed')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+                <button id="refresh-player" onclick="redrawCard('player')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Trade</button>
             </div>
 
-            <!-- Nurture Zone -->
+            <!-- Contract Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-yellow-300 card-title">🌿 Nurture Zone</h2>
-                <p class="text-gray-400 mb-4">Grow the idea with context.</p>
-                <div id="nurture-deck-container" class="card-deck mb-2" onclick="drawCard('nurture')">
+                <h2 class="text-2xl font-bold mb-4 text-yellow-400 card-title">💰 CONTRACT</h2>
+                <p class="text-gray-300 mb-4">Design the crypto deal</p>
+                <div id="contract-deck-container" class="card-deck mb-2" onclick="drawCard('contract')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">🌿</div>
-                        <h3 class="font-bold text-xl card-title">NURTURE</h3>
-                        <p class="text-sm text-gray-400">Click to draw</p>
+                        <div class="card-icon">💰</div>
+                        <h3 class="font-bold text-xl card-title">CONTRACT</h3>
+                        <p class="text-sm text-gray-300">Click to negotiate</p>
                     </div>
-                    <div id="nurture-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                    <div id="contract-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-nurture" onclick="redrawCard('nurture')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+                <button id="refresh-contract" onclick="redrawCard('contract')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Renegotiate</button>
             </div>
 
-            <!-- Optimize Zone -->
+            <!-- Innovation Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-blue-300 card-title">⚡ Optimize Zone</h2>
-                <p class="text-gray-400 mb-4">Sharpen the idea for impact.</p>
-                <div id="optimize-deck-container" class="card-deck mb-2" onclick="drawCard('optimize')">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400 card-title">⚡ INNOVATION</h2>
+                <p class="text-gray-300 mb-4">Add cutting-edge tech</p>
+                <div id="innovation-deck-container" class="card-deck mb-2" onclick="drawCard('innovation')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">⚡</div>
-                        <h3 class="font-bold text-xl card-title">OPTIMIZE</h3>
-                        <p class="text-sm text-gray-400">Click to draw</p>
+                        <h3 class="font-bold text-xl card-title">INNOVATION</h3>
+                        <p class="text-sm text-gray-300">Click to innovate</p>
                     </div>
-                    <div id="optimize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                    <div id="innovation-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-optimize" onclick="redrawCard('optimize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+                <button id="refresh-innovation" onclick="redrawCard('innovation')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Pivot</button>
             </div>
 
-            <!-- Visualize Zone -->
+            <!-- Fanbase Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-purple-300 card-title">🎨 Visualize Zone</h2>
-                <p class="text-gray-400 mb-4">Make the idea tangible.</p>
-                <div id="visualize-deck-container" class="card-deck mb-2" onclick="drawCard('visualize')">
+                <h2 class="text-2xl font-bold mb-4 text-purple-400 card-title">🎮 FANBASE</h2>
+                <p class="text-gray-300 mb-4">Engage the community</p>
+                <div id="fanbase-deck-container" class="card-deck mb-2" onclick="drawCard('fanbase')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">🎨</div>
-                        <h3 class="font-bold text-xl card-title">VISUALIZE</h3>
-                        <p class="text-sm text-gray-400">Click to draw</p>
+                        <div class="card-icon">🎮</div>
+                        <h3 class="font-bold text-xl card-title">FANBASE</h3>
+                        <p class="text-sm text-gray-300">Click to engage</p>
                     </div>
-                    <div id="visualize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                    <div id="fanbase-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-visualize" onclick="redrawCard('visualize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
+                <button id="refresh-fanbase" onclick="redrawCard('fanbase')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Rebrand</button>
             </div>
         </div>
 
-        <!-- Amplify Zone -->
-        <div id="amplify-zone" class="bg-gray-800 rounded-lg p-8 text-center hidden">
-            <h2 class="text-3xl font-bold mb-4 text-red-300 card-title">📢 Amplify Zone</h2>
-            <p class="text-gray-400 mb-6">How can all this happen? Synthesize the cards and share your vision.</p>
-            <textarea id="vision-input" class="w-full h-40 bg-gray-900 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Type your answer here..."></textarea>
-            <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">Submit Vision</button>
+        <!-- Championship Zone -->
+        <div id="championship-zone" class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-8 text-center hidden border border-yellow-400">
+            <h2 class="text-3xl font-bold mb-4 text-yellow-400 card-title">🏆 CHAMPIONSHIP VISION</h2>
+            <p class="text-gray-300 mb-6">Combine your cards to create the ultimate NFL × Crypto business concept!</p>
+            <textarea id="vision-input" class="w-full h-40 bg-slate-900 text-white p-4 rounded-lg border border-blue-500 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Describe your revolutionary NFL crypto business idea..."></textarea>
+            <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">🏆 Submit for Championship</button>
         </div>
 
     </div>
@@ -267,7 +291,7 @@
         <div class="flex items-center space-x-2">
             <span class="text-2xl">🏆</span>
             <div>
-                <div class="font-bold" id="achievement-title">Achievement Unlocked!</div>
+                <div class="font-bold" id="achievement-title">Hall of Fame!</div>
                 <div class="text-sm" id="achievement-description"></div>
             </div>
         </div>
@@ -275,142 +299,136 @@
 
     <!-- Daily Challenge Modal -->
     <div id="daily-challenge-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full text-center">
-            <h2 class="text-3xl font-bold mb-4 text-orange-300 card-title">⭐ Daily Challenge</h2>
+        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-md w-full text-center border border-orange-400">
+            <h2 class="text-3xl font-bold mb-4 text-orange-400 card-title">⭐ Daily Playbook</h2>
             <div id="daily-challenge-content">
-                <p class="text-gray-300 mb-4">Create a business concept that:</p>
-                <p id="daily-challenge-text" class="text-cyan-300 font-semibold mb-4 text-lg"></p>
-                <p class="text-sm text-gray-400 mb-6">Complete for <span class="text-yellow-300 font-bold">+200 XP</span> bonus!</p>
+                <p class="text-gray-300 mb-4">Today's challenge: Create a concept that...</p>
+                <p id="daily-challenge-text" class="text-blue-300 font-semibold mb-4 text-lg"></p>
+                <p class="text-sm text-gray-400 mb-6">Complete for <span class="text-yellow-400 font-bold">+250 XP</span> bonus!</p>
             </div>
-            <button id="close-daily-challenge" class="btn-primary font-bold py-2 px-6 rounded-full">Got it!</button>
+            <button id="close-daily-challenge" class="btn-primary font-bold py-2 px-6 rounded-full">Let's Play!</button>
         </div>
     </div>
 
-    <!-- Achievements Modal -->
+    <!-- Hall of Fame Modal -->
     <div id="achievements-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full">
-            <h2 class="text-3xl font-bold mb-6 text-purple-300 card-title text-center">🏅 Achievements</h2>
+        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full border border-purple-400">
+            <h2 class="text-3xl font-bold mb-6 text-purple-400 card-title text-center">🏆 Hall of Fame</h2>
             <div id="achievements-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto"></div>
-            <button id="close-achievements" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Close</button>
+            <button id="close-achievements" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Back to Game</button>
         </div>
     </div>
 
-    <!-- Leaderboard Modal -->
+    <!-- League Leaderboard Modal -->
     <div id="leaderboard-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full">
-            <h2 class="text-3xl font-bold mb-6 text-green-300 card-title text-center">📊 Leaderboard</h2>
+        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-md w-full border border-green-400">
+            <h2 class="text-3xl font-bold mb-6 text-green-400 card-title text-center">📊 League Standings</h2>
             <div id="leaderboard-content" class="space-y-3 max-h-96 overflow-y-auto"></div>
-            <button id="close-leaderboard" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Close</button>
+            <button id="close-leaderboard" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Back to Game</button>
         </div>
     </div>
 
-    <!-- Modal for showing result -->
+    <!-- Championship Result Modal -->
     <div id="result-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center">
-             <h2 class="text-3xl font-bold mb-4 text-cyan-300 card-title">🎉 Vision Amplified! 🎉</h2>
+        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center border border-yellow-400">
+             <h2 class="text-3xl font-bold mb-4 text-yellow-400 card-title">🏆 CHAMPIONSHIP WON! 🏆</h2>
              <div id="completion-reward" class="mb-4 text-center">
-                <span class="text-2xl text-yellow-300">+<span id="reward-points">0</span> Points!</span>
-                <span class="text-lg text-cyan-300 ml-4">+<span id="reward-xp">0</span> XP!</span>
+                <span class="text-2xl text-yellow-400">+<span id="reward-points">0</span> Coins!</span>
+                <span class="text-lg text-blue-400 ml-4">+<span id="reward-xp">0</span> XP!</span>
              </div>
-             <p class="text-gray-300 mb-6">You've successfully combined the elements to create a unique business concept. Here's your vision:</p>
-             <div id="modal-content" class="text-left bg-gray-900 p-6 rounded-lg mb-6">
-                <p><strong class="text-green-300">Seed:</strong> <span id="modal-seed"></span></p>
-                <p><strong class="text-yellow-300">Nurture:</strong> <span id="modal-nurture"></span></p>
-                <p><strong class="text-blue-300">Optimize:</strong> <span id="modal-optimize"></span></p>
-                <p><strong class="text-purple-300">Visualize:</strong> <span id="modal-visualize"></span></p>
+             <p class="text-gray-300 mb-6">You've created a revolutionary NFL × Crypto business concept! Here's your winning combination:</p>
+             <div id="modal-content" class="text-left bg-slate-900 p-6 rounded-lg mb-6 border border-gray-600">
+                <p><strong class="text-green-400">Player:</strong> <span id="modal-player"></span></p>
+                <p><strong class="text-yellow-400">Contract:</strong> <span id="modal-contract"></span></p>
+                <p><strong class="text-blue-400">Innovation:</strong> <span id="modal-innovation"></span></p>
+                <p><strong class="text-purple-400">Fanbase:</strong> <span id="modal-fanbase"></span></p>
                 <hr class="my-4 border-gray-600">
-                <p><strong class="text-red-300">Your Vision:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
+                <p><strong class="text-yellow-400">Your Championship Vision:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
              </div>
-             <button id="restart-game" class="btn-primary font-bold py-3 px-8 rounded-full">Play Again</button>
+             <button id="restart-game" class="btn-primary font-bold py-3 px-8 rounded-full">🔄 Next Season</button>
         </div>
     </div>
 
     <!-- Alert Modal -->
     <div id="alert-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-sm w-full text-center">
-             <h2 id="alert-title" class="text-2xl font-bold mb-4 text-yellow-300 card-title">Alert</h2>
+        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-sm w-full text-center border border-yellow-400">
+             <h2 id="alert-title" class="text-2xl font-bold mb-4 text-yellow-400 card-title">Timeout!</h2>
              <p id="alert-message" class="text-gray-300 mb-6"></p>
-             <button id="alert-ok" class="btn-primary font-bold py-2 px-6 rounded-full">OK</button>
+             <button id="alert-ok" class="btn-primary font-bold py-2 px-6 rounded-full">Resume Game</button>
         </div>
     </div>
 
     <script>
         const decks = {
-            seed: [
-                "A new sneaker brand", "A neighborhood park", "Hemp-based product", "A podcast about dreams",
-                "Community mural", "Eco-friendly food truck", "AI personal assistant for teens", "A rooftop garden",
-                "Pop-up bookstore", "Recycled fashion line", "Local farmers' co-op", "Interactive art festival",
-                "Smart bike helmet", "A mobile meditation booth", "Esports café", "Self-sustaining tiny home",
-                "Music mentorship program", "Solar-powered streetlights", "Dog park with AI toys", "Upcycled furniture brand",
-                "Kids coding camp", "AR city walking tour", "Blockchain-based charity fund", "Immersive theater show",
-                "Zero-waste grocery store", "Floating community center", "Plant-based skincare line", "Drone-powered delivery for seniors",
-                "Wellness retreat in the city", "Onchain scavenger hunt", "Musical instrument rental service", "Virtual classroom for elders",
-                "Streetwear NFT brand", "Smart vending machines", "Podcasting van", "Community kitchen hub",
-                "Skate park with solar panels", "Language learning game", "Mobile repair co-op", "Festival powered by bikes",
-                "Wearable health tracker jewelry", "Gamified fitness challenge", "Eco-conscious nightclub", "Podcast for kids",
-                "Floating garden barge", "Crypto-funded art residency", "Outdoor VR arena"
+            player: [
+                "Russell Okung (Bitcoin Pioneer)", "Odell Beckham Jr. (All-in Crypto)", "Aaron Rodgers (Bitcoin Evangelist)", "Saquon Barkley (Fan Token Leader)",
+                "Tom Brady (NFT Mogul)", "Patrick Mahomes (Blockchain Innovator)", "Trevor Lawrence (Crypto Native)", "Dak Prescott (DeFi Explorer)",
+                "Josh Allen (Bitcoin Bull)", "Lamar Jackson (Gaming Tokenizer)", "Kyler Murray (Metaverse QB)", "Justin Herbert (Web3 Rookie)",
+                "Mac Jones (Smart Contract Specialist)", "Tua Tagovailoa (DeFi Quarterback)", "Joe Burrow (Crypto Leader)", "Jalen Hurts (Token Advocate)",
+                "Cooper Kupp (NFT Collector)", "Davante Adams (Blockchain Receiver)", "Tyreek Hill (Lightning Network)", "Stefon Diggs (Crypto Influencer)",
+                "DeAndre Hopkins (Token Veteran)", "Mike Evans (Bitcoin Believer)", "Chris Godwin (Web3 Pioneer)", "Keenan Allen (DeFi Expert)",
+                "Derrick Henry (Mining Metaphor)", "Jonathan Taylor (Rushing to Crypto)", "Nick Chubb (Ground Game Blockchain)", "Alvin Kamara (Multi-Token Play)",
+                "Christian McCaffrey (Versatile Crypto)", "Ezekiel Elliott (Established Blockchain)", "Dalvin Cook (Smart Chef)", "Aaron Donald (Defensive Crypto)",
+                "T.J. Watt (Blockchain Defender)", "Myles Garrett (Crypto Rusher)", "Khalil Mack (Token Tackler)", "Von Miller (Veteran Blockchain)",
+                "A Rookie QB with crypto dreams", "A veteran looking for new revenue", "A retired player becoming crypto advisor", "An undrafted free agent embracing DeFi",
+                "A Pro Bowl punter mining Bitcoin", "A long snapper with NFT side hustle", "A kicker investing in fan tokens", "A practice squad player day-trading crypto",
+                "A Hall of Famer launching a coin", "A coach integrating blockchain", "An agent specializing in crypto deals", "A team owner going all-digital"
             ],
-            nurture: [
-                "Add a backstory about why it matters", "Name one resource it would need", "Connect it to a global issue",
-                "Add a personal memory", "Name a group it could empower", "Tell how it reduces stress",
-                "Link it to education", "Add a cultural influence", "Make it connect to nature", "Add a family-friendly angle",
-                "Tie it to history", "Make it seasonal", "Show how it helps a city", "Add a wellness benefit",
-                "Connect it to music", "Add a sports connection", "Make it youth-focused", "Tie it to local traditions",
-                "Add a mentor role", "Give it a hero story", "Connect it to art", "Show how it heals or repairs",
-                "Add a tech angle", "Tie it to community pride", "Make it mobile", "Add a festival vibe",
-                "Connect it to health", "Add a sustainability story", "Tie it to water or air", "Make it intergenerational",
-                "Add a storytelling angle", "Link it to fashion", "Connect it to science", "Tie it to spirituality",
-                "Add a food element", "Connect it to local businesses", "Make it global", "Make it neighborhood-focused",
-                "Add a play or game aspect", "Show how it creates jobs", "Tie it to joy and fun", "Make it activist-driven",
-                "Add a volunteer angle", "Connect it to digital culture", "Show how it saves time", "Add a personal testimony",
-                "Make it ritualistic"
+            contract: [
+                "100% Bitcoin salary conversion", "50/50 fiat-crypto split deal", "Bitcoin signing bonus structure", "Ethereum-based performance incentives",
+                "Fan token payment system", "NFT royalty contract", "Smart contract automation", "Crypto staking rewards clause",
+                "Bitcoin price protection floor", "Multi-coin diversified salary", "DeFi yield farming bonuses", "Lightning Network micro-payments",
+                "Crypto-backed injury insurance", "Token-gated exclusive benefits", "Blockchain escrow payments", "Decentralized endorsement deals",
+                "Bitcoin retirement planning", "Crypto education stipend", "Digital collectible rights", "Metaverse appearance fees",
+                "DAO governance token allocation", "Cross-chain payment flexibility", "Crypto tax optimization structure", "Bitcoin dollar-cost averaging",
+                "Ethereum staking validator role", "Layer 2 scaling fee sharing", "Crypto mining equipment lease", "NFT marketplace partnership",
+                "Fan token voting rights", "Blockchain charity donation matching", "Crypto volatility protection", "Digital asset custody service",
+                "Bitcoin halving bonus triggers", "Altcoin performance multipliers", "DeFi protocol partnership", "Crypto lending collateral usage",
+                "Token burn mechanism incentive", "Blockchain analytics sharing", "Crypto exchange fee rebates", "Digital signature authenticity",
+                "Bitcoin inheritance planning", "Crypto compliance consulting", "Blockchain audit transparency", "Token liquidity guarantees"
             ],
-            optimize: [
-                "Add AI automation", "Cut costs by half", "Make it solar-powered", "Add blockchain for trust",
-                "Scale it globally", "Make it subscription-based", "Add gamification", "Optimize supply chain",
-                "Partner with schools", "Reduce waste", "Add open-source collaboration", "Create a digital twin",
-                "Add predictive analytics", "Localize it for different cultures", "Add real-time feedback", "Cut steps from process",
-                "Add AR/VR", "Add personalization", "Build loyalty rewards", "Make it crowdfundable",
-                "Add self-service", "Make it voice-activated", "Add community voting", "Use recycled materials",
-                "Automate marketing", "Add referral program", "Streamline with QR codes", "Add delivery or pickup options",
-                "Tie to existing platforms", "Reduce energy consumption", "Add sponsorship model", "Create modular design",
-                "Add smart contracts", "Optimize for accessibility", "Add data insights dashboard", "Create tiers of engagement",
-                "Add live streaming", "Reduce carbon footprint", "Add mobile-first experience", "Create an API for others",
-                "Make it hackathon-friendly", "Add plug-and-play features", "Build a marketplace layer", "Simplify sign-up process",
-                "Add AI agents", "Connect to wearable tech", "Add hybrid virtual/in-person model"
+            innovation: [
+                "AI-powered crypto trading bot", "Blockchain-verified game stats", "NFT trading card evolution", "Metaverse stadium experiences",
+                "Fan token voting on plays", "Crypto fantasy football league", "Blockchain ticket authentication", "Smart contract merchandise", 
+                "VR training with crypto rewards", "AI referee with blockchain log", "Crypto-backed player insurance", "Tokenized season tickets",
+                "Blockchain injury prevention", "Crypto gambling integration", "NFT highlight ownership", "DAO team management",
+                "Biometric blockchain tracking", "Crypto performance analytics", "Tokenized coaching sessions", "Blockchain referee training",
+                "AI draft pick optimization", "Crypto salary cap management", "NFT stadium naming rights", "Blockchain concussion protocol",
+                "Tokenized training facilities", "Crypto nutritionist matching", "AI game film analysis", "Blockchain equipment tracking",
+                "Crypto fan prediction markets", "Tokenized autograph sessions", "Blockchain drug testing", "AI injury risk assessment",
+                "Crypto locker room access", "NFT championship rings", "Blockchain community voting", "Tokenized tailgate experiences",
+                "AI playbook optimization", "Crypto referee rewards", "Blockchain media rights", "Tokenized draft prospects",
+                "Crypto team ownership shares", "NFT player trading cards", "Blockchain Hall of Fame", "Tokenized retired jerseys",
+                "AI contract negotiation", "Crypto workout tracking", "Blockchain fan loyalty", "Tokenized championship trophies"
             ],
-            visualize: [
-                "Write a 5-word slogan", "Draw or describe a logo", "Pitch it like a startup",
-                "Make a quick jingle/chant", "Sketch the first customer", "Name the flagship product",
-                "Write a 30-second ad script", "Act out a user interaction", "Design a collectible version",
-                "Create a social media post", "Write the first press headline", "Create a meme for it",
-                "Draw the physical space", "Write its theme song title", "Roleplay the first customer review",
-                "Create a mascot", "Write a tweet thread starter", "Make a TikTok challenge idea",
-                "Imagine its first billboard", "Draft a press release title", "Create its mobile app splash screen",
-                "Name the launch event", "Create a fictional testimonial", "Draw the packaging",
-                "Describe its website homepage", "Write a short brand manifesto", "Create a character that uses it",
-                "Imagine the first news clip", "Write a product haiku", "Design a futuristic prototype sketch",
-                "Draft a loyalty program idea", "Name the first sponsor/partner", "Write an elevator pitch",
-                "Create its first AR filter", "Make up a commercial tagline", "Design its uniforms or merch",
-                "Write its first 1-star review", "Roleplay the founder speech", "Create the crowdfunding pitch title",
-                "Design a limited-edition version", "Write the opening scene of its movie", "Create a meme reaction for it",
-                "Draw its app icon", "Write the first podcast ad read", "Name its community hub",
-                "Create the launch party invite", "Make the first billboard slogan"
+            fanbase: [
+                "Fantasy crypto leagues", "NFT collectible trading", "Token-gated exclusive content", "Metaverse watch parties",
+                "Crypto prediction betting", "Blockchain fan rewards", "Digital collectible gaming", "Tokenized fan experiences",
+                "Crypto-powered mobile game", "NFT season pass access", "Blockchain voting systems", "Digital asset galleries",
+                "Crypto merchandise stores", "Token community forums", "Blockchain fantasy drafts", "NFT player partnerships",
+                "Crypto fan competitions", "Digital wallet integrations", "Token-based loyalty programs", "Blockchain social networks",
+                "Crypto tailgating events", "NFT virtual stadiums", "Digital collectible exchanges", "Token-gated meet & greets",
+                "Blockchain fan journalism", "Crypto podcast platforms", "NFT art collaborations", "Digital memorabilia vaults",
+                "Crypto game day experiences", "Token voting on team decisions", "Blockchain fan fundraising", "NFT charitable auctions",
+                "Digital fan club memberships", "Crypto sports betting pools", "Token-based fantasy scoring", "Blockchain fan analytics",
+                "Crypto player fan clubs", "NFT stadium tours", "Digital autograph collections", "Token-powered fan events",
+                "Crypto loyalty point systems", "NFT historical moments", "Blockchain fan networking", "Digital season highlights",
+                "Crypto fan investment pools", "Token-gated training access", "NFT draft night parties", "Digital Hall of Fame voting"
             ]
         };
 
         const icons = {
-            seed: '🌱',
-            nurture: '🌿',
-            optimize: '⚡',
-            visualize: '🎨'
+            player: '🏈',
+            contract: '💰',
+            innovation: '⚡',
+            fanbase: '🎮'
         };
 
         const colors = {
-            seed: 'green',
-            nurture: 'yellow',
-            optimize: 'blue',
-            visualize: 'purple'
+            player: 'green',
+            contract: 'yellow',
+            innovation: 'blue',
+            fanbase: 'purple'
         };
 
         // Gamification State
@@ -428,70 +446,74 @@
             leaderboard: []
         };
 
-        // Achievements Definition
+        // NFL×Crypto Themed Achievements
         const achievementsList = [
-            { id: 'first_game', title: 'First Vision', description: 'Complete your first N.O.V.A. challenge', xp: 50, icon: '🎯' },
-            { id: 'streak_3', title: 'On Fire', description: 'Complete 3 games in a row', xp: 100, icon: '🔥' },
-            { id: 'streak_7', title: 'Week Warrior', description: 'Complete 7 games in a row', xp: 200, icon: '⚡' },
-            { id: 'level_5', title: 'Rising Star', description: 'Reach level 5', xp: 150, icon: '⭐' },
-            { id: 'level_10', title: 'Innovation Master', description: 'Reach level 10', xp: 300, icon: '👑' },
-            { id: 'cards_100', title: 'Card Collector', description: 'Draw 100 cards total', xp: 100, icon: '🃏' },
-            { id: 'daily_champion', title: 'Daily Champion', description: 'Complete a daily challenge', xp: 200, icon: '🏆' },
-            { id: 'speed_demon', title: 'Speed Demon', description: 'Complete a game in under 2 minutes', xp: 150, icon: '💨' },
-            { id: 'wordsmith', title: 'Wordsmith', description: 'Write a vision with over 200 characters', xp: 100, icon: '✍️' },
-            { id: 'perfect_combo', title: 'Perfect Combo', description: 'Draw all 4 cards without refreshing', xp: 250, icon: '💎' }
+            { id: 'first_game', title: 'Rookie Season', description: 'Complete your first championship challenge', xp: 50, icon: '🏈' },
+            { id: 'streak_3', title: 'Three-Peat', description: 'Win 3 championships in a row', xp: 150, icon: '🔥' },
+            { id: 'streak_7', title: 'Dynasty Builder', description: 'Win 7 championships in a row', xp: 300, icon: '👑' },
+            { id: 'level_5', title: 'Pro Bowl GM', description: 'Reach GM Level 5', xp: 200, icon: '⭐' },
+            { id: 'level_10', title: 'Hall of Fame GM', description: 'Reach GM Level 10', xp: 500, icon: '🏆' },
+            { id: 'cards_100', title: 'Draft Master', description: 'Draft 100 cards total', xp: 100, icon: '🃏' },
+            { id: 'daily_champion', title: 'Daily Champion', description: 'Complete a daily playbook challenge', xp: 250, icon: '📅' },
+            { id: 'speed_demon', title: 'Two-Minute Drill', description: 'Win a championship in under 2 minutes', xp: 200, icon: '💨' },
+            { id: 'wordsmith', title: 'Sports Journalist', description: 'Write a vision with over 250 characters', xp: 150, icon: '✍️' },
+            { id: 'perfect_combo', title: 'Perfect Season', description: 'Draft all 4 cards without trades', xp: 400, icon: '💎' },
+            { id: 'crypto_pioneer', title: 'Satoshi Nakamoto Award', description: 'Create 10 Bitcoin-focused concepts', xp: 300, icon: '₿' },
+            { id: 'nft_collector', title: 'Digital Memorabilia King', description: 'Feature NFTs in 5 different concepts', xp: 200, icon: '🖼️' }
         ];
 
-        // Daily Challenges
+        // NFL×Crypto Daily Challenges
         const dailyChallenges = [
-            "Focuses on sustainability and environmental impact",
-            "Involves community collaboration and social good", 
-            "Uses cutting-edge technology (AI, blockchain, AR/VR)",
-            "Targets Gen Z or younger demographics",
-            "Solves a problem in urban environments",
-            "Combines physical and digital experiences",
-            "Focuses on health and wellness benefits",
-            "Has a global reach and scalability",
-            "Incorporates elements of gamification",
-            "Addresses accessibility and inclusion"
+            "Revolutionizes how NFL players receive their salaries using Bitcoin",
+            "Creates a new fan engagement model through tokenized experiences",
+            "Integrates blockchain technology into game day operations",
+            "Develops innovative NFT collectibles for superfans",
+            "Builds a DeFi protocol specifically for professional athletes",
+            "Combines fantasy sports with cryptocurrency rewards",
+            "Creates a metaverse experience for NFL fans",
+            "Develops smart contracts for player performance incentives",
+            "Integrates crypto mining with stadium operations",
+            "Creates a DAO for fan-owned team decisions"
         ];
 
         let drawnCards = {
-            seed: null,
-            nurture: null,
-            optimize: null,
-            visualize: null
+            player: null,
+            contract: null,
+            innovation: null,
+            fanbase: null
         };
          
         let remainingDecks = {...decks};
         let gameStartTime = null;
         let refreshCount = 0;
+        let bitcoinConceptCount = 0;
+        let nftConceptCount = 0;
 
         // Initialize game state from localStorage
         function initializeGameState() {
-            const saved = localStorage.getItem('nova-gamified-state');
+            const saved = localStorage.getItem('gridiron-crypto-state');
             if (saved) {
                 const savedState = JSON.parse(saved);
                 gameState = { ...gameState, ...savedState };
                 gameState.achievements = new Set(savedState.achievements || []);
+                bitcoinConceptCount = savedState.bitcoinConceptCount || 0;
+                nftConceptCount = savedState.nftConceptCount || 0;
             }
             
-            // Generate daily challenge
             generateDailyChallenge();
-            
             updateUI();
         }
 
-        // Save game state to localStorage
         function saveGameState() {
             const stateToSave = {
                 ...gameState,
-                achievements: Array.from(gameState.achievements)
+                achievements: Array.from(gameState.achievements),
+                bitcoinConceptCount,
+                nftConceptCount
             };
-            localStorage.setItem('nova-gamified-state', JSON.stringify(stateToSave));
+            localStorage.setItem('gridiron-crypto-state', JSON.stringify(stateToSave));
         }
 
-        // Update UI elements
         function updateUI() {
             document.getElementById('total-points').textContent = gameState.totalPoints;
             document.getElementById('player-level').textContent = gameState.level;
@@ -507,7 +529,6 @@
             document.getElementById('current-xp').textContent = currentLevelXP;
             document.getElementById('xp-needed').textContent = xpNeeded;
             
-            // Update streak fire effect
             const streakElement = document.getElementById('streak-count');
             if (gameState.streak >= 3) {
                 streakElement.classList.add('streak-fire');
@@ -515,7 +536,6 @@
                 streakElement.classList.remove('streak-fire');
             }
             
-            // Show combo multiplier
             if (gameState.comboMultiplier > 1) {
                 document.getElementById('combo-count').textContent = gameState.comboMultiplier;
                 document.getElementById('combo-display').classList.remove('hidden');
@@ -524,12 +544,10 @@
             }
         }
 
-        // Calculate XP needed for a given level
         function getXPForLevel(level) {
-            return Math.floor(100 * Math.pow(1.5, level - 1));
+            return Math.floor(150 * Math.pow(1.6, level - 1));
         }
 
-        // Add XP and handle level ups
         function addXP(amount) {
             gameState.currentXP += amount;
             
@@ -542,17 +560,14 @@
             saveGameState();
         }
 
-        // Handle level up
         function levelUp() {
             gameState.level++;
-            showPointsAnimation(`LEVEL ${gameState.level}!`, 'level-up');
+            showPointsAnimation(`GM LEVEL ${gameState.level}!`, 'level-up');
             
-            // Check for level achievements
             if (gameState.level === 5) unlockAchievement('level_5');
             if (gameState.level === 10) unlockAchievement('level_10');
         }
 
-        // Add points with animation
         function addPoints(amount, element = null) {
             gameState.totalPoints += amount * gameState.comboMultiplier;
             
@@ -564,7 +579,6 @@
             saveGameState();
         }
 
-        // Show points animation
         function showPointsAnimation(text, type = 'points', sourceElement = null) {
             const overlay = document.getElementById('points-overlay');
             const animation = document.createElement('div');
@@ -573,12 +587,12 @@
             animation.textContent = text;
             
             if (type === 'level-up') {
-                animation.className += ' text-yellow-300 text-4xl';
+                animation.className += ' text-yellow-400 text-4xl';
                 animation.style.left = '50%';
                 animation.style.top = '30%';
                 animation.style.transform = 'translateX(-50%)';
             } else {
-                animation.className += ' text-cyan-300';
+                animation.className += ' text-yellow-300';
                 if (sourceElement) {
                     const rect = sourceElement.getBoundingClientRect();
                     animation.style.left = `${rect.left + rect.width / 2}px`;
@@ -597,7 +611,6 @@
             }, 2000);
         }
 
-        // Unlock achievement
         function unlockAchievement(achievementId) {
             if (gameState.achievements.has(achievementId)) return;
             
@@ -607,7 +620,6 @@
             gameState.achievements.add(achievementId);
             addXP(achievement.xp);
             
-            // Show achievement popup
             const popup = document.getElementById('achievement-popup');
             document.getElementById('achievement-title').textContent = achievement.title;
             document.getElementById('achievement-description').textContent = achievement.description;
@@ -623,7 +635,6 @@
             saveGameState();
         }
 
-        // Generate daily challenge
         function generateDailyChallenge() {
             const today = new Date().toDateString();
             if (gameState.dailyChallenge?.date !== today) {
@@ -637,11 +648,9 @@
             }
         }
 
-        // Check if vision meets daily challenge
         function checkDailyChallenge(visionText) {
             if (!gameState.dailyChallenge || gameState.dailyChallenge.completed) return false;
             
-            // Simple keyword matching - in a real app, this could be more sophisticated
             const challengeKeywords = gameState.dailyChallenge.text.toLowerCase().split(' ');
             const visionLower = visionText.toLowerCase();
             
@@ -652,8 +661,8 @@
             if (matches.length >= 2) {
                 gameState.dailyChallenge.completed = true;
                 unlockAchievement('daily_champion');
-                addXP(200);
-                showPointsAnimation('Daily Challenge Complete! +200 XP', 'level-up');
+                addXP(250);
+                showPointsAnimation('Daily Challenge Complete! +250 XP', 'level-up');
                 return true;
             }
             
@@ -679,7 +688,7 @@
                 
                 cardElement.innerHTML = `
                     <div class="card-icon">${icons[deckName]}</div>
-                    <p class="font-semibold text-lg">${cardText}</p>
+                    <p class="font-semibold text-lg text-center">${cardText}</p>
                 `;
                 
                 const deckContainer = document.getElementById(`${deckName}-deck-container`);
@@ -687,28 +696,24 @@
                 
                 document.getElementById(`refresh-${deckName}`).classList.remove('hidden');
 
-                // Gamification: Add points and XP
-                const basePoints = 25;
-                const baseXP = 20;
+                const basePoints = 30;
+                const baseXP = 25;
                 
                 addPoints(basePoints, deckContainer);
                 addXP(baseXP);
                 
-                // Update combo multiplier
                 const cardsDrawn = Object.values(drawnCards).filter(card => card !== null).length;
                 gameState.comboMultiplier = cardsDrawn;
                 updateUI();
                 
-                // Track cards drawn
                 gameState.cardsDrawnToday++;
                 if (gameState.cardsDrawnToday >= 100) {
                     unlockAchievement('cards_100');
                 }
 
                 if (Object.values(drawnCards).every(card => card !== null)) {
-                    document.getElementById('amplify-zone').classList.remove('hidden');
+                    document.getElementById('championship-zone').classList.remove('hidden');
                     
-                    // Check for perfect combo achievement
                     if (refreshCount === 0) {
                         unlockAchievement('perfect_combo');
                     }
@@ -728,9 +733,8 @@
                 deckContainer.classList.remove('flipped');
                 
                 document.getElementById(`refresh-${deckName}`).classList.add('hidden');
-                document.getElementById('amplify-zone').classList.add('hidden');
+                document.getElementById('championship-zone').classList.add('hidden');
 
-                // Reset combo multiplier
                 const cardsDrawn = Object.values(drawnCards).filter(card => card !== null).length;
                 gameState.comboMultiplier = Math.max(1, cardsDrawn);
                 updateUI();
@@ -742,7 +746,7 @@
             }
         }
 
-        function showAlert(message, title = 'Alert') {
+        function showAlert(message, title = 'Timeout!') {
             document.getElementById('alert-title').textContent = title;
             document.getElementById('alert-message').textContent = message;
             document.getElementById('alert-modal').style.display = 'flex';
@@ -755,19 +759,29 @@
         document.getElementById('submit-vision').addEventListener('click', () => {
             const visionText = document.getElementById('vision-input').value;
             if (visionText.trim() === '') {
-                showAlert('Please share your vision before submitting.');
+                showAlert('Please describe your championship vision before submitting!');
                 return;
             }
 
             const gameTime = Date.now() - gameStartTime;
-            const completionBonus = Math.max(100, 500 - Math.floor(gameTime / 1000) * 5); // Bonus for speed
-            const visionBonus = Math.floor(visionText.length / 10) * 5; // Bonus for detailed vision
-            const streakBonus = gameState.streak * 50;
+            const completionBonus = Math.max(150, 600 - Math.floor(gameTime / 1000) * 8);
+            const visionBonus = Math.floor(visionText.length / 8) * 6;
+            const streakBonus = gameState.streak * 75;
             
             const totalPoints = completionBonus + visionBonus + streakBonus;
-            const totalXP = 100 + (visionText.length > 200 ? 50 : 0);
+            const totalXP = 150 + (visionText.length > 250 ? 75 : 0);
 
-            // Update streak
+            // Track concept themes
+            const visionLower = visionText.toLowerCase();
+            if (visionLower.includes('bitcoin') || visionLower.includes('btc')) {
+                bitcoinConceptCount++;
+                if (bitcoinConceptCount >= 10) unlockAchievement('crypto_pioneer');
+            }
+            if (visionLower.includes('nft') || visionLower.includes('collectible') || visionLower.includes('digital art')) {
+                nftConceptCount++;
+                if (nftConceptCount >= 5) unlockAchievement('nft_collector');
+            }
+
             const today = new Date().toDateString();
             if (gameState.lastPlayDate === today) {
                 // Same day, no streak change
@@ -783,28 +797,24 @@
             gameState.lastPlayDate = today;
             gameState.gamesCompleted++;
 
-            // Check achievements
             if (gameState.gamesCompleted === 1) unlockAchievement('first_game');
             if (gameState.streak === 3) unlockAchievement('streak_3');
             if (gameState.streak === 7) unlockAchievement('streak_7');
-            if (gameTime < 120000) unlockAchievement('speed_demon'); // Under 2 minutes
-            if (visionText.length > 200) unlockAchievement('wordsmith');
+            if (gameTime < 120000) unlockAchievement('speed_demon');
+            if (visionText.length > 250) unlockAchievement('wordsmith');
 
-            // Check daily challenge
             checkDailyChallenge(visionText);
 
-            // Add rewards
             addPoints(totalPoints);
             addXP(totalXP);
 
-            // Update modal with rewards
             document.getElementById('reward-points').textContent = totalPoints;
             document.getElementById('reward-xp').textContent = totalXP;
 
-            document.getElementById('modal-seed').textContent = drawnCards.seed;
-            document.getElementById('modal-nurture').textContent = drawnCards.nurture;
-            document.getElementById('modal-optimize').textContent = drawnCards.optimize;
-            document.getElementById('modal-visualize').textContent = drawnCards.visualize;
+            document.getElementById('modal-player').textContent = drawnCards.player;
+            document.getElementById('modal-contract').textContent = drawnCards.contract;
+            document.getElementById('modal-innovation').textContent = drawnCards.innovation;
+            document.getElementById('modal-fanbase').textContent = drawnCards.fanbase;
             document.getElementById('modal-vision').textContent = visionText;
 
             document.getElementById('result-modal').style.display = 'flex';
@@ -813,11 +823,11 @@
         });
 
         document.getElementById('restart-game').addEventListener('click', () => {
-            drawnCards = { seed: null, nurture: null, optimize: null, visualize: null };
+            drawnCards = { player: null, contract: null, innovation: null, fanbase: null };
             remainingDecks = JSON.parse(JSON.stringify(decks));
 
             document.getElementById('result-modal').style.display = 'hidden';
-            ['seed', 'nurture', 'optimize', 'visualize'].forEach(deckName => {
+            ['player', 'contract', 'innovation', 'fanbase'].forEach(deckName => {
                 const deckContainer = document.getElementById(`${deckName}-deck-container`);
                 deckContainer.classList.remove('flipped');
                 const cardElement = document.getElementById(`${deckName}-card`);
@@ -825,7 +835,7 @@
                 document.getElementById(`refresh-${deckName}`).classList.add('hidden');
             });
 
-            document.getElementById('amplify-zone').classList.add('hidden');
+            document.getElementById('championship-zone').classList.add('hidden');
             document.getElementById('vision-input').value = '';
             document.getElementById('result-modal').style.display = 'none';
             
@@ -866,12 +876,12 @@
             achievementsList.forEach(achievement => {
                 const unlocked = gameState.achievements.has(achievement.id);
                 const div = document.createElement('div');
-                div.className = `p-4 rounded-lg ${unlocked ? 'bg-gray-700' : 'bg-gray-900'} text-center`;
+                div.className = `p-4 rounded-lg ${unlocked ? 'bg-slate-700 border border-yellow-400' : 'bg-slate-900'} text-center`;
                 div.innerHTML = `
                     <div class="text-3xl mb-2 ${unlocked ? '' : 'grayscale opacity-50'}">${achievement.icon}</div>
-                    <div class="font-bold text-sm ${unlocked ? 'text-yellow-300' : 'text-gray-500'}">${achievement.title}</div>
+                    <div class="font-bold text-sm ${unlocked ? 'text-yellow-400' : 'text-gray-500'}">${achievement.title}</div>
                     <div class="text-xs text-gray-400 mt-1">${achievement.description}</div>
-                    <div class="text-xs text-cyan-300 mt-1">+${achievement.xp} XP</div>
+                    <div class="text-xs text-blue-400 mt-1">+${achievement.xp} XP</div>
                     ${unlocked ? '<div class="badge badge-gold mt-2">UNLOCKED</div>' : ''}
                 `;
                 grid.appendChild(div);
@@ -886,13 +896,12 @@
         }
 
         function showLeaderboard() {
-            // In a real app, this would fetch from a server
             const mockLeaderboard = [
                 { name: 'You', points: gameState.totalPoints, level: gameState.level },
-                { name: 'Alice', points: Math.max(0, gameState.totalPoints - 150), level: Math.max(1, gameState.level - 1) },
-                { name: 'Bob', points: Math.max(0, gameState.totalPoints - 300), level: Math.max(1, gameState.level - 2) },
-                { name: 'Charlie', points: Math.max(0, gameState.totalPoints - 450), level: Math.max(1, gameState.level - 2) },
-                { name: 'Diana', points: Math.max(0, gameState.totalPoints - 600), level: Math.max(1, gameState.level - 3) }
+                { name: 'CryptoPat15', points: Math.max(0, gameState.totalPoints - 200), level: Math.max(1, gameState.level - 1) },
+                { name: 'BitcoinBrady12', points: Math.max(0, gameState.totalPoints - 400), level: Math.max(1, gameState.level - 2) },
+                { name: 'NFTRodgers12', points: Math.max(0, gameState.totalPoints - 600), level: Math.max(1, gameState.level - 2) },
+                { name: 'DeFiDak4', points: Math.max(0, gameState.totalPoints - 800), level: Math.max(1, gameState.level - 3) }
             ].sort((a, b) => b.points - a.points);
 
             const content = document.getElementById('leaderboard-content');
@@ -900,18 +909,18 @@
             
             mockLeaderboard.forEach((player, index) => {
                 const div = document.createElement('div');
-                div.className = `flex justify-between items-center p-3 rounded ${player.name === 'You' ? 'bg-cyan-900' : 'bg-gray-700'}`;
+                div.className = `flex justify-between items-center p-3 rounded ${player.name === 'You' ? 'bg-blue-900 border border-blue-400' : 'bg-slate-700'}`;
                 div.innerHTML = `
                     <div class="flex items-center space-x-3">
-                        <span class="text-2xl">${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</span>
+                        <span class="text-2xl">${index === 0 ? '🏆' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</span>
                         <div>
-                            <div class="font-bold ${player.name === 'You' ? 'text-cyan-300' : ''}">${player.name}</div>
-                            <div class="text-xs text-gray-400">Level ${player.level}</div>
+                            <div class="font-bold ${player.name === 'You' ? 'text-blue-400' : ''}">${player.name}</div>
+                            <div class="text-xs text-gray-400">Level ${player.level} GM</div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-yellow-300">${player.points}</div>
-                        <div class="text-xs text-gray-400">points</div>
+                        <div class="font-bold text-yellow-400">${player.points}</div>
+                        <div class="text-xs text-gray-400">coins</div>
                     </div>
                 `;
                 content.appendChild(div);
@@ -920,7 +929,6 @@
             document.getElementById('leaderboard-modal').style.display = 'flex';
         }
 
-        // Initialize the game
         initializeGameState();
 
     </script>

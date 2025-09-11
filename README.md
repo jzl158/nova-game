@@ -1,19 +1,19 @@
-# The N.O.V.A. Challenge - Gamified 🎮
+# The GRIDIRON Challenge - NFL × Crypto Innovation Game 🏈
 
-**A Game of Collective Creativity & Vision with Engaging Gamification**
+**Build the Future of Sports Economics with Revolutionary Business Concepts**
 
-🚀 **[Play the Game Live](https://your-username.github.io/nova-game/)**
+🚀 **[Play the Game Live](https://jzl158.github.io/nova-game/)**
 
-## 🎯 What is N.O.V.A.?
+## 🏈 What is The GRIDIRON Challenge?
 
-The N.O.V.A. Challenge is an interactive web-based card game that helps players develop creative business ideas through structured brainstorming. Players draw cards from four themed decks to build, nurture, optimize, and visualize innovative business concepts.
+The GRIDIRON Challenge is an interactive NFL-themed business innovation game inspired by crypto pioneers like Russell Okung, Odell Beckham Jr., and Aaron Rodgers. Players combine NFL talent, crypto contracts, cutting-edge innovations, and fan engagement strategies to create revolutionary sports economics concepts.
 
 ### 🎴 The Four Zones
 
-- **🌱 Seed Zone**: Draw initial business ideas and concepts
-- **🌿 Nurture Zone**: Add context, backstory, and meaning to your idea
-- **⚡ Optimize Zone**: Enhance and streamline for maximum impact
-- **🎨 Visualize Zone**: Create tangible representations and marketing concepts
+- **🏈 PLAYER Zone**: Choose your NFL crypto innovator (from Bitcoin pioneers to Web3 rookies)
+- **💰 CONTRACT Zone**: Design revolutionary crypto salary and incentive structures  
+- **⚡ INNOVATION Zone**: Add blockchain, AI, and Web3 technologies to transform the game
+- **🎮 FANBASE Zone**: Create tokenized fan experiences and digital communities
 
 ## 🏆 Gamification Features
 
@@ -37,13 +37,13 @@ The N.O.V.A. Challenge is an interactive web-based card game that helps players 
 - **Personal Stats**: Track your gaming journey
 - **Mock Competition**: See how you rank against other players
 
-## 🎮 How to Play
+## 🏈 How to Play
 
-1. **Start Drawing**: Click on each zone to draw cards
-2. **Build Your Concept**: Let each card inspire your business idea
-3. **Synthesize**: Combine all elements in the Amplify Zone
-4. **Share Your Vision**: Write your complete business concept
-5. **Earn Rewards**: Get points, XP, and unlock achievements!
+1. **Draft Your Team**: Click each zone to draft your NFL crypto innovator, contract structure, technology, and fan strategy
+2. **Build Your Empire**: Combine the four elements into a cohesive sports-crypto business concept
+3. **Championship Vision**: Write your revolutionary idea in the Championship Zone
+4. **Win the Championship**: Submit your vision and earn coins, XP, and Hall of Fame achievements!
+5. **Climb the League**: Complete daily challenges and build championship streaks
 
 ## 🛠 Technical Features
 
@@ -56,7 +56,7 @@ The N.O.V.A. Challenge is an interactive web-based card game that helps players 
 ## 🚀 Quick Start
 
 ### Play Online
-Visit the live game at: `https://your-username.github.io/nova-game/`
+Visit the live game at: `https://jzl158.github.io/nova-game/`
 
 ### Run Locally
 1. Clone this repository
@@ -73,10 +73,10 @@ Visit the live game at: `https://your-username.github.io/nova-game/`
 
 ```
 nova-game/
-├── index.html          # Main game file
-├── Nova.md            # Original version reference
-├── Nova-Gamified.html # Development version
-├── CLAUDE.md          # Documentation
+├── index.html          # Main GRIDIRON Challenge game
+├── Nova.md            # Original N.O.V.A. version reference
+├── Nova-Gamified.html # Original gamified version
+├── CLAUDE.md          # Technical documentation
 └── README.md          # This file
 ```
 
@@ -84,10 +84,10 @@ nova-game/
 
 ### Adding New Cards
 Edit the `decks` object in the JavaScript section:
-- `seed`: Business idea prompts
-- `nurture`: Context and backstory prompts  
-- `optimize`: Enhancement strategies
-- `visualize`: Creative exercises
+- `player`: NFL players and crypto personalities
+- `contract`: Crypto salary and incentive structures  
+- `innovation`: Blockchain, AI, and Web3 technologies
+- `fanbase`: Fan engagement and tokenized experiences
 
 ### Modifying Achievements
 Update the `achievementsList` array with:
@@ -103,35 +103,37 @@ The game uses Tailwind CSS classes and custom CSS variables for easy theming.
 ## 🔧 Game Mechanics
 
 ### Scoring System
-- **Base Points**: 25 points per card drawn
-- **Combo Multiplier**: Points increase with consecutive actions
-- **Speed Bonus**: Complete games quickly for extra points
-- **Vision Bonus**: Detailed descriptions earn more points
-- **Streak Bonus**: Daily play streaks multiply rewards
+- **Base Points**: 30 coins per card drafted
+- **Combo Multiplier**: Points increase with consecutive drafts (up to 4x!)
+- **Championship Bonus**: Complete concepts quickly for extra coins
+- **Vision Bonus**: Detailed NFL crypto concepts earn more coins
+- **Streak Bonus**: Daily championship streaks multiply rewards
 
 ### Achievement Triggers
-- **First Game**: Complete your first challenge
-- **Streaks**: Play multiple days in a row
-- **Speed**: Complete games under 2 minutes
-- **Perfect Combo**: Draw all cards without refreshing
-- **Wordsmith**: Write detailed visions (200+ characters)
+- **Rookie Season**: Complete your first championship
+- **Dynasty Builder**: Win multiple championships in a row
+- **Two-Minute Drill**: Win championships under 2 minutes
+- **Perfect Season**: Draft all cards without trades
+- **Satoshi Nakamoto Award**: Create 10 Bitcoin-focused concepts
+- **Digital Memorabilia King**: Feature NFTs in 5 concepts
 
 ## 🎯 Educational Value
 
 This game helps develop:
-- **Creative Thinking**: Generate innovative business ideas
-- **Strategic Planning**: Consider optimization and scalability
-- **Communication Skills**: Articulate visions clearly
-- **Problem-Solving**: Synthesize multiple concepts coherently
+- **Crypto Sports Knowledge**: Understand how Bitcoin and blockchain are transforming NFL economics
+- **Innovation Thinking**: Explore cutting-edge applications of DeFi, NFTs, and Web3 in sports
+- **Strategic Planning**: Consider how crypto contracts and fan tokens reshape player economics
+- **Business Communication**: Articulate complex crypto-sports concepts clearly
+- **Future Vision**: Anticipate how digital assets will revolutionize fan engagement
 
 ## 🤝 Contributing
 
 Feel free to:
-- Add new card prompts
-- Create additional achievements
-- Improve the UI/UX
-- Add new gamification features
-- Fix bugs or optimize performance
+- Add new NFL players and crypto personalities
+- Create additional contract structures and innovations
+- Improve the sports-themed UI/UX
+- Add new achievements and daily challenges
+- Contribute real-world NFL crypto examples and case studies
 
 ## 📄 License
 
@@ -139,10 +141,11 @@ MIT License - Feel free to use, modify, and distribute!
 
 ## 🎉 Credits
 
-- Original concept: The N.O.V.A. Challenge
-- Gamification enhancement: Claude Code
+- Inspired by NFL crypto pioneers: Russell Okung, Odell Beckham Jr., Aaron Rodgers, and more
+- Original N.O.V.A. Challenge concept enhanced with NFL × Crypto theme
 - Built with: HTML5, CSS3, JavaScript, Tailwind CSS
+- Enhanced by: Claude Code
 
 ---
 
-**Ready to unleash your creativity? [Start Playing Now!](https://your-username.github.io/nova-game/)**
+**Ready to build the future of sports economics? [Start Playing The GRIDIRON Challenge!](https://jzl158.github.io/nova-game/)**
