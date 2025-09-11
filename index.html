@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The GRIDIRON Challenge - NFL × Crypto Innovation Game</title>
+    <title>The N.O.V.A. Challenge - NFL × Crypto Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
@@ -199,86 +199,86 @@
 
         <header class="text-center mb-12">
             <h1 class="text-4xl sm:text-6xl font-bold bg-gradient-to-r from-blue-400 via-yellow-400 to-green-400 bg-clip-text text-transparent tracking-wider" style="font-family: 'Playfair Display', serif;">
-                The GRIDIRON Challenge
+                The N.O.V.A. Challenge
             </h1>
-            <p class="text-xl text-gray-300 mt-2">NFL × Crypto Innovation Game</p>
-            <p class="text-sm text-gray-400 mt-1">Build the Future of Sports Economics</p>
+            <p class="text-xl text-gray-300 mt-2">NFL × Crypto Edition</p>
+            <p class="text-sm text-gray-400 mt-1">Nurture, Optimize, Visualize & Amplify the Future of Sports</p>
             <div id="combo-display" class="mt-2 text-center hidden">
                 <span class="combo-multiplier bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold">
-                    🔥 <span id="combo-count">0</span>x TOUCHDOWN COMBO!
+                    🔥 <span id="combo-count">0</span>x N.O.V.A. COMBO!
                 </span>
             </div>
         </header>
 
-        <!-- Playmat / Innovation Board -->
+        <!-- Playmat / Vision Board -->
         <div id="playmat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            <!-- Player Zone -->
+            <!-- Nurture Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-green-400 card-title">🏈 PLAYER</h2>
-                <p class="text-gray-300 mb-4">Choose your NFL innovator</p>
-                <div id="player-deck-container" class="card-deck mb-2" onclick="drawCard('player')">
+                <h2 class="text-2xl font-bold mb-4 text-green-400 card-title">🌱 NURTURE</h2>
+                <p class="text-gray-300 mb-4">Grow your NFL crypto concept</p>
+                <div id="nurture-deck-container" class="card-deck mb-2" onclick="drawCard('nurture')">
                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">🏈</div>
-                        <h3 class="font-bold text-xl card-title">PLAYER</h3>
-                        <p class="text-sm text-gray-300">Click to draft</p>
+                        <div class="card-icon">🌱</div>
+                        <h3 class="font-bold text-xl card-title">NURTURE</h3>
+                        <p class="text-sm text-gray-300">Click to draw</p>
                     </div>
-                    <div id="player-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                    <div id="nurture-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-player" onclick="redrawCard('player')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Trade</button>
+                <button id="refresh-nurture" onclick="redrawCard('nurture')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
             </div>
 
-            <!-- Contract Zone -->
+            <!-- Optimize Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-yellow-400 card-title">💰 CONTRACT</h2>
-                <p class="text-gray-300 mb-4">Design the crypto deal</p>
-                <div id="contract-deck-container" class="card-deck mb-2" onclick="drawCard('contract')">
-                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">💰</div>
-                        <h3 class="font-bold text-xl card-title">CONTRACT</h3>
-                        <p class="text-sm text-gray-300">Click to negotiate</p>
-                    </div>
-                    <div id="contract-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
-                </div>
-                <button id="refresh-contract" onclick="redrawCard('contract')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Renegotiate</button>
-            </div>
-
-            <!-- Innovation Zone -->
-            <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 card-title">⚡ INNOVATION</h2>
-                <p class="text-gray-300 mb-4">Add cutting-edge tech</p>
-                <div id="innovation-deck-container" class="card-deck mb-2" onclick="drawCard('innovation')">
+                <h2 class="text-2xl font-bold mb-4 text-yellow-400 card-title">⚡ OPTIMIZE</h2>
+                <p class="text-gray-300 mb-4">Enhance with blockchain tech</p>
+                <div id="optimize-deck-container" class="card-deck mb-2" onclick="drawCard('optimize')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">⚡</div>
-                        <h3 class="font-bold text-xl card-title">INNOVATION</h3>
-                        <p class="text-sm text-gray-300">Click to innovate</p>
+                        <h3 class="font-bold text-xl card-title">OPTIMIZE</h3>
+                        <p class="text-sm text-gray-300">Click to draw</p>
                     </div>
-                    <div id="innovation-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                    <div id="optimize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-innovation" onclick="redrawCard('innovation')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Pivot</button>
+                <button id="refresh-optimize" onclick="redrawCard('optimize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
             </div>
 
-            <!-- Fanbase Zone -->
+            <!-- Visualize Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-purple-400 card-title">🎮 FANBASE</h2>
-                <p class="text-gray-300 mb-4">Engage the community</p>
-                <div id="fanbase-deck-container" class="card-deck mb-2" onclick="drawCard('fanbase')">
+                <h2 class="text-2xl font-bold mb-4 text-blue-400 card-title">🎨 VISUALIZE</h2>
+                <p class="text-gray-300 mb-4">Make it tangible for fans</p>
+                <div id="visualize-deck-container" class="card-deck mb-2" onclick="drawCard('visualize')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">🎮</div>
-                        <h3 class="font-bold text-xl card-title">FANBASE</h3>
-                        <p class="text-sm text-gray-300">Click to engage</p>
+                        <div class="card-icon">🎨</div>
+                        <h3 class="font-bold text-xl card-title">VISUALIZE</h3>
+                        <p class="text-sm text-gray-300">Click to draw</p>
                     </div>
-                    <div id="fanbase-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                    <div id="visualize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-fanbase" onclick="redrawCard('fanbase')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Rebrand</button>
+                <button id="refresh-visualize" onclick="redrawCard('visualize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
+            </div>
+
+            <!-- Amplify Zone (Fourth Zone) -->
+            <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
+                <h2 class="text-2xl font-bold mb-4 text-purple-400 card-title">📢 AMPLIFY</h2>
+                <p class="text-gray-300 mb-4">Scale your sports innovation</p>
+                <div id="amplify-deck-container" class="card-deck mb-2" onclick="drawCard('amplify')">
+                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
+                        <div class="card-icon">📢</div>
+                        <h3 class="font-bold text-xl card-title">AMPLIFY</h3>
+                        <p class="text-sm text-gray-300">Click to draw</p>
+                    </div>
+                    <div id="amplify-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
+                </div>
+                <button id="refresh-amplify" onclick="redrawCard('amplify')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
             </div>
         </div>
 
-        <!-- Championship Zone -->
-        <div id="championship-zone" class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-8 text-center hidden border border-yellow-400">
-            <h2 class="text-3xl font-bold mb-4 text-yellow-400 card-title">🏆 CHAMPIONSHIP VISION</h2>
-            <p class="text-gray-300 mb-6">Combine your cards to create the ultimate NFL × Crypto business concept!</p>
-            <textarea id="vision-input" class="w-full h-40 bg-slate-900 text-white p-4 rounded-lg border border-blue-500 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Describe your revolutionary NFL crypto business idea..."></textarea>
-            <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">🏆 Submit for Championship</button>
+        <!-- Vision Synthesis Zone -->
+        <div id="vision-zone" class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-8 text-center hidden border border-yellow-400">
+            <h2 class="text-3xl font-bold mb-4 text-yellow-400 card-title">🏆 VISION SYNTHESIS</h2>
+            <p class="text-gray-300 mb-6">Combine your N.O.V.A. cards to create the ultimate NFL × Crypto innovation!</p>
+            <textarea id="vision-input" class="w-full h-40 bg-slate-900 text-white p-4 rounded-lg border border-blue-500 focus:outline-none focus:ring-2 focus:ring-yellow-400" placeholder="Synthesize your NFL crypto innovation vision..."></textarea>
+            <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">🏆 Submit Vision</button>
         </div>
 
     </div>
@@ -331,19 +331,19 @@
     <!-- Championship Result Modal -->
     <div id="result-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
         <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center border border-yellow-400">
-             <h2 class="text-3xl font-bold mb-4 text-yellow-400 card-title">🏆 CHAMPIONSHIP WON! 🏆</h2>
+             <h2 class="text-3xl font-bold mb-4 text-yellow-400 card-title">🏆 VISION AMPLIFIED! 🏆</h2>
              <div id="completion-reward" class="mb-4 text-center">
                 <span class="text-2xl text-yellow-400">+<span id="reward-points">0</span> Coins!</span>
                 <span class="text-lg text-blue-400 ml-4">+<span id="reward-xp">0</span> XP!</span>
              </div>
-             <p class="text-gray-300 mb-6">You've created a revolutionary NFL × Crypto business concept! Here's your winning combination:</p>
+             <p class="text-gray-300 mb-6">You've successfully created an innovative NFL × Crypto vision! Here's your N.O.V.A. combination:</p>
              <div id="modal-content" class="text-left bg-slate-900 p-6 rounded-lg mb-6 border border-gray-600">
-                <p><strong class="text-green-400">Player:</strong> <span id="modal-player"></span></p>
-                <p><strong class="text-yellow-400">Contract:</strong> <span id="modal-contract"></span></p>
-                <p><strong class="text-blue-400">Innovation:</strong> <span id="modal-innovation"></span></p>
-                <p><strong class="text-purple-400">Fanbase:</strong> <span id="modal-fanbase"></span></p>
+                <p><strong class="text-green-400">🌱 Nurture:</strong> <span id="modal-nurture"></span></p>
+                <p><strong class="text-yellow-400">⚡ Optimize:</strong> <span id="modal-optimize"></span></p>
+                <p><strong class="text-blue-400">🎨 Visualize:</strong> <span id="modal-visualize"></span></p>
+                <p><strong class="text-purple-400">📢 Amplify:</strong> <span id="modal-amplify"></span></p>
                 <hr class="my-4 border-gray-600">
-                <p><strong class="text-yellow-400">Your Championship Vision:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
+                <p><strong class="text-yellow-400">Your N.O.V.A. Vision:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
              </div>
              <button id="restart-game" class="btn-primary font-bold py-3 px-8 rounded-full">🔄 Next Season</button>
         </div>
@@ -360,75 +360,76 @@
 
     <script>
         const decks = {
-            player: [
-                "Russell Okung (Bitcoin Pioneer)", "Odell Beckham Jr. (All-in Crypto)", "Aaron Rodgers (Bitcoin Evangelist)", "Saquon Barkley (Fan Token Leader)",
-                "Tom Brady (NFT Mogul)", "Patrick Mahomes (Blockchain Innovator)", "Trevor Lawrence (Crypto Native)", "Dak Prescott (DeFi Explorer)",
-                "Josh Allen (Bitcoin Bull)", "Lamar Jackson (Gaming Tokenizer)", "Kyler Murray (Metaverse QB)", "Justin Herbert (Web3 Rookie)",
-                "Mac Jones (Smart Contract Specialist)", "Tua Tagovailoa (DeFi Quarterback)", "Joe Burrow (Crypto Leader)", "Jalen Hurts (Token Advocate)",
-                "Cooper Kupp (NFT Collector)", "Davante Adams (Blockchain Receiver)", "Tyreek Hill (Lightning Network)", "Stefon Diggs (Crypto Influencer)",
-                "DeAndre Hopkins (Token Veteran)", "Mike Evans (Bitcoin Believer)", "Chris Godwin (Web3 Pioneer)", "Keenan Allen (DeFi Expert)",
-                "Derrick Henry (Mining Metaphor)", "Jonathan Taylor (Rushing to Crypto)", "Nick Chubb (Ground Game Blockchain)", "Alvin Kamara (Multi-Token Play)",
-                "Christian McCaffrey (Versatile Crypto)", "Ezekiel Elliott (Established Blockchain)", "Dalvin Cook (Smart Chef)", "Aaron Donald (Defensive Crypto)",
-                "T.J. Watt (Blockchain Defender)", "Myles Garrett (Crypto Rusher)", "Khalil Mack (Token Tackler)", "Von Miller (Veteran Blockchain)",
-                "A Rookie QB with crypto dreams", "A veteran looking for new revenue", "A retired player becoming crypto advisor", "An undrafted free agent embracing DeFi",
-                "A Pro Bowl punter mining Bitcoin", "A long snapper with NFT side hustle", "A kicker investing in fan tokens", "A practice squad player day-trading crypto",
-                "A Hall of Famer launching a coin", "A coach integrating blockchain", "An agent specializing in crypto deals", "A team owner going all-digital"
-            ],
-            contract: [
-                "100% Bitcoin salary conversion", "50/50 fiat-crypto split deal", "Bitcoin signing bonus structure", "Ethereum-based performance incentives",
-                "Fan token payment system", "NFT royalty contract", "Smart contract automation", "Crypto staking rewards clause",
-                "Bitcoin price protection floor", "Multi-coin diversified salary", "DeFi yield farming bonuses", "Lightning Network micro-payments",
+            nurture: [
+                "Russell Okung's Bitcoin salary revolution", "Odell Beckham Jr.'s all-crypto contract", "Aaron Rodgers' Bitcoin advocacy", "Saquon Barkley's fan token leadership",
+                "Tom Brady's NFT empire", "Patrick Mahomes' blockchain innovation", "Trevor Lawrence's crypto-native approach", "A rookie QB's crypto dreams",
+                "A veteran's new digital revenue stream", "A retired player's crypto advisory role", "Bitcoin signing bonus structure", "Ethereum performance incentives",
+                "Fan token payment systems", "NFT royalty contracts", "Smart contract automation", "Crypto staking rewards",
+                "Bitcoin price protection", "Multi-coin salary diversification", "DeFi yield farming bonuses", "Lightning Network payments",
                 "Crypto-backed injury insurance", "Token-gated exclusive benefits", "Blockchain escrow payments", "Decentralized endorsement deals",
-                "Bitcoin retirement planning", "Crypto education stipend", "Digital collectible rights", "Metaverse appearance fees",
-                "DAO governance token allocation", "Cross-chain payment flexibility", "Crypto tax optimization structure", "Bitcoin dollar-cost averaging",
-                "Ethereum staking validator role", "Layer 2 scaling fee sharing", "Crypto mining equipment lease", "NFT marketplace partnership",
-                "Fan token voting rights", "Blockchain charity donation matching", "Crypto volatility protection", "Digital asset custody service",
-                "Bitcoin halving bonus triggers", "Altcoin performance multipliers", "DeFi protocol partnership", "Crypto lending collateral usage",
-                "Token burn mechanism incentive", "Blockchain analytics sharing", "Crypto exchange fee rebates", "Digital signature authenticity",
-                "Bitcoin inheritance planning", "Crypto compliance consulting", "Blockchain audit transparency", "Token liquidity guarantees"
+                "Bitcoin retirement planning", "Crypto education stipends", "Digital collectible rights", "Metaverse appearance fees",
+                "DAO governance tokens", "Cross-chain payment flexibility", "Crypto tax optimization", "Bitcoin dollar-cost averaging",
+                "Ethereum staking validation", "Layer 2 scaling fees", "Crypto mining equipment", "NFT marketplace partnerships",
+                "Fan token voting rights", "Blockchain charity matching", "Crypto volatility protection", "Digital asset custody",
+                "Bitcoin halving bonuses", "Altcoin performance multipliers", "DeFi protocol partnerships", "Crypto lending collateral",
+                "Token burn mechanisms", "Blockchain analytics", "Crypto exchange rebates", "Digital signature authenticity"
             ],
-            innovation: [
-                "AI-powered crypto trading bot", "Blockchain-verified game stats", "NFT trading card evolution", "Metaverse stadium experiences",
-                "Fan token voting on plays", "Crypto fantasy football league", "Blockchain ticket authentication", "Smart contract merchandise", 
-                "VR training with crypto rewards", "AI referee with blockchain log", "Crypto-backed player insurance", "Tokenized season tickets",
+            optimize: [
+                "AI-powered crypto trading", "Blockchain-verified stats", "NFT card evolution", "Metaverse stadium experiences",
+                "Fan token play voting", "Crypto fantasy leagues", "Blockchain ticket auth", "Smart contract merch", 
+                "VR training rewards", "AI referee logging", "Crypto player insurance", "Tokenized season tickets",
                 "Blockchain injury prevention", "Crypto gambling integration", "NFT highlight ownership", "DAO team management",
-                "Biometric blockchain tracking", "Crypto performance analytics", "Tokenized coaching sessions", "Blockchain referee training",
-                "AI draft pick optimization", "Crypto salary cap management", "NFT stadium naming rights", "Blockchain concussion protocol",
-                "Tokenized training facilities", "Crypto nutritionist matching", "AI game film analysis", "Blockchain equipment tracking",
-                "Crypto fan prediction markets", "Tokenized autograph sessions", "Blockchain drug testing", "AI injury risk assessment",
-                "Crypto locker room access", "NFT championship rings", "Blockchain community voting", "Tokenized tailgate experiences",
-                "AI playbook optimization", "Crypto referee rewards", "Blockchain media rights", "Tokenized draft prospects",
-                "Crypto team ownership shares", "NFT player trading cards", "Blockchain Hall of Fame", "Tokenized retired jerseys",
-                "AI contract negotiation", "Crypto workout tracking", "Blockchain fan loyalty", "Tokenized championship trophies"
+                "Biometric blockchain tracking", "Crypto performance analytics", "Tokenized coaching", "Blockchain referee training",
+                "AI draft optimization", "Crypto salary cap mgmt", "NFT stadium naming", "Blockchain concussion protocol",
+                "Tokenized training facilities", "Crypto nutritionist matching", "AI film analysis", "Blockchain equipment tracking",
+                "Crypto prediction markets", "Tokenized autographs", "Blockchain drug testing", "AI injury assessment",
+                "Crypto locker access", "NFT championship rings", "Blockchain voting", "Tokenized tailgating",
+                "AI playbook optimization", "Crypto referee rewards", "Blockchain media rights", "Tokenized prospects",
+                "Crypto ownership shares", "NFT trading cards", "Blockchain Hall of Fame", "Tokenized jerseys",
+                "AI contract negotiation", "Crypto workout tracking", "Blockchain fan loyalty", "Tokenized trophies"
             ],
-            fanbase: [
-                "Fantasy crypto leagues", "NFT collectible trading", "Token-gated exclusive content", "Metaverse watch parties",
-                "Crypto prediction betting", "Blockchain fan rewards", "Digital collectible gaming", "Tokenized fan experiences",
-                "Crypto-powered mobile game", "NFT season pass access", "Blockchain voting systems", "Digital asset galleries",
-                "Crypto merchandise stores", "Token community forums", "Blockchain fantasy drafts", "NFT player partnerships",
-                "Crypto fan competitions", "Digital wallet integrations", "Token-based loyalty programs", "Blockchain social networks",
-                "Crypto tailgating events", "NFT virtual stadiums", "Digital collectible exchanges", "Token-gated meet & greets",
-                "Blockchain fan journalism", "Crypto podcast platforms", "NFT art collaborations", "Digital memorabilia vaults",
-                "Crypto game day experiences", "Token voting on team decisions", "Blockchain fan fundraising", "NFT charitable auctions",
-                "Digital fan club memberships", "Crypto sports betting pools", "Token-based fantasy scoring", "Blockchain fan analytics",
-                "Crypto player fan clubs", "NFT stadium tours", "Digital autograph collections", "Token-powered fan events",
-                "Crypto loyalty point systems", "NFT historical moments", "Blockchain fan networking", "Digital season highlights",
-                "Crypto fan investment pools", "Token-gated training access", "NFT draft night parties", "Digital Hall of Fame voting"
+            visualize: [
+                "Create Russell Okung crypto documentary", "Design Odell's NFT collection", "Write Aaron Rodgers Bitcoin podcast", "Launch Saquon's fan token app",
+                "Build Tom Brady's metaverse", "Create Patrick's blockchain game", "Design Trevor's crypto wallet", "Write rookie crypto manifesto",
+                "Create veteran's investment blog", "Design retirement crypto guide", "Mock Bitcoin contract announcement", "Draft Ethereum incentive plan",
+                "Create fan token pitch deck", "Design NFT royalty structure", "Write smart contract explainer", "Create staking rewards calculator",
+                "Design Bitcoin protection app", "Create diversification dashboard", "Write DeFi farming guide", "Design Lightning payment UI",
+                "Create insurance claim form", "Design token-gated website", "Write escrow smart contract", "Create endorsement platform",
+                "Design retirement planning app", "Create education course outline", "Write collectible marketplace", "Design metaverse stadium",
+                "Create DAO voting interface", "Design cross-chain bridge", "Write tax optimization guide", "Create DCA investment app",
+                "Design staking validator node", "Create Layer 2 fee tracker", "Write mining equipment guide", "Design NFT marketplace",
+                "Create voting rights charter", "Design charity matching platform", "Write volatility hedge strategy", "Create custody solution",
+                "Design halving bonus calculator", "Create altcoin tracker", "Write DeFi protocol whitepaper", "Design lending platform",
+                "Create burn mechanism timer", "Design analytics dashboard", "Write exchange partnership", "Create signature verification"
+            ],
+            amplify: [
+                "Scale Bitcoin salaries league-wide", "Expand crypto contracts globally", "Launch NFL crypto exchange", "Create sports DeFi protocol",
+                "Build cross-league crypto alliance", "Launch global fan token network", "Create crypto sports journalism", "Build NFT championship series",
+                "Launch crypto draft combine", "Create blockchain Hall of Fame", "Build metaverse sports universe", "Launch crypto sports betting",
+                "Create tokenized sports media", "Build decentralized fantasy", "Launch crypto sports education", "Create blockchain referee academy",
+                "Build AI sports analytics", "Launch crypto injury protocol", "Create tokenized equipment", "Build smart contract league",
+                "Launch crypto nutrition network", "Create blockchain training", "Build AI coaching platform", "Launch tokenized stadiums",
+                "Create crypto fan festivals", "Build blockchain journalism", "Launch NFT art galleries", "Create digital memorabilia",
+                "Build crypto game experiences", "Launch token governance", "Create blockchain fundraising", "Build NFT auction houses",
+                "Launch crypto fan clubs", "Create digital wallet integration", "Build loyalty token ecosystem", "Launch blockchain social network",
+                "Create crypto tailgate events", "Build virtual stadium network", "Launch collectible exchange", "Create token meet & greets",
+                "Build blockchain media empire", "Launch crypto podcast network", "Create NFT collaboration hub", "Build memorabilia vault system",
+                "Launch crypto investment pools", "Create token-gated academies", "Build NFT draft parties", "Launch digital Hall of Fame voting"
             ]
         };
 
         const icons = {
-            player: '🏈',
-            contract: '💰',
-            innovation: '⚡',
-            fanbase: '🎮'
+            nurture: '🌱',
+            optimize: '⚡',
+            visualize: '🎨',
+            amplify: '📢'
         };
 
         const colors = {
-            player: 'green',
-            contract: 'yellow',
-            innovation: 'blue',
-            fanbase: 'purple'
+            nurture: 'green',
+            optimize: 'yellow',
+            visualize: 'blue',
+            amplify: 'purple'
         };
 
         // Gamification State
@@ -477,10 +478,10 @@
         ];
 
         let drawnCards = {
-            player: null,
-            contract: null,
-            innovation: null,
-            fanbase: null
+            nurture: null,
+            optimize: null,
+            visualize: null,
+            amplify: null
         };
          
         let remainingDecks = {...decks};
@@ -712,7 +713,7 @@
                 }
 
                 if (Object.values(drawnCards).every(card => card !== null)) {
-                    document.getElementById('championship-zone').classList.remove('hidden');
+                    document.getElementById('vision-zone').classList.remove('hidden');
                     
                     if (refreshCount === 0) {
                         unlockAchievement('perfect_combo');
@@ -733,7 +734,7 @@
                 deckContainer.classList.remove('flipped');
                 
                 document.getElementById(`refresh-${deckName}`).classList.add('hidden');
-                document.getElementById('championship-zone').classList.add('hidden');
+                document.getElementById('vision-zone').classList.add('hidden');
 
                 const cardsDrawn = Object.values(drawnCards).filter(card => card !== null).length;
                 gameState.comboMultiplier = Math.max(1, cardsDrawn);
@@ -811,10 +812,10 @@
             document.getElementById('reward-points').textContent = totalPoints;
             document.getElementById('reward-xp').textContent = totalXP;
 
-            document.getElementById('modal-player').textContent = drawnCards.player;
-            document.getElementById('modal-contract').textContent = drawnCards.contract;
-            document.getElementById('modal-innovation').textContent = drawnCards.innovation;
-            document.getElementById('modal-fanbase').textContent = drawnCards.fanbase;
+            document.getElementById('modal-nurture').textContent = drawnCards.nurture;
+            document.getElementById('modal-optimize').textContent = drawnCards.optimize;
+            document.getElementById('modal-visualize').textContent = drawnCards.visualize;
+            document.getElementById('modal-amplify').textContent = drawnCards.amplify;
             document.getElementById('modal-vision').textContent = visionText;
 
             document.getElementById('result-modal').style.display = 'flex';
@@ -823,11 +824,11 @@
         });
 
         document.getElementById('restart-game').addEventListener('click', () => {
-            drawnCards = { player: null, contract: null, innovation: null, fanbase: null };
+            drawnCards = { nurture: null, optimize: null, visualize: null, amplify: null };
             remainingDecks = JSON.parse(JSON.stringify(decks));
 
             document.getElementById('result-modal').style.display = 'hidden';
-            ['player', 'contract', 'innovation', 'fanbase'].forEach(deckName => {
+            ['nurture', 'optimize', 'visualize', 'amplify'].forEach(deckName => {
                 const deckContainer = document.getElementById(`${deckName}-deck-container`);
                 deckContainer.classList.remove('flipped');
                 const cardElement = document.getElementById(`${deckName}-card`);
@@ -835,7 +836,7 @@
                 document.getElementById(`refresh-${deckName}`).classList.add('hidden');
             });
 
-            document.getElementById('championship-zone').classList.add('hidden');
+            document.getElementById('vision-zone').classList.add('hidden');
             document.getElementById('vision-input').value = '';
             document.getElementById('result-modal').style.display = 'none';
             

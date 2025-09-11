@@ -1,19 +1,19 @@
-# The GRIDIRON Challenge - NFL × Crypto Innovation Game 🏈
+# The N.O.V.A. Challenge - NFL × Crypto Edition 🏈
 
-**Build the Future of Sports Economics with Revolutionary Business Concepts**
+**Nurture, Optimize, Visualize & Amplify the Future of Sports Economics**
 
 🚀 **[Play the Game Live](https://jzl158.github.io/nova-game/)**
 
-## 🏈 What is The GRIDIRON Challenge?
+## 🏈 What is The N.O.V.A. Challenge?
 
-The GRIDIRON Challenge is an interactive NFL-themed business innovation game inspired by crypto pioneers like Russell Okung, Odell Beckham Jr., and Aaron Rodgers. Players combine NFL talent, crypto contracts, cutting-edge innovations, and fan engagement strategies to create revolutionary sports economics concepts.
+The N.O.V.A. Challenge NFL × Crypto Edition is an interactive business innovation game inspired by crypto pioneers like Russell Okung, Odell Beckham Jr., and Aaron Rodgers. Players use the proven N.O.V.A. framework to develop groundbreaking sports economics concepts that blend traditional NFL elements with cutting-edge cryptocurrency innovations.
 
-### 🎴 The Four Zones
+### 🎴 The N.O.V.A. Framework
 
-- **🏈 PLAYER Zone**: Choose your NFL crypto innovator (from Bitcoin pioneers to Web3 rookies)
-- **💰 CONTRACT Zone**: Design revolutionary crypto salary and incentive structures  
-- **⚡ INNOVATION Zone**: Add blockchain, AI, and Web3 technologies to transform the game
-- **🎮 FANBASE Zone**: Create tokenized fan experiences and digital communities
+- **🌱 NURTURE Zone**: Grow your NFL crypto concept with foundational ideas and pioneering players
+- **⚡ OPTIMIZE Zone**: Enhance with blockchain technology, AI, and Web3 innovations
+- **🎨 VISUALIZE Zone**: Create tangible representations, apps, and fan experiences  
+- **📢 AMPLIFY Zone**: Scale your innovation across leagues and global sports markets
 
 ## 🏆 Gamification Features
 
@@ -39,11 +39,12 @@ The GRIDIRON Challenge is an interactive NFL-themed business innovation game ins
 
 ## 🏈 How to Play
 
-1. **Draft Your Team**: Click each zone to draft your NFL crypto innovator, contract structure, technology, and fan strategy
-2. **Build Your Empire**: Combine the four elements into a cohesive sports-crypto business concept
-3. **Championship Vision**: Write your revolutionary idea in the Championship Zone
-4. **Win the Championship**: Submit your vision and earn coins, XP, and Hall of Fame achievements!
-5. **Climb the League**: Complete daily challenges and build championship streaks
+1. **Nurture**: Draw cards to establish your NFL crypto foundation with pioneering players and concepts
+2. **Optimize**: Add blockchain technologies and Web3 innovations to enhance your idea
+3. **Visualize**: Create tangible apps, platforms, and fan experiences to make your concept real
+4. **Amplify**: Scale your innovation globally across sports leagues and markets
+5. **Synthesize**: Combine all four N.O.V.A. elements into your revolutionary vision
+6. **Earn Rewards**: Get points, XP, and unlock achievements as you master the N.O.V.A. framework!
 
 ## 🛠 Technical Features
 
@@ -84,10 +85,10 @@ nova-game/
 
 ### Adding New Cards
 Edit the `decks` object in the JavaScript section:
-- `player`: NFL players and crypto personalities
-- `contract`: Crypto salary and incentive structures  
-- `innovation`: Blockchain, AI, and Web3 technologies
-- `fanbase`: Fan engagement and tokenized experiences
+- `nurture`: NFL crypto pioneers, foundational concepts, and contract structures
+- `optimize`: Blockchain, AI, and Web3 technologies for enhancement
+- `visualize`: Apps, platforms, and tangible fan experiences
+- `amplify`: Scaling strategies and global expansion concepts
 
 ### Modifying Achievements
 Update the `achievementsList` array with:
@@ -148,4 +149,4 @@ MIT License - Feel free to use, modify, and distribute!
 
 ---
 
-**Ready to build the future of sports economics? [Start Playing The GRIDIRON Challenge!](https://jzl158.github.io/nova-game/)**
+**Ready to revolutionize sports economics with N.O.V.A.? [Start Playing Now!](https://jzl158.github.io/nova-game/)**
