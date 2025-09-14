@@ -1,153 +1,132 @@
-# The N.O.V.A. Challenge - NFL × Crypto Edition 🏈
+# Barbuda Rising: Community Visioning Challenge
 
-**Nurture, Optimize, Visualize & Amplify the Future of Sports Economics**
+A gamified community engagement tool designed to capture visions for Barbuda's resilient and self-reliant future.
 
-🚀 **[Play the Game Live](https://jzl158.github.io/nova-game/)**
+## Features
 
-## 🏈 What is The N.O.V.A. Challenge?
+### 🎮 Game Mechanics
+- **4 Themed Card Zones**: Seed, Nurture, Optimize, and Visualize
+- **52 Cards per Zone**: Community-focused prompts and questions
+- **Gamification**: Points, XP, achievements, daily challenges, streaks
+- **Progressive Levels**: Unlock achievements as you contribute more visions
 
-The N.O.V.A. Challenge NFL × Crypto Edition is an interactive business innovation game inspired by crypto pioneers like Russell Okung, Odell Beckham Jr., and Aaron Rodgers. Players use the proven N.O.V.A. framework to develop groundbreaking sports economics concepts that blend traditional NFL elements with cutting-edge cryptocurrency innovations.
+### 📧 Backend Data Collection
+- **Email Capture**: Collect contact information for community updates
+- **Vision Storage**: Save all community visions to JSON database
+- **Validation**: Email format and required field validation
+- **Privacy**: Masked emails in admin endpoints
 
-### 🎴 The N.O.V.A. Framework
+## Quick Start
 
-- **🌱 SEED Zone**: Choose your core NFL crypto business idea or pioneering player concept
-- **🌿 NURTURE Zone**: Add context, backstory, and meaning to grow your idea
-- **⚡ OPTIMIZE Zone**: Enhance with blockchain technology, AI, and Web3 innovations
-- **🎨 VISUALIZE Zone**: Create tangible representations, apps, and fan experiences  
-- **📢 AMPLIFY Zone**: Write your synthesis combining all elements into a revolutionary vision
-
-## 🏆 Gamification Features
-
-### 📈 Progression System
-- **XP & Levels**: Gain experience points and level up
-- **Points System**: Earn points for every action with combo multipliers
-- **Streaks**: Build daily play streaks with fire effects for 3+ streaks
-
-### 🏅 Achievements
-- **10 Unique Achievements** with XP rewards
-- **Achievement Categories**: First plays, streaks, levels, speed, creativity
-- **Visual Rewards**: Badges, popups, and unlock animations
-
-### ⭐ Daily Challenges
-- **Rotating Challenges**: New challenge every day
-- **Bonus XP**: Extra rewards for meeting daily goals
-- **Smart Detection**: Automatic completion tracking
-
-### 📊 Competition
-- **Leaderboard**: Compare your progress with others
-- **Personal Stats**: Track your gaming journey
-- **Mock Competition**: See how you rank against other players
-
-## 🏈 How to Play
-
-1. **Seed**: Draw a card to choose your core NFL crypto business idea or pioneer concept
-2. **Nurture**: Add context, backstory, and meaning to grow your foundational idea
-3. **Optimize**: Enhance with blockchain technologies, DeFi, and Web3 innovations
-4. **Visualize**: Create tangible apps, platforms, and fan experiences to make it real
-5. **Amplify**: Write your synthesis combining all four elements into a revolutionary vision
-6. **Earn Rewards**: Get points, XP, and unlock achievements as you master the N.O.V.A. framework!
-
-## 🛠 Technical Features
-
-- **Pure Web Tech**: HTML5, CSS3, Vanilla JavaScript
-- **Responsive Design**: Works on mobile, tablet, and desktop
-- **Local Storage**: Progress persists between sessions
-- **Smooth Animations**: CSS3 animations and transitions
-- **No Dependencies**: Runs anywhere with just a browser
-
-## 🚀 Quick Start
-
-### Play Online
-Visit the live game at: `https://jzl158.github.io/nova-game/`
-
-### Run Locally
-1. Clone this repository
-2. Open `index.html` in your web browser
-3. Start playing immediately!
-
-### Deploy to GitHub Pages
-1. Fork this repository
-2. Go to Settings > Pages
-3. Select "Deploy from a branch" and choose `main`
-4. Your game will be live at `https://your-username.github.io/nova-game/`
-
-## 📁 Project Structure
-
-```
-nova-game/
-├── index.html          # Main GRIDIRON Challenge game
-├── Nova.md            # Original N.O.V.A. version reference
-├── Nova-Gamified.html # Original gamified version
-├── CLAUDE.md          # Technical documentation
-└── README.md          # This file
+### 1. Install Dependencies
+```bash
+npm install
 ```
 
-## 🎨 Customization
+### 2. Start the Server
+```bash
+npm start
+```
 
-### Adding New Cards
-Edit the `decks` object in the JavaScript section:
-- `seed`: NFL crypto business ideas, pioneering players, and core concepts
-- `nurture`: Context, backstory, and foundational meaning for ideas
-- `optimize`: Blockchain, AI, DeFi, and Web3 technologies for enhancement
-- `visualize`: Apps, platforms, marketing materials, and tangible experiences
+### 3. Access the Game
+Visit: `http://localhost:3001/Nova-Gamified.html`
 
-### Modifying Achievements
-Update the `achievementsList` array with:
-- `id`: Unique identifier
-- `title`: Achievement name
-- `description`: What the player accomplished
-- `xp`: Experience point reward
-- `icon`: Emoji or unicode icon
+## Game Structure
 
-### Styling Changes
-The game uses Tailwind CSS classes and custom CSS variables for easy theming.
+### 🌱 Seed Zone
+- **Purpose**: Spark initial ideas, concerns, or visions
+- **Examples**: "What does self-reliance mean to you?", "If Barbuda could teach the world one lesson, what would it be?"
 
-## 🔧 Game Mechanics
+### 🌿 Nurture Zone  
+- **Purpose**: Build through reflection, dialogue, and collaboration
+- **Examples**: "Tell a story of when the community came together", "What could make tourism feel like ownership?"
 
-### Scoring System
-- **Base Points**: 30 coins per card drafted
-- **Combo Multiplier**: Points increase with consecutive drafts (up to 4x!)
-- **Championship Bonus**: Complete concepts quickly for extra coins
-- **Vision Bonus**: Detailed NFL crypto concepts earn more coins
-- **Streak Bonus**: Daily championship streaks multiply rewards
+### ⚙️ Optimize Zone
+- **Purpose**: Turn ideas into actionable strategies
+- **Examples**: "Rank what matters most: Jobs, Land, Environment, Education, Tourism", "How can we ensure development serves Barbudans first?"
 
-### Achievement Triggers
-- **Rookie Season**: Complete your first championship
-- **Dynasty Builder**: Win multiple championships in a row
-- **Two-Minute Drill**: Win championships under 2 minutes
-- **Perfect Season**: Draft all cards without trades
-- **Satoshi Nakamoto Award**: Create 10 Bitcoin-focused concepts
-- **Digital Memorabilia King**: Feature NFTs in 5 concepts
+### 🎨 Visualize Zone
+- **Purpose**: Celebrate and anchor outcomes in shared identity  
+- **Examples**: "Take a picture that symbolizes resilience", "Design a slogan mixing pride + sustainability"
 
-## 🎯 Educational Value
+## API Endpoints
 
-This game helps develop:
-- **Crypto Sports Knowledge**: Understand how Bitcoin and blockchain are transforming NFL economics
-- **Innovation Thinking**: Explore cutting-edge applications of DeFi, NFTs, and Web3 in sports
-- **Strategic Planning**: Consider how crypto contracts and fan tokens reshape player economics
-- **Business Communication**: Articulate complex crypto-sports concepts clearly
-- **Future Vision**: Anticipate how digital assets will revolutionize fan engagement
+### POST `/api/save-vision`
+Save a community vision with email
+```json
+{
+  "email": "user@example.com",
+  "vision": "Community vision text...",
+  "cards": {
+    "seed": "Card text",
+    "nurture": "Card text", 
+    "optimize": "Card text",
+    "visualize": "Card text"
+  }
+}
+```
 
-## 🤝 Contributing
+### GET `/api/visions`
+Get summary of all visions (admin)
 
-Feel free to:
-- Add new NFL players and crypto personalities
-- Create additional contract structures and innovations
-- Improve the sports-themed UI/UX
-- Add new achievements and daily challenges
-- Contribute real-world NFL crypto examples and case studies
+### GET `/api/health`
+Health check endpoint
 
-## 📄 License
+## Data Storage
 
-MIT License - Feel free to use, modify, and distribute!
+Visions are stored in `visions.json` with:
+- Unique ID and timestamp
+- Email and vision content
+- All 4 drawn cards
+- IP address (for analytics)
 
-## 🎉 Credits
+## Development
 
-- Inspired by NFL crypto pioneers: Russell Okung, Odell Beckham Jr., Aaron Rodgers, and more
-- Original N.O.V.A. Challenge concept enhanced with NFL × Crypto theme
-- Built with: HTML5, CSS3, JavaScript, Tailwind CSS
-- Enhanced by: Claude Code
+### Run in Development Mode
+```bash
+npm run dev
+```
+
+Uses nodemon for auto-restart on file changes.
+
+### File Structure
+```
+/
+├── Nova-Gamified.html    # Main game interface
+├── server.js             # Express server
+├── package.json          # Dependencies
+├── visions.json          # Data storage (created automatically)
+└── README.md            # This file
+```
+
+## Deployment
+
+The app can be deployed to any Node.js hosting service:
+
+1. **Heroku**: `git push heroku main`
+2. **Railway**: Connect GitHub repo
+3. **DigitalOcean App Platform**: Deploy from GitHub
+4. **AWS/Azure/GCP**: Use their Node.js hosting services
+
+Set environment variable `PORT` for production.
+
+## Security Notes
+
+- Email validation on both client and server
+- Input sanitization for vision text
+- Rate limiting recommended for production
+- Consider adding CAPTCHA for spam prevention
+- Use HTTPS in production
+
+## Community Impact
+
+This tool helps Barbuda:
+- 🏘️ Capture collective community wisdom
+- 🌱 Engage residents in visioning exercises  
+- 📊 Gather data on community priorities
+- 🤝 Build consensus around development approaches
+- 📧 Create contact list for ongoing community engagement
 
 ---
 
-**Ready to revolutionize sports economics with N.O.V.A.? [Start Playing Now!](https://jzl158.github.io/nova-game/)**
+**Built for Barbuda's resilient future** 🇦🇬

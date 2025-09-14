@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The N.O.V.A. Challenge - Gamified</title>
+    <title>Barbuda Rising: Community Visioning Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
@@ -170,6 +170,7 @@
                 </div>
             </div>
             <div class="flex space-x-2 mt-2 sm:mt-0">
+                <button id="how-to-play-btn" class="bg-cyan-600 hover:bg-cyan-700 px-3 py-1 rounded text-sm">❓ How to Play</button>
                 <button id="achievements-btn" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm">🏅 Achievements</button>
                 <button id="daily-challenge-btn" class="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded text-sm">⭐ Daily</button>
                 <button id="leaderboard-btn" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">📊 Leaderboard</button>
@@ -177,8 +178,8 @@
         </div>
 
         <header class="text-center mb-12">
-            <h1 class="text-4xl sm:text-5xl font-bold text-cyan-300 tracking-wider" style="font-family: 'Playfair Display', serif;">The N.O.V.A. Challenge</h1>
-            <p class="text-lg text-gray-400 mt-2">A Game of Collective Creativity & Vision</p>
+            <h1 class="text-4xl sm:text-5xl font-bold text-cyan-300 tracking-wider" style="font-family: 'Playfair Display', serif;">Barbuda Rising</h1>
+            <p class="text-lg text-gray-400 mt-2">Community Visioning for Resilience & Self-Reliance</p>
             <div id="combo-display" class="mt-2 text-center hidden">
                 <span class="combo-multiplier bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold">
                     🔥 <span id="combo-count">0</span>x COMBO!
@@ -224,7 +225,7 @@
                 <p class="text-gray-400 mb-4">Sharpen the idea for impact.</p>
                 <div id="optimize-deck-container" class="card-deck mb-2" onclick="drawCard('optimize')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">⚡</div>
+                        <div class="card-icon">⚙️</div>
                         <h3 class="font-bold text-xl card-title">OPTIMIZE</h3>
                         <p class="text-sm text-gray-400">Click to draw</p>
                     </div>
@@ -252,9 +253,23 @@
         <!-- Amplify Zone -->
         <div id="amplify-zone" class="bg-gray-800 rounded-lg p-8 text-center hidden">
             <h2 class="text-3xl font-bold mb-4 text-red-300 card-title">📢 Amplify Zone</h2>
-            <p class="text-gray-400 mb-6">How can all this happen? Synthesize the cards and share your vision.</p>
-            <textarea id="vision-input" class="w-full h-40 bg-gray-900 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Type your answer here..."></textarea>
-            <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">Submit Vision</button>
+            <p class="text-gray-400 mb-6">How do these connect? Weave your cards into a unified community vision.</p>
+            
+            <form id="vision-form" class="space-y-4">
+                <div class="text-left">
+                    <label for="email-input" class="block text-sm font-medium text-gray-300 mb-2">Email (to receive community updates)</label>
+                    <input type="email" id="email-input" class="w-full bg-gray-900 text-white p-3 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="your.email@example.com" required>
+                </div>
+                
+                <div class="text-left">
+                    <label for="vision-input" class="block text-sm font-medium text-gray-300 mb-2">Your Community Vision</label>
+                    <textarea id="vision-input" class="w-full h-40 bg-gray-900 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Type your vision here..." required></textarea>
+                </div>
+                
+                <div id="submission-status" class="hidden p-3 rounded-lg text-sm font-medium"></div>
+                
+                <button type="submit" id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full">Submit Vision</button>
+            </form>
         </div>
 
     </div>
@@ -307,12 +322,12 @@
     <!-- Modal for showing result -->
     <div id="result-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
         <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center">
-             <h2 class="text-3xl font-bold mb-4 text-cyan-300 card-title">🎉 Vision Amplified! 🎉</h2>
+             <h2 class="text-3xl font-bold mb-4 text-cyan-300 card-title">🎉 Community Vision Created! 🎉</h2>
              <div id="completion-reward" class="mb-4 text-center">
                 <span class="text-2xl text-yellow-300">+<span id="reward-points">0</span> Points!</span>
                 <span class="text-lg text-cyan-300 ml-4">+<span id="reward-xp">0</span> XP!</span>
              </div>
-             <p class="text-gray-300 mb-6">You've successfully combined the elements to create a unique business concept. Here's your vision:</p>
+             <p class="text-gray-300 mb-6">You've woven together community insights to create a vision for Barbuda's future. Here's your contribution:</p>
              <div id="modal-content" class="text-left bg-gray-900 p-6 rounded-lg mb-6">
                 <p><strong class="text-green-300">Seed:</strong> <span id="modal-seed"></span></p>
                 <p><strong class="text-yellow-300">Nurture:</strong> <span id="modal-nurture"></span></p>
@@ -322,6 +337,84 @@
                 <p><strong class="text-red-300">Your Vision:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
              </div>
              <button id="restart-game" class="btn-primary font-bold py-3 px-8 rounded-full">Play Again</button>
+        </div>
+    </div>
+
+    <!-- How to Play Modal -->
+    <div id="how-to-play-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-4xl w-full max-h-screen overflow-y-auto relative">
+            <button id="close-how-to-play-x" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 transition-colors">&times;</button>
+            <h2 class="text-3xl font-bold mb-6 text-cyan-300 card-title text-center">❓ How to Play Barbuda Rising</h2>
+            
+            <div class="space-y-6 text-gray-300">
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-cyan-300 mb-3">🎯 Objective</h3>
+                    <p>Build a complete business vision by drawing cards from four themed zones. Each zone contributes a different aspect to your innovative concept.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-green-300 mb-2">🌱 Seed Zone</h3>
+                        <p class="text-sm">Click to draw your initial business idea - this is your starting point!</p>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-yellow-300 mb-2">🌿 Nurture Zone</h3>
+                        <p class="text-sm">Add context and backstory to develop your concept with meaning.</p>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-blue-300 mb-2">⚡ Optimize Zone</h3>
+                        <p class="text-sm">Enhance and streamline your idea for maximum impact and efficiency.</p>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-purple-300 mb-2">🎨 Visualize Zone</h3>
+                        <p class="text-sm">Create tangible representations and marketing concepts.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-red-300 mb-3">📢 Gameplay Flow</h3>
+                    <ol class="list-decimal list-inside space-y-2 text-sm">
+                        <li>Click on each zone's deck to draw cards sequentially</li>
+                        <li>Read each card's prompt and let it inspire your thinking</li>
+                        <li>Use the "Refresh" button if you want to redraw any card</li>
+                        <li>Once all four cards are drawn, the <strong>Amplify Zone</strong> appears</li>
+                        <li>Write your complete business vision combining all four elements</li>
+                        <li>Submit to see your creative synthesis and earn rewards!</li>
+                    </ol>
+                </div>
+                
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-yellow-300 mb-3">🎮 Gamification Features</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div>
+                            <h4 class="font-bold text-cyan-300 mb-1">Points & XP</h4>
+                            <p>Earn points for drawing cards and XP for completing visions</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-orange-300 mb-1">Achievements</h4>
+                            <p>Unlock special badges for various accomplishments</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-green-300 mb-1">Daily Challenges</h4>
+                            <p>Complete special themed challenges for bonus rewards</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-purple-300 mb-3">💡 Tips for Success</h3>
+                    <ul class="list-disc list-inside space-y-1 text-sm">
+                        <li>Think creatively - there are no wrong combinations!</li>
+                        <li>Draw all cards without refreshing for a "Perfect Combo" achievement</li>
+                        <li>Write detailed visions (200+ characters) for bonus XP</li>
+                        <li>Complete games quickly for speed bonuses</li>
+                        <li>Check daily challenges for themed inspiration</li>
+                        <li>Build streaks by playing consecutive days</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button id="close-how-to-play" class="btn-primary font-bold py-3 px-8 rounded-full mt-8 w-full">Ready to Play!</button>
         </div>
     </div>
 
@@ -337,72 +430,227 @@
     <script>
         const decks = {
             seed: [
-                "A new sneaker brand", "A neighborhood park", "Hemp-based product", "A podcast about dreams",
-                "Community mural", "Eco-friendly food truck", "AI personal assistant for teens", "A rooftop garden",
-                "Pop-up bookstore", "Recycled fashion line", "Local farmers' co-op", "Interactive art festival",
-                "Smart bike helmet", "A mobile meditation booth", "Esports café", "Self-sustaining tiny home",
-                "Music mentorship program", "Solar-powered streetlights", "Dog park with AI toys", "Upcycled furniture brand",
-                "Kids coding camp", "AR city walking tour", "Blockchain-based charity fund", "Immersive theater show",
-                "Zero-waste grocery store", "Floating community center", "Plant-based skincare line", "Drone-powered delivery for seniors",
-                "Wellness retreat in the city", "Onchain scavenger hunt", "Musical instrument rental service", "Virtual classroom for elders",
-                "Streetwear NFT brand", "Smart vending machines", "Podcasting van", "Community kitchen hub",
-                "Skate park with solar panels", "Language learning game", "Mobile repair co-op", "Festival powered by bikes",
-                "Wearable health tracker jewelry", "Gamified fitness challenge", "Eco-conscious nightclub", "Podcast for kids",
-                "Floating garden barge", "Crypto-funded art residency", "Outdoor VR arena"
+                "What does self-reliance mean to you?",
+                "If Barbuda could teach the world one lesson, what would it be?",
+                "Name one thing you'd never trade about Barbuda's way of life.",
+                "When you hear sustainable luxury, what image pops into your mind?",
+                "What makes Barbuda home to you?",
+                "How would you define resilience in your own words?",
+                "What's the most important skill every Barbudan should learn?",
+                "If you could preserve one tradition forever, what would it be?",
+                "What does community strength look like to you?",
+                "Name something that makes you proud to be Barbudan.",
+                "What would sustainable living mean for Barbuda?",
+                "How do you want visitors to remember Barbuda?",
+                "What's your vision of Barbuda in 20 years?",
+                "What does economic independence mean for our island?",
+                "Name one natural resource we must protect above all.",
+                "What role should young people play in Barbuda's future?",
+                "How can we balance tradition with progress?",
+                "What would make Barbuda a model for other small islands?",
+                "What does 'owning our future' mean to you?",
+                "Name something we do better than anywhere else.",
+                "What's the foundation of a strong community?",
+                "How should we welcome change while staying true to ourselves?",
+                "What would make you most excited about Barbuda's future?",
+                "Name one thing that connects all Barbudans.",
+                "What does cultural preservation mean to you?",
+                "How can we ensure our children want to stay and build here?",
+                "What would sustainable tourism look like in Barbuda?",
+                "Name something about Barbuda that shouldn't change.",
+                "What's your definition of prosperity for our island?",
+                "How can we turn challenges into opportunities?",
+                "What makes Barbuda unique in the Caribbean?",
+                "Name one value that should guide all development here.",
+                "What would make Barbuda completely self-sufficient?",
+                "How do we honor our past while building our future?",
+                "What's the most important lesson Hurricane Irma taught us?",
+                "Name something that shows Barbuda's resilience.",
+                "What would make our community unbreakable?",
+                "How can we ensure everyone benefits from tourism?",
+                "What does environmental stewardship mean to you?",
+                "Name one thing that makes Barbuda special to visitors.",
+                "What's your vision for Barbuda's young entrepreneurs?",
+                "How can we make sure development serves Barbudans first?",
+                "What would make you confident in Barbuda's future?",
+                "Name something about our culture we should share more.",
+                "What does food security mean for Barbuda?",
+                "How can we create jobs that keep families together?",
+                "What would make Barbuda a place others want to learn from?",
+                "Name one strength we have that we don't use enough.",
+                "What does energy independence look like for our island?",
+                "How can we ensure our voice is heard in our development?",
+                "What would make Barbuda the best version of itself?",
+                "Name something that shows our community spirit."
             ],
             nurture: [
-                "Add a backstory about why it matters", "Name one resource it would need", "Connect it to a global issue",
-                "Add a personal memory", "Name a group it could empower", "Tell how it reduces stress",
-                "Link it to education", "Add a cultural influence", "Make it connect to nature", "Add a family-friendly angle",
-                "Tie it to history", "Make it seasonal", "Show how it helps a city", "Add a wellness benefit",
-                "Connect it to music", "Add a sports connection", "Make it youth-focused", "Tie it to local traditions",
-                "Add a mentor role", "Give it a hero story", "Connect it to art", "Show how it heals or repairs",
-                "Add a tech angle", "Tie it to community pride", "Make it mobile", "Add a festival vibe",
-                "Connect it to health", "Add a sustainability story", "Tie it to water or air", "Make it intergenerational",
-                "Add a storytelling angle", "Link it to fashion", "Connect it to science", "Tie it to spirituality",
-                "Add a food element", "Connect it to local businesses", "Make it global", "Make it neighborhood-focused",
-                "Add a play or game aspect", "Show how it creates jobs", "Tie it to joy and fun", "Make it activist-driven",
-                "Add a volunteer angle", "Connect it to digital culture", "Show how it saves time", "Add a personal testimony",
-                "Make it ritualistic"
+                "Tell a story of when the community came together and solved a problem.",
+                "Imagine you're welcoming visitors. What part of Barbuda do you show first, and why?",
+                "What could make working in tourism feel like ownership instead of service?",
+                "Draw or describe the kind of house you'd like to see more of in Barbuda.",
+                "Share a memory of a time when neighbors helped each other.",
+                "Describe what Barbuda looks like when everyone is thriving.",
+                "Tell about a tradition that brings the whole community together.",
+                "What would make young Barbudans excited to build their careers here?",
+                "Describe how elders and youth can work together on island projects.",
+                "Share a story about someone who embodies Barbuda's spirit.",
+                "What would make Barbuda a place where families can stay together?",
+                "Describe what community leadership looks like at its best.",
+                "Tell about a time when Barbuda showed the world its strength.",
+                "What would make every Barbudan feel valued and heard?",
+                "Describe what sustainable development means in practice here.",
+                "Share how we can honor our ancestors while building for the future.",
+                "Tell about what makes Barbuda's culture worth preserving.",
+                "What would make tourism benefit every household on the island?",
+                "Describe what food sovereignty could look like for Barbuda.",
+                "Share a vision of Barbuda as a model Caribbean community.",
+                "Tell how we can ensure land ownership stays in local hands.",
+                "What would make Barbuda's schools the best in the region?",
+                "Describe what environmental protection means in daily life.",
+                "Share how local businesses can thrive alongside tourism.",
+                "Tell about what makes Barbuda's natural beauty special.",
+                "What would make healthcare accessible to every Barbudan?",
+                "Describe how we can prepare for climate challenges together.",
+                "Share what makes Barbuda's fishing heritage important today.",
+                "Tell how renewable energy could transform our island.",
+                "What would make Barbuda a place of innovation and creativity?",
+                "Describe what community ownership of resources looks like.",
+                "Share how we can keep our culture alive for future generations.",
+                "Tell what makes Barbuda's approach to hospitality unique.",
+                "What would make every voice count in island decisions?",
+                "Describe how we can build without losing our character.",
+                "Share what makes Barbuda's relationship with nature special.",
+                "Tell how we can create prosperity that includes everyone.",
+                "What would make Barbuda completely prepared for any storm?",
+                "Describe what education rooted in local knowledge looks like.",
+                "Share how artists and creators can contribute to island life.",
+                "Tell about what makes Barbuda's work ethic distinctive.",
+                "What would make transportation work for every part of the island?",
+                "Describe how we can grow food that feeds the community.",
+                "Share what makes Barbuda's festivals and celebrations meaningful.",
+                "Tell how technology can serve our traditional ways of life.",
+                "What would make Barbuda a place where creativity flourishes?",
+                "Describe how we can build homes that withstand any weather.",
+                "Share what makes community gatherings important for island life.",
+                "Tell how we can ensure clean water for every generation.",
+                "What would make Barbuda proof against economic uncertainty?",
+                "Describe what makes working together our greatest strength.",
+                "Share how we can welcome change while protecting what matters most."
             ],
             optimize: [
-                "Add AI automation", "Cut costs by half", "Make it solar-powered", "Add blockchain for trust",
-                "Scale it globally", "Make it subscription-based", "Add gamification", "Optimize supply chain",
-                "Partner with schools", "Reduce waste", "Add open-source collaboration", "Create a digital twin",
-                "Add predictive analytics", "Localize it for different cultures", "Add real-time feedback", "Cut steps from process",
-                "Add AR/VR", "Add personalization", "Build loyalty rewards", "Make it crowdfundable",
-                "Add self-service", "Make it voice-activated", "Add community voting", "Use recycled materials",
-                "Automate marketing", "Add referral program", "Streamline with QR codes", "Add delivery or pickup options",
-                "Tie to existing platforms", "Reduce energy consumption", "Add sponsorship model", "Create modular design",
-                "Add smart contracts", "Optimize for accessibility", "Add data insights dashboard", "Create tiers of engagement",
-                "Add live streaming", "Reduce carbon footprint", "Add mobile-first experience", "Create an API for others",
-                "Make it hackathon-friendly", "Add plug-and-play features", "Build a marketplace layer", "Simplify sign-up process",
-                "Add AI agents", "Connect to wearable tech", "Add hybrid virtual/in-person model"
+                "Rank which matters most for Barbuda's future: Jobs, Land, Environment, Education, Tourism.",
+                "How could Barbuda ensure outsiders investing here leave positive footprints?",
+                "What's the smallest change today that would make recovery feel faster?",
+                "Circle the overlaps: What benefits can both locals and tourists share at once?",
+                "Which three skills should every young Barbudan graduate with?",
+                "How can we turn our greatest challenge into our greatest opportunity?",
+                "What would make Barbuda's voice stronger in regional decisions?",
+                "Prioritize: Community ownership, job creation, environmental protection, cultural preservation.",
+                "How can we ensure tourism money stays and circulates locally?",
+                "What's one regulation that would protect Barbudans without hurting business?",
+                "How could we make renewable energy profitable for families?",
+                "What partnerships would serve Barbuda's interests first?",
+                "How can we build climate resilience while creating jobs?",
+                "What would make young entrepreneurs choose Barbuda over migration?",
+                "How could we turn traditional knowledge into economic advantage?",
+                "What's the fastest way to increase local food production?",
+                "How can we ensure development projects benefit residents long-term?",
+                "What would make Barbuda a regional hub for what industry?",
+                "How could we create jobs that don't depend on tourist seasons?",
+                "What's one policy change that would strengthen community ownership?",
+                "How can we balance welcoming investment with protecting sovereignty?",
+                "What would make Barbuda's infrastructure truly hurricane-proof?",
+                "How could we turn cultural heritage into sustainable income?",
+                "What's the most important thing to negotiate in any development deal?",
+                "How can we ensure equal access to economic opportunities island-wide?",
+                "What would make Barbuda self-sufficient in energy within 10 years?",
+                "How could we create wealth that stays in Barbuda for generations?",
+                "What's one system that would help local businesses compete better?",
+                "How can we make sure technology serves our community goals?",
+                "What would turn Barbuda's size from limitation to advantage?",
+                "How could we create multiple income streams for every household?",
+                "What's the key to making tourism truly community-controlled?",
+                "How can we build local supply chains that support each other?",
+                "What would make Barbuda attractive to the right kind of investors?",
+                "How could we turn environmental protection into job creation?",
+                "What's one change that would make healthcare affordable for all?",
+                "How can we ensure every development project includes skills training?",
+                "What would make Barbuda a model of sustainable island living?",
+                "How could we create financing systems that serve local needs?",
+                "What's the best way to prepare for economic changes beyond our control?",
+                "How can we make education directly relevant to island opportunities?",
+                "What would make Barbuda's fishing industry sustainable and profitable?",
+                "How could we turn waste into resources and income?",
+                "What's one innovation that could transform daily life here?",
+                "How can we ensure water security while supporting development?",
+                "What would make transportation affordable and accessible to all?",
+                "How could we create markets for locally-made products?",
+                "What's the key to balancing growth with environmental protection?",
+                "How can we build resilient communities that support each other?",
+                "What would make Barbuda's recovery a model for other islands?",
+                "How could we ensure every major decision reflects community values?",
+                "What's one strategy that would strengthen Barbuda for any future crisis?"
             ],
             visualize: [
-                "Write a 5-word slogan", "Draw or describe a logo", "Pitch it like a startup",
-                "Make a quick jingle/chant", "Sketch the first customer", "Name the flagship product",
-                "Write a 30-second ad script", "Act out a user interaction", "Design a collectible version",
-                "Create a social media post", "Write the first press headline", "Create a meme for it",
-                "Draw the physical space", "Write its theme song title", "Roleplay the first customer review",
-                "Create a mascot", "Write a tweet thread starter", "Make a TikTok challenge idea",
-                "Imagine its first billboard", "Draft a press release title", "Create its mobile app splash screen",
-                "Name the launch event", "Create a fictional testimonial", "Draw the packaging",
-                "Describe its website homepage", "Write a short brand manifesto", "Create a character that uses it",
-                "Imagine the first news clip", "Write a product haiku", "Design a futuristic prototype sketch",
-                "Draft a loyalty program idea", "Name the first sponsor/partner", "Write an elevator pitch",
-                "Create its first AR filter", "Make up a commercial tagline", "Design its uniforms or merch",
-                "Write its first 1-star review", "Roleplay the founder speech", "Create the crowdfunding pitch title",
-                "Design a limited-edition version", "Write the opening scene of its movie", "Create a meme reaction for it",
-                "Draw its app icon", "Write the first podcast ad read", "Name its community hub",
-                "Create the launch party invite", "Make the first billboard slogan"
+                "Take a picture of something that symbolizes resilience in Barbuda.",
+                "Place a pin on where you'd build a community-owned eco-lodge.",
+                "Design a slogan that mixes pride + sustainability (e.g., 'Barbuda Together: Roots + Future').",
+                "What song, dish, or dance should always be part of the tourist experience? Write or draw it.",
+                "Create a sketch of your ideal sustainable Barbuda home.",
+                "Design a logo that represents Barbuda's future you want to see.",
+                "Draw a map showing how tourists and locals can share spaces harmoniously.",
+                "Create a poster for a skill-sharing festival in Barbuda.",
+                "Sketch what the perfect community meeting looks like.",
+                "Design a flag that represents Barbuda's resilience and hope.",
+                "Create a photo series showing 'Barbuda Rising' in daily life.",
+                "Draw your vision of Barbuda's main street in 2035.",
+                "Design signage for a community-owned renewable energy project.",
+                "Create a storyboard showing how visitors learn about local culture.",
+                "Sketch the layout for a community garden that feeds families.",
+                "Design a monument celebrating Barbuda's recovery and strength.",
+                "Create an infographic showing local economic flow you'd like to see.",
+                "Draw what a hurricane-proof community center would look like.",
+                "Design a mural celebrating Barbuda's fishing and maritime heritage.",
+                "Create a photo essay of 'Hands that Build Barbuda'.",
+                "Sketch a design for locally-made products that tourists would love.",
+                "Draw your vision of sustainable transportation around the island.",
+                "Create a postcard series showing the 'Real Barbuda' experience.",
+                "Design a community notice board that brings people together.",
+                "Sketch what education looks like when it's rooted in local knowledge.",
+                "Create a diagram of how renewable energy could power every home.",
+                "Draw a festival layout that celebrates both culture and sustainability.",
+                "Design packaging for 'Made in Barbuda' products.",
+                "Create a walking trail map that tells Barbuda's story to visitors.",
+                "Sketch what a community-controlled tourism welcome center looks like.",
+                "Design a calendar celebrating Barbuda's seasons and traditions.",
+                "Create a vision board for young Barbudans' career possibilities.",
+                "Draw what food sovereignty looks like in Barbuda kitchens.",
+                "Design a community brand that makes everyone proud.",
+                "Sketch what climate resilience looks like in daily island life.",
+                "Create a photo story of 'Innovation Meets Tradition' in Barbuda.",
+                "Draw a blueprint for affordable, hurricane-resistant housing.",
+                "Design a community dashboard showing collective progress and goals.",
+                "Create a cookbook cover celebrating Barbuda's food culture.",
+                "Sketch what public spaces look like when they serve everyone.",
+                "Design merchandise that funds community projects.",
+                "Draw what success looks like for Barbuda's next generation.",
+                "Create a social media campaign celebrating local achievements.",
+                "Sketch the perfect setup for community skills workshops.",
+                "Design a welcome package for visitors that educates and inspires.",
+                "Draw what 'Barbuda ownership' looks like in practice.",
+                "Create a timeline mural showing Barbuda's journey from recovery to leadership.",
+                "Sketch what community wealth-building looks like.",
+                "Design a local currency or reward system that keeps money local.",
+                "Create a vision of how elders and youth collaborate on island future.",
+                "Draw what makes Barbuda a place the world wants to learn from.",
+                "Design a celebration that honors both progress and preservation."
             ]
         };
 
         const icons = {
             seed: '🌱',
             nurture: '🌿',
-            optimize: '⚡',
+            optimize: '⚙️',
             visualize: '🎨'
         };
 
@@ -430,30 +678,30 @@
 
         // Achievements Definition
         const achievementsList = [
-            { id: 'first_game', title: 'First Vision', description: 'Complete your first N.O.V.A. challenge', xp: 50, icon: '🎯' },
-            { id: 'streak_3', title: 'On Fire', description: 'Complete 3 games in a row', xp: 100, icon: '🔥' },
-            { id: 'streak_7', title: 'Week Warrior', description: 'Complete 7 games in a row', xp: 200, icon: '⚡' },
-            { id: 'level_5', title: 'Rising Star', description: 'Reach level 5', xp: 150, icon: '⭐' },
-            { id: 'level_10', title: 'Innovation Master', description: 'Reach level 10', xp: 300, icon: '👑' },
-            { id: 'cards_100', title: 'Card Collector', description: 'Draw 100 cards total', xp: 100, icon: '🃏' },
-            { id: 'daily_champion', title: 'Daily Champion', description: 'Complete a daily challenge', xp: 200, icon: '🏆' },
-            { id: 'speed_demon', title: 'Speed Demon', description: 'Complete a game in under 2 minutes', xp: 150, icon: '💨' },
-            { id: 'wordsmith', title: 'Wordsmith', description: 'Write a vision with over 200 characters', xp: 100, icon: '✍️' },
-            { id: 'perfect_combo', title: 'Perfect Combo', description: 'Draw all 4 cards without refreshing', xp: 250, icon: '💎' }
+            { id: 'first_game', title: 'First Vision', description: 'Complete your first Barbuda Rising challenge', xp: 50, icon: '🎯' },
+            { id: 'streak_3', title: 'Community Builder', description: 'Complete 3 visioning sessions in a row', xp: 100, icon: '🔥' },
+            { id: 'streak_7', title: 'Island Leader', description: 'Complete 7 visioning sessions in a row', xp: 200, icon: '🏛️' },
+            { id: 'level_5', title: 'Rising Voice', description: 'Reach level 5 in community engagement', xp: 150, icon: '⭐' },
+            { id: 'level_10', title: 'Visionary Leader', description: 'Reach level 10 in community visioning', xp: 300, icon: '👑' },
+            { id: 'cards_100', title: 'Community Connector', description: 'Engage with 100 visioning prompts', xp: 100, icon: '🤝' },
+            { id: 'daily_champion', title: 'Daily Champion', description: 'Complete a daily community challenge', xp: 200, icon: '🏆' },
+            { id: 'speed_demon', title: 'Quick Thinker', description: 'Complete a vision in under 2 minutes', xp: 150, icon: '💨' },
+            { id: 'wordsmith', title: 'Vision Weaver', description: 'Craft a detailed community vision (200+ characters)', xp: 100, icon: '✍️' },
+            { id: 'perfect_combo', title: 'Perfect Unity', description: 'Create a vision without redrawing any cards', xp: 250, icon: '💎' }
         ];
 
         // Daily Challenges
         const dailyChallenges = [
-            "Focuses on sustainability and environmental impact",
-            "Involves community collaboration and social good", 
-            "Uses cutting-edge technology (AI, blockchain, AR/VR)",
-            "Targets Gen Z or younger demographics",
-            "Solves a problem in urban environments",
-            "Combines physical and digital experiences",
-            "Focuses on health and wellness benefits",
-            "Has a global reach and scalability",
-            "Incorporates elements of gamification",
-            "Addresses accessibility and inclusion"
+            "Centers community ownership and local control",
+            "Strengthens Barbuda's resilience against climate change",
+            "Creates sustainable jobs that keep families together", 
+            "Preserves cultural heritage while embracing innovation",
+            "Ensures tourism benefits flow to local households",
+            "Builds food security and local self-sufficiency",
+            "Empowers young Barbudans to lead their island's future",
+            "Protects natural resources for future generations",
+            "Fosters collaboration between elders and youth",
+            "Demonstrates how small islands can lead global change"
         ];
 
         let drawnCards = {
@@ -752,64 +1000,139 @@
             document.getElementById('alert-modal').style.display = 'none';
         });
 
-        document.getElementById('submit-vision').addEventListener('click', () => {
-            const visionText = document.getElementById('vision-input').value;
-            if (visionText.trim() === '') {
-                showAlert('Please share your vision before submitting.');
+        // Function to show submission status
+        function showSubmissionStatus(message, isSuccess = true) {
+            const statusElement = document.getElementById('submission-status');
+            statusElement.textContent = message;
+            statusElement.className = `p-3 rounded-lg text-sm font-medium ${isSuccess ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'}`;
+            statusElement.classList.remove('hidden');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                statusElement.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Function to submit vision to backend
+        async function submitVisionToBackend(email, visionText, cards) {
+            try {
+                const response = await fetch('/api/save-vision', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        vision: visionText,
+                        cards: cards,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSubmissionStatus('✅ Vision saved successfully! Thank you for contributing to Barbuda\'s future.', true);
+                    return true;
+                } else {
+                    showSubmissionStatus(`❌ Error: ${result.error}`, false);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                showSubmissionStatus('❌ Network error. Please check your connection and try again.', false);
+                return false;
+            }
+        }
+
+        document.getElementById('vision-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('email-input');
+            const visionInput = document.getElementById('vision-input');
+            const submitButton = document.getElementById('submit-vision');
+            
+            const email = emailInput.value.trim();
+            const visionText = visionInput.value.trim();
+
+            // Validate inputs
+            if (!email || !visionText) {
+                showSubmissionStatus('❌ Please fill in both email and vision fields.', false);
                 return;
             }
 
-            const gameTime = Date.now() - gameStartTime;
-            const completionBonus = Math.max(100, 500 - Math.floor(gameTime / 1000) * 5); // Bonus for speed
-            const visionBonus = Math.floor(visionText.length / 10) * 5; // Bonus for detailed vision
-            const streakBonus = gameState.streak * 50;
-            
-            const totalPoints = completionBonus + visionBonus + streakBonus;
-            const totalXP = 100 + (visionText.length > 200 ? 50 : 0);
-
-            // Update streak
-            const today = new Date().toDateString();
-            if (gameState.lastPlayDate === today) {
-                // Same day, no streak change
-            } else {
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                if (gameState.lastPlayDate === yesterday.toDateString()) {
-                    gameState.streak++;
-                } else {
-                    gameState.streak = 1;
-                }
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showSubmissionStatus('❌ Please enter a valid email address.', false);
+                return;
             }
-            gameState.lastPlayDate = today;
-            gameState.gamesCompleted++;
 
-            // Check achievements
-            if (gameState.gamesCompleted === 1) unlockAchievement('first_game');
-            if (gameState.streak === 3) unlockAchievement('streak_3');
-            if (gameState.streak === 7) unlockAchievement('streak_7');
-            if (gameTime < 120000) unlockAchievement('speed_demon'); // Under 2 minutes
-            if (visionText.length > 200) unlockAchievement('wordsmith');
+            // Disable button during submission
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
 
-            // Check daily challenge
-            checkDailyChallenge(visionText);
+            // Submit to backend
+            const submitted = await submitVisionToBackend(email, visionText, drawnCards);
 
-            // Add rewards
-            addPoints(totalPoints);
-            addXP(totalXP);
+            // Re-enable button
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Vision';
 
-            // Update modal with rewards
-            document.getElementById('reward-points').textContent = totalPoints;
-            document.getElementById('reward-xp').textContent = totalXP;
+            if (submitted) {
+                // Continue with game logic
+                const gameTime = Date.now() - gameStartTime;
+                const completionBonus = Math.max(100, 500 - Math.floor(gameTime / 1000) * 5);
+                const visionBonus = Math.floor(visionText.length / 10) * 5;
+                const streakBonus = gameState.streak * 50;
+                
+                const totalPoints = completionBonus + visionBonus + streakBonus;
+                const totalXP = 100 + (visionText.length > 200 ? 50 : 0);
 
-            document.getElementById('modal-seed').textContent = drawnCards.seed;
-            document.getElementById('modal-nurture').textContent = drawnCards.nurture;
-            document.getElementById('modal-optimize').textContent = drawnCards.optimize;
-            document.getElementById('modal-visualize').textContent = drawnCards.visualize;
-            document.getElementById('modal-vision').textContent = visionText;
+                // Update streak
+                const today = new Date().toDateString();
+                if (gameState.lastPlayDate === today) {
+                    // Same day, no streak change
+                } else {
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    if (gameState.lastPlayDate === yesterday.toDateString()) {
+                        gameState.streak++;
+                    } else {
+                        gameState.streak = 1;
+                    }
+                }
+                gameState.lastPlayDate = today;
+                gameState.gamesCompleted++;
 
-            document.getElementById('result-modal').style.display = 'flex';
+                // Check achievements
+                if (gameState.gamesCompleted === 1) unlockAchievement('first_game');
+                if (gameState.streak === 3) unlockAchievement('streak_3');
+                if (gameState.streak === 7) unlockAchievement('streak_7');
+                if (gameTime < 120000) unlockAchievement('speed_demon');
+                if (visionText.length > 200) unlockAchievement('wordsmith');
 
-            saveGameState();
+                // Check daily challenge
+                checkDailyChallenge(visionText);
+
+                // Add rewards
+                addPoints(totalPoints);
+                addXP(totalXP);
+
+                // Update modal with rewards
+                document.getElementById('reward-points').textContent = totalPoints;
+                document.getElementById('reward-xp').textContent = totalXP;
+
+                document.getElementById('modal-seed').textContent = drawnCards.seed;
+                document.getElementById('modal-nurture').textContent = drawnCards.nurture;
+                document.getElementById('modal-optimize').textContent = drawnCards.optimize;
+                document.getElementById('modal-visualize').textContent = drawnCards.visualize;
+                document.getElementById('modal-vision').textContent = visionText;
+
+                document.getElementById('result-modal').style.display = 'flex';
+
+                saveGameState();
+            }
         });
 
         document.getElementById('restart-game').addEventListener('click', () => {
@@ -827,6 +1150,8 @@
 
             document.getElementById('amplify-zone').classList.add('hidden');
             document.getElementById('vision-input').value = '';
+            document.getElementById('email-input').value = '';
+            document.getElementById('submission-status').classList.add('hidden');
             document.getElementById('result-modal').style.display = 'none';
             
             gameStartTime = null;
@@ -857,6 +1182,18 @@
 
         document.getElementById('close-leaderboard').addEventListener('click', () => {
             document.getElementById('leaderboard-modal').style.display = 'none';
+        });
+
+        document.getElementById('how-to-play-btn').addEventListener('click', () => {
+            document.getElementById('how-to-play-modal').style.display = 'flex';
+        });
+
+        document.getElementById('close-how-to-play').addEventListener('click', () => {
+            document.getElementById('how-to-play-modal').style.display = 'none';
+        });
+
+        document.getElementById('close-how-to-play-x').addEventListener('click', () => {
+            document.getElementById('how-to-play-modal').style.display = 'none';
         });
 
         function showAchievements() {
