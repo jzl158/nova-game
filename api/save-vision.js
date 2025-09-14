@@ -1,7 +1,7 @@
 // Vercel serverless function for saving community visions
-// Since Vercel is read-only, we'll use a simple in-memory storage for demo
+// NOTE: Vercel serverless functions are stateless - each request is independent
 // In production, you'd want to use a database like Vercel KV, PlanetScale, or Supabase
-let visions = [];
+// For now, we'll just acknowledge the submission without persistent storage
 
 module.exports = async function handler(req, res) {
     // Enable CORS
@@ -54,21 +54,22 @@ module.exports = async function handler(req, res) {
             ip: req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'unknown'
         };
 
-        // Add to in-memory storage (in production, save to database)
-        visions.push(newVision);
-
-        console.log(`New vision saved from ${email} at ${timestamp}`);
-        console.log(`Total visions collected: ${visions.length}`);
+        // Log the submission (Vercel functions are stateless, so no persistent storage here)
+        console.log(`Vision received from ${email} at ${timestamp}`);
+        console.log(`Vision preview: ${vision.substring(0, 100)}...`);
 
         // In production, you would save to a database here
-        // Example with Vercel KV:
-        // await kv.lpush('visions', JSON.stringify(newVision));
+        // Example options:
+        // - Vercel KV: await kv.lpush('visions', JSON.stringify(newVision));  
+        // - Supabase: await supabase.from('visions').insert(newVision);
+        // - PlanetScale: await db.execute('INSERT INTO visions...');
 
         res.status(200).json({ 
             success: true, 
-            message: 'Vision saved successfully!',
+            message: 'Vision received successfully! (Demo mode - use a database for production)',
             id: newVision.id,
-            total: visions.length
+            timestamp: timestamp,
+            note: 'This demo acknowledges submissions but does not persist data. Connect a database for production use.'
         });
 
     } catch (error) {
