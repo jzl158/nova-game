@@ -1,12 +1,9 @@
 // Vercel serverless function for saving community visions
-import { promises as fs } from 'fs';
-import path from 'path';
-
 // Since Vercel is read-only, we'll use a simple in-memory storage for demo
 // In production, you'd want to use a database like Vercel KV, PlanetScale, or Supabase
 let visions = [];
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -54,7 +51,7 @@ export default async function handler(req, res) {
             vision,
             cards: cards || {},
             timestamp,
-            ip: req.headers['x-forwarded-for'] || req.connection?.remoteAddress || 'unknown'
+            ip: req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'unknown'
         };
 
         // Add to in-memory storage (in production, save to database)
