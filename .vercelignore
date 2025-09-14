@@ -1,5 +1,9 @@
 server.js
+package.json
+package-lock.json
 node_modules
 visions.json
 *.log
 .env*
+README.md
+CLAUDE.md
