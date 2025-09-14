@@ -20,6 +20,7 @@
         <h3>API Endpoint Tests</h3>
         <button onclick="testEndpoint('/api/test')">Test /api/test</button>
         <button onclick="testEndpoint('/api/health')">Test /api/health</button>
+        <button onclick="testNotionConnection()">Test Notion Connection</button>
         <button onclick="testVisionSave()">Test Vision Save</button>
         <div id="results"></div>
     </div>
@@ -118,6 +119,36 @@
                 }
             } catch (error) {
                 resultsDiv.innerHTML = `<p class="error">❌ Network error: ${error.message}</p>`;
+            }
+        }
+
+        async function testNotionConnection() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += '<p>Testing Notion connection...</p>';
+            
+            try {
+                const response = await fetch('/api/notion-test');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultsDiv.innerHTML += '<p class="success">✅ Notion Test: COMPLETED</p>';
+                    resultsDiv.innerHTML += `<pre style="max-height: 400px; overflow-y: auto;">${JSON.stringify(data, null, 2)}</pre>`;
+                    
+                    // Show specific status
+                    if (data.page_creation_test && data.page_creation_test.status === 'success') {
+                        resultsDiv.innerHTML += '<p class="success">🎉 Notion integration is working perfectly!</p>';
+                    } else if (data.database_access_test && data.database_access_test.status === 'failed') {
+                        resultsDiv.innerHTML += '<p class="error">❌ Database access issue - check database ID and sharing</p>';
+                    } else if (data.error_details) {
+                        resultsDiv.innerHTML += `<p class="error">❌ ${data.error_details}</p>`;
+                    }
+                } else {
+                    resultsDiv.innerHTML += `<p class="error">❌ Notion Test: Status ${response.status}</p>`;
+                    resultsDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += '<p class="error">❌ Notion Test: Network Error</p>';
+                resultsDiv.innerHTML += `<pre>${error.message}</pre>`;
             }
         }
 
