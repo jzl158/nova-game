@@ -1,7 +1,12 @@
-// Vercel serverless function for saving community visions
-// NOTE: Vercel serverless functions are stateless - each request is independent
-// In production, you'd want to use a database like Vercel KV, PlanetScale, or Supabase
-// For now, we'll just acknowledge the submission without persistent storage
+// Vercel serverless function for saving community visions to Notion
+const { Client } = require('@notionhq/client');
+
+// Initialize Notion client
+const notion = new Client({
+    auth: process.env.NOTION_TOKEN,
+});
+
+const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
 
 module.exports = async function handler(req, res) {
     // Enable CORS
@@ -44,39 +49,145 @@ module.exports = async function handler(req, res) {
             });
         }
 
-        // Create new vision entry
-        const newVision = {
-            id: Date.now().toString(),
-            email,
-            vision,
-            cards: cards || {},
-            timestamp,
-            ip: req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'unknown'
-        };
+        // Check if Notion is configured
+        if (!process.env.NOTION_TOKEN || !NOTION_DATABASE_ID) {
+            console.log('Notion not configured, logging submission locally');
+            console.log(`Vision received from ${email} at ${timestamp}`);
+            console.log(`Vision preview: ${vision.substring(0, 100)}...`);
+            
+            return res.status(200).json({ 
+                success: true, 
+                message: 'Vision received! (Notion database not configured - check environment variables)',
+                timestamp: timestamp,
+                note: 'Add NOTION_TOKEN and NOTION_DATABASE_ID to environment variables for persistent storage.'
+            });
+        }
 
-        // Log the submission (Vercel functions are stateless, so no persistent storage here)
-        console.log(`Vision received from ${email} at ${timestamp}`);
-        console.log(`Vision preview: ${vision.substring(0, 100)}...`);
+        // Create vision title from first 50 characters
+        const visionTitle = vision.length > 50 
+            ? vision.substring(0, 50) + '...' 
+            : vision;
 
-        // In production, you would save to a database here
-        // Example options:
-        // - Vercel KV: await kv.lpush('visions', JSON.stringify(newVision));  
-        // - Supabase: await supabase.from('visions').insert(newVision);
-        // - PlanetScale: await db.execute('INSERT INTO visions...');
+        // Save to Notion database
+        const notionResponse = await notion.pages.create({
+            parent: {
+                database_id: NOTION_DATABASE_ID,
+            },
+            properties: {
+                'Title': {
+                    title: [
+                        {
+                            text: {
+                                content: `Vision from ${email.split('@')[0]} - ${new Date(timestamp).toLocaleDateString()}`
+                            }
+                        }
+                    ]
+                },
+                'Email': {
+                    email: email
+                },
+                'Vision': {
+                    rich_text: [
+                        {
+                            text: {
+                                content: vision
+                            }
+                        }
+                    ]
+                },
+                'Seed Card': {
+                    rich_text: [
+                        {
+                            text: {
+                                content: cards?.seed || 'Not provided'
+                            }
+                        }
+                    ]
+                },
+                'Nurture Card': {
+                    rich_text: [
+                        {
+                            text: {
+                                content: cards?.nurture || 'Not provided'
+                            }
+                        }
+                    ]
+                },
+                'Optimize Card': {
+                    rich_text: [
+                        {
+                            text: {
+                                content: cards?.optimize || 'Not provided'
+                            }
+                        }
+                    ]
+                },
+                'Visualize Card': {
+                    rich_text: [
+                        {
+                            text: {
+                                content: cards?.visualize || 'Not provided'
+                            }
+                        }
+                    ]
+                },
+                'Timestamp': {
+                    date: {
+                        start: timestamp
+                    }
+                },
+                'IP Address': {
+                    rich_text: [
+                        {
+                            text: {
+                                content: req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'unknown'
+                            }
+                        }
+                    ]
+                },
+                'Status': {
+                    select: {
+                        name: 'New'
+                    }
+                }
+            }
+        });
+
+        console.log(`Vision saved to Notion from ${email} at ${timestamp}`);
+        console.log(`Notion page ID: ${notionResponse.id}`);
 
         res.status(200).json({ 
             success: true, 
-            message: 'Vision received successfully! (Demo mode - use a database for production)',
-            id: newVision.id,
+            message: 'Vision saved successfully to Barbuda Rising database!',
+            id: notionResponse.id,
             timestamp: timestamp,
-            note: 'This demo acknowledges submissions but does not persist data. Connect a database for production use.'
+            note: 'Your vision has been recorded and will be reviewed by the community development team.'
         });
 
     } catch (error) {
-        console.error('Error saving vision:', error);
+        console.error('Error saving vision to Notion:', error);
+        
+        // Provide helpful error messages
+        if (error.code === 'unauthorized') {
+            return res.status(500).json({ 
+                success: false, 
+                error: 'Database connection error. Please contact support.',
+                details: 'Notion integration not properly configured.'
+            });
+        }
+        
+        if (error.code === 'object_not_found') {
+            return res.status(500).json({ 
+                success: false, 
+                error: 'Database configuration error. Please contact support.',
+                details: 'Notion database not found or not shared with integration.'
+            });
+        }
+
         res.status(500).json({ 
             success: false, 
-            error: 'Failed to save vision. Please try again.' 
+            error: 'Failed to save vision. Please try again or contact support if the problem persists.',
+            details: error.message
         });
     }
 }
