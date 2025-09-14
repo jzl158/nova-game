@@ -1016,6 +1016,7 @@
         // Function to submit vision to backend
         async function submitVisionToBackend(email, visionText, cards) {
             try {
+                // Try the main API endpoint
                 const response = await fetch('/api/save-vision', {
                     method: 'POST',
                     headers: {
@@ -1029,6 +1030,10 @@
                     })
                 });
 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
                 const result = await response.json();
                 
                 if (result.success) {
@@ -1040,7 +1045,15 @@
                 }
             } catch (error) {
                 console.error('Submission error:', error);
-                showSubmissionStatus('❌ Network error. Please check your connection and try again.', false);
+                
+                // Provide more specific error messages
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    showSubmissionStatus('❌ Network error. Please check your internet connection and try again.', false);
+                } else if (error.message.includes('500')) {
+                    showSubmissionStatus('❌ Server error. The development team has been notified. Please try again later.', false);
+                } else {
+                    showSubmissionStatus('❌ Unable to save vision. Please try again or contact support if the problem persists.', false);
+                }
                 return false;
             }
         }

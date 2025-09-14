@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The N.O.V.A. Challenge - NFL × Crypto Edition</title>
+    <title>Barbuda Rising: Community Visioning Challenge</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            background-color: #1a1a1a;
             color: #f0f0f0;
         }
         .card {
-            background: linear-gradient(135deg, #1e293b, #334155);
-            border: 2px solid #3b82f6;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
             min-height: 240px;
@@ -23,9 +23,8 @@
             justify-content: space-between;
         }
         .card:hover {
-            transform: translateY(-10px) rotate(1deg);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
-            border-color: #fbbf24;
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 255, 255, 0.2);
         }
         .card-deck {
             perspective: 1000px;
@@ -61,39 +60,26 @@
             line-height: 1;
         }
         .playmat-zone {
-            background: rgba(59, 130, 246, 0.1);
-            border: 2px dashed #3b82f6;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px dashed #444;
             min-height: 280px;
-            backdrop-filter: blur(10px);
         }
         .selected-card {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
-            border-color: #fbbf24;
+            box-shadow: 0 0 25px rgba(0, 255,255, 0.3);
+            border-color: #00ffff;
         }
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            transition: all 0.3s;
-            border: 1px solid #2563eb;
+            background-color: #00ffff;
+            color: #1a1a1a;
+            transition: background-color 0.3s, transform 0.3s;
         }
         .btn-primary:hover {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
+            background-color: #00d0d0;
             transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
         }
         .modal {
-            background-color: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
-        }
-        
-        /* NFL Theme Styling */
-        .nfl-gradient {
-            background: linear-gradient(135deg, #1a472a 0%, #16a34a 50%, #fbbf24 100%);
-        }
-        
-        .crypto-gradient {
-            background: linear-gradient(135deg, #7c3aed 0%, #3b82f6 50%, #fbbf24 100%);
+            background-color: rgba(0,0,0,0.8);
         }
         
         /* Gamification Styles */
@@ -126,12 +112,12 @@
         }
         
         .xp-bar {
-            background: linear-gradient(90deg, #fbbf24, #f59e0b, #d97706);
+            background: linear-gradient(90deg, #00ffff, #0099ff, #6600ff);
             transition: width 0.8s ease-out;
         }
         
         .level-badge {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
             color: #1a1a1a;
             text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
@@ -146,9 +132,9 @@
             margin: 0.25rem;
         }
         
-        .badge-bronze { background: linear-gradient(135deg, #cd7f32, #b8860b); }
-        .badge-silver { background: linear-gradient(135deg, #c0c0c0, #a8a8a8); }
-        .badge-gold { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #1a1a1a; }
+        .badge-bronze { background-color: #cd7f32; }
+        .badge-silver { background-color: #c0c0c0; }
+        .badge-gold { background-color: #ffd700; color: #1a1a1a; }
         .badge-platinum { background: linear-gradient(135deg, #e5e4e2, #fff); color: #1a1a1a; }
         
         .combo-multiplier {
@@ -159,53 +145,44 @@
             0% { transform: scale(1); }
             100% { transform: scale(1.1); }
         }
-        
-        .field-lines {
-            background-image: 
-                linear-gradient(90deg, rgba(59, 130, 246, 0.2) 1px, transparent 1px),
-                linear-gradient(rgba(59, 130, 246, 0.2) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
     </style>
 </head>
-<body class="min-h-screen p-4 sm:p-8 field-lines">
+<body class="min-h-screen p-4 sm:p-8">
     <div class="container mx-auto">
 
         <!-- Gamification Header -->
-        <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-4 mb-6 flex flex-wrap justify-between items-center border border-blue-500">
+        <div class="bg-gray-800 rounded-lg p-4 mb-6 flex flex-wrap justify-between items-center">
             <div class="flex items-center space-x-6">
                 <div class="level-badge px-3 py-1 rounded-full font-bold">
-                    Level <span id="player-level">1</span> GM
+                    Level <span id="player-level">1</span>
                 </div>
                 <div class="flex items-center space-x-2">
-                    <span class="text-yellow-300 font-semibold">💰 <span id="total-points">0</span></span>
-                    <span class="text-orange-400 font-semibold">🔥 <span id="streak-count">0</span></span>
+                    <span class="text-cyan-300 font-semibold">🏆 <span id="total-points">0</span></span>
+                    <span class="text-yellow-300 font-semibold">🔥 <span id="streak-count">0</span></span>
                 </div>
                 <div class="flex-1 max-w-xs">
-                    <div class="bg-slate-600 rounded-full h-3 overflow-hidden">
+                    <div class="bg-gray-700 rounded-full h-3 overflow-hidden">
                         <div id="xp-bar" class="xp-bar h-full rounded-full" style="width: 0%"></div>
                     </div>
-                    <div class="text-xs text-gray-200 mt-1">
+                    <div class="text-xs text-gray-400 mt-1">
                         <span id="current-xp">0</span> / <span id="xp-needed">100</span> XP
                     </div>
                 </div>
             </div>
             <div class="flex space-x-2 mt-2 sm:mt-0">
-                <button id="achievements-btn" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm">🏆 Hall of Fame</button>
-                <button id="daily-challenge-btn" class="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded text-sm">⭐ Daily Play</button>
-                <button id="leaderboard-btn" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">📊 League</button>
+                <button id="how-to-play-btn" class="bg-cyan-600 hover:bg-cyan-700 px-3 py-1 rounded text-sm">❓ How to Play</button>
+                <button id="achievements-btn" class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded text-sm">🏅 Achievements</button>
+                <button id="daily-challenge-btn" class="bg-orange-600 hover:bg-orange-700 px-3 py-1 rounded text-sm">⭐ Daily</button>
+                <button id="leaderboard-btn" class="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm">📊 Leaderboard</button>
             </div>
         </div>
 
         <header class="text-center mb-12">
-            <h1 class="text-4xl sm:text-6xl font-bold bg-gradient-to-r from-blue-400 via-yellow-400 to-green-400 bg-clip-text text-transparent tracking-wider" style="font-family: 'Playfair Display', serif;">
-                The N.O.V.A. Challenge
-            </h1>
-            <p class="text-xl text-gray-800 mt-2">NFL × Crypto Edition</p>
-            <p class="text-sm text-gray-400 mt-1">Nurture, Optimize, Visualize & Amplify the Future of Sports</p>
+            <h1 class="text-4xl sm:text-5xl font-bold text-cyan-300 tracking-wider" style="font-family: 'Playfair Display', serif;">Barbuda Rising</h1>
+            <p class="text-lg text-gray-400 mt-2">Community Visioning for Resilience & Self-Reliance</p>
             <div id="combo-display" class="mt-2 text-center hidden">
                 <span class="combo-multiplier bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-sm font-bold">
-                    🔥 <span id="combo-count">0</span>x N.O.V.A. COMBO!
+                    🔥 <span id="combo-count">0</span>x COMBO!
                 </span>
             </div>
         </header>
@@ -214,71 +191,85 @@
         <div id="playmat" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             <!-- Seed Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-green-400 card-title">🌱 SEED</h2>
-                <p class="text-black mb-4">Pick your NFL crypto idea</p>
+                <h2 class="text-2xl font-bold mb-4 text-green-300 card-title">🌱 Seed Zone</h2>
+                <p class="text-gray-400 mb-4">Pick a business idea to begin.</p>
                 <div id="seed-deck-container" class="card-deck mb-2" onclick="drawCard('seed')">
                     <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">🌱</div>
                         <h3 class="font-bold text-xl card-title">SEED</h3>
-                        <p class="text-sm text-gray-500">Click to draw</p>
+                        <p class="text-sm text-gray-400">Click to draw</p>
                     </div>
                     <div id="seed-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-seed" onclick="redrawCard('seed')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
+                <button id="refresh-seed" onclick="redrawCard('seed')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
             </div>
 
             <!-- Nurture Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-yellow-400 card-title">🌿 NURTURE</h2>
-                <p class="text-black mb-4">Grow the idea with context</p>
+                <h2 class="text-2xl font-bold mb-4 text-yellow-300 card-title">🌿 Nurture Zone</h2>
+                <p class="text-gray-400 mb-4">Grow the idea with context.</p>
                 <div id="nurture-deck-container" class="card-deck mb-2" onclick="drawCard('nurture')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">🌿</div>
                         <h3 class="font-bold text-xl card-title">NURTURE</h3>
-                        <p class="text-sm text-gray-500">Click to draw</p>
+                        <p class="text-sm text-gray-400">Click to draw</p>
                     </div>
                     <div id="nurture-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-nurture" onclick="redrawCard('nurture')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
+                <button id="refresh-nurture" onclick="redrawCard('nurture')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
             </div>
 
             <!-- Optimize Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-blue-400 card-title">⚡ OPTIMIZE</h2>
-                <p class="text-black mb-4">Sharpen for impact</p>
+                <h2 class="text-2xl font-bold mb-4 text-blue-300 card-title">⚡ Optimize Zone</h2>
+                <p class="text-gray-400 mb-4">Sharpen the idea for impact.</p>
                 <div id="optimize-deck-container" class="card-deck mb-2" onclick="drawCard('optimize')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
-                        <div class="card-icon">⚡</div>
+                        <div class="card-icon">⚙️</div>
                         <h3 class="font-bold text-xl card-title">OPTIMIZE</h3>
-                        <p class="text-sm text-gray-500">Click to draw</p>
+                        <p class="text-sm text-gray-400">Click to draw</p>
                     </div>
                     <div id="optimize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-optimize" onclick="redrawCard('optimize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
+                <button id="refresh-optimize" onclick="redrawCard('optimize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
             </div>
 
             <!-- Visualize Zone -->
             <div class="playmat-zone rounded-lg p-6 flex flex-col items-center justify-center text-center">
-                <h2 class="text-2xl font-bold mb-4 text-purple-400 card-title">🎨 VISUALIZE</h2>
-                <p class="text-black mb-4">Make it tangible</p>
+                <h2 class="text-2xl font-bold mb-4 text-purple-300 card-title">🎨 Visualize Zone</h2>
+                <p class="text-gray-400 mb-4">Make the idea tangible.</p>
                 <div id="visualize-deck-container" class="card-deck mb-2" onclick="drawCard('visualize')">
                      <div class="card card-back rounded-lg p-4 flex flex-col items-center justify-center text-center">
                         <div class="card-icon">🎨</div>
                         <h3 class="font-bold text-xl card-title">VISUALIZE</h3>
-                        <p class="text-sm text-gray-500">Click to draw</p>
+                        <p class="text-sm text-gray-400">Click to draw</p>
                     </div>
                     <div id="visualize-card" class="card card-front rounded-lg p-4 flex flex-col items-center justify-center text-center"></div>
                 </div>
-                <button id="refresh-visualize" onclick="redrawCard('visualize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2">Refresh</button>
+                <button id="refresh-visualize" onclick="redrawCard('visualize')" class="hidden btn-primary text-sm py-1 px-4 rounded-full mt-2 bg-gray-600 text-white hover:bg-gray-500">Refresh</button>
             </div>
         </div>
 
         <!-- Amplify Zone -->
-        <div id="amplify-zone" class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg p-8 text-center hidden border border-red-400">
-            <h2 class="text-3xl font-bold mb-4 text-red-400 card-title">📢 AMPLIFY ZONE</h2>
-            <p class="text-white mb-6">How can all this happen? Synthesize the cards and share your vision.</p>
-            <textarea id="vision-input" class="w-full h-40 bg-slate-900 text-white p-4 rounded-lg border border-blue-500 focus:outline-none focus:ring-2 focus:ring-red-400" placeholder="Type your answer here..."></textarea>
-            <button id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full mt-6">Submit Vision</button>
+        <div id="amplify-zone" class="bg-gray-800 rounded-lg p-8 text-center hidden">
+            <h2 class="text-3xl font-bold mb-4 text-red-300 card-title">📢 Amplify Zone</h2>
+            <p class="text-gray-400 mb-6">How do these connect? Weave your cards into a unified community vision.</p>
+            
+            <form id="vision-form" class="space-y-4">
+                <div class="text-left">
+                    <label for="email-input" class="block text-sm font-medium text-gray-300 mb-2">Email (to receive community updates)</label>
+                    <input type="email" id="email-input" class="w-full bg-gray-900 text-white p-3 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="your.email@example.com" required>
+                </div>
+                
+                <div class="text-left">
+                    <label for="vision-input" class="block text-sm font-medium text-gray-300 mb-2">Your Community Vision</label>
+                    <textarea id="vision-input" class="w-full h-40 bg-gray-900 text-white p-4 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-400" placeholder="Type your vision here..." required></textarea>
+                </div>
+                
+                <div id="submission-status" class="hidden p-3 rounded-lg text-sm font-medium"></div>
+                
+                <button type="submit" id="submit-vision" class="btn-primary font-bold py-3 px-8 rounded-full">Submit Vision</button>
+            </form>
         </div>
 
     </div>
@@ -291,7 +282,7 @@
         <div class="flex items-center space-x-2">
             <span class="text-2xl">🏆</span>
             <div>
-                <div class="font-bold" id="achievement-title">Hall of Fame!</div>
+                <div class="font-bold" id="achievement-title">Achievement Unlocked!</div>
                 <div class="text-sm" id="achievement-description"></div>
             </div>
         </div>
@@ -299,129 +290,367 @@
 
     <!-- Daily Challenge Modal -->
     <div id="daily-challenge-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-md w-full text-center border border-orange-400">
-            <h2 class="text-3xl font-bold mb-4 text-orange-400 card-title">⭐ Daily Playbook</h2>
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full text-center">
+            <h2 class="text-3xl font-bold mb-4 text-orange-300 card-title">⭐ Daily Challenge</h2>
             <div id="daily-challenge-content">
-                <p class="text-white mb-4">Today's challenge: Create a concept that...</p>
-                <p id="daily-challenge-text" class="text-blue-300 font-semibold mb-4 text-lg"></p>
-                <p class="text-sm text-gray-400 mb-6">Complete for <span class="text-yellow-400 font-bold">+250 XP</span> bonus!</p>
+                <p class="text-gray-300 mb-4">Create a business concept that:</p>
+                <p id="daily-challenge-text" class="text-cyan-300 font-semibold mb-4 text-lg"></p>
+                <p class="text-sm text-gray-400 mb-6">Complete for <span class="text-yellow-300 font-bold">+200 XP</span> bonus!</p>
             </div>
-            <button id="close-daily-challenge" class="btn-primary font-bold py-2 px-6 rounded-full">Let's Play!</button>
+            <button id="close-daily-challenge" class="btn-primary font-bold py-2 px-6 rounded-full">Got it!</button>
         </div>
     </div>
 
-    <!-- Hall of Fame Modal -->
+    <!-- Achievements Modal -->
     <div id="achievements-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full border border-purple-400">
-            <h2 class="text-3xl font-bold mb-6 text-purple-400 card-title text-center">🏆 Hall of Fame</h2>
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full">
+            <h2 class="text-3xl font-bold mb-6 text-purple-300 card-title text-center">🏅 Achievements</h2>
             <div id="achievements-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto"></div>
-            <button id="close-achievements" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Back to Game</button>
+            <button id="close-achievements" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Close</button>
         </div>
     </div>
 
-    <!-- League Leaderboard Modal -->
+    <!-- Leaderboard Modal -->
     <div id="leaderboard-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-md w-full border border-green-400">
-            <h2 class="text-3xl font-bold mb-6 text-green-400 card-title text-center">📊 League Standings</h2>
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-md w-full">
+            <h2 class="text-3xl font-bold mb-6 text-green-300 card-title text-center">📊 Leaderboard</h2>
             <div id="leaderboard-content" class="space-y-3 max-h-96 overflow-y-auto"></div>
-            <button id="close-leaderboard" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Back to Game</button>
+            <button id="close-leaderboard" class="btn-primary font-bold py-2 px-6 rounded-full mt-6 w-full">Close</button>
         </div>
     </div>
 
-    <!-- Championship Result Modal -->
+    <!-- Modal for showing result -->
     <div id="result-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center border border-yellow-400">
-             <h2 class="text-3xl font-bold mb-4 text-yellow-400 card-title">🏆 VISION AMPLIFIED! 🏆</h2>
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-2xl w-full text-center">
+             <h2 class="text-3xl font-bold mb-4 text-cyan-300 card-title">🎉 Community Vision Created! 🎉</h2>
              <div id="completion-reward" class="mb-4 text-center">
-                <span class="text-2xl text-yellow-400">+<span id="reward-points">0</span> Coins!</span>
-                <span class="text-lg text-blue-400 ml-4">+<span id="reward-xp">0</span> XP!</span>
+                <span class="text-2xl text-yellow-300">+<span id="reward-points">0</span> Points!</span>
+                <span class="text-lg text-cyan-300 ml-4">+<span id="reward-xp">0</span> XP!</span>
              </div>
-             <p class="text-white mb-6">You've successfully created an innovative NFL × Crypto vision! Here's your N.O.V.A. combination:</p>
-             <div id="modal-content" class="text-left bg-slate-900 p-6 rounded-lg mb-6 border border-gray-600">
-                <p><strong class="text-green-400">🌱 Seed:</strong> <span id="modal-seed"></span></p>
-                <p><strong class="text-yellow-400">🌿 Nurture:</strong> <span id="modal-nurture"></span></p>
-                <p><strong class="text-blue-400">⚡ Optimize:</strong> <span id="modal-optimize"></span></p>
-                <p><strong class="text-purple-400">🎨 Visualize:</strong> <span id="modal-visualize"></span></p>
+             <p class="text-gray-300 mb-6">You've woven together community insights to create a vision for Barbuda's future. Here's your contribution:</p>
+             <div id="modal-content" class="text-left bg-gray-900 p-6 rounded-lg mb-6">
+                <p><strong class="text-green-300">Seed:</strong> <span id="modal-seed"></span></p>
+                <p><strong class="text-yellow-300">Nurture:</strong> <span id="modal-nurture"></span></p>
+                <p><strong class="text-blue-300">Optimize:</strong> <span id="modal-optimize"></span></p>
+                <p><strong class="text-purple-300">Visualize:</strong> <span id="modal-visualize"></span></p>
                 <hr class="my-4 border-gray-600">
-                <p><strong class="text-red-400">📢 Amplify:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
+                <p><strong class="text-red-300">Your Vision:</strong> <span id="modal-vision" class="block mt-2 text-gray-200"></span></p>
              </div>
-             <button id="restart-game" class="btn-primary font-bold py-3 px-8 rounded-full">🔄 Next Season</button>
+             <button id="restart-game" class="btn-primary font-bold py-3 px-8 rounded-full">Play Again</button>
+        </div>
+    </div>
+
+    <!-- How to Play Modal -->
+    <div id="how-to-play-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-4xl w-full max-h-screen overflow-y-auto relative">
+            <button id="close-how-to-play-x" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-700 transition-colors">&times;</button>
+            <h2 class="text-3xl font-bold mb-6 text-cyan-300 card-title text-center">❓ How to Play Barbuda Rising</h2>
+            
+            <div class="space-y-6 text-gray-300">
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-cyan-300 mb-3">🎯 Objective</h3>
+                    <p>Build a complete business vision by drawing cards from four themed zones. Each zone contributes a different aspect to your innovative concept.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-green-300 mb-2">🌱 Seed Zone</h3>
+                        <p class="text-sm">Click to draw your initial business idea - this is your starting point!</p>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-yellow-300 mb-2">🌿 Nurture Zone</h3>
+                        <p class="text-sm">Add context and backstory to develop your concept with meaning.</p>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-blue-300 mb-2">⚡ Optimize Zone</h3>
+                        <p class="text-sm">Enhance and streamline your idea for maximum impact and efficiency.</p>
+                    </div>
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <h3 class="text-lg font-bold text-purple-300 mb-2">🎨 Visualize Zone</h3>
+                        <p class="text-sm">Create tangible representations and marketing concepts.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-red-300 mb-3">📢 Gameplay Flow</h3>
+                    <ol class="list-decimal list-inside space-y-2 text-sm">
+                        <li>Click on each zone's deck to draw cards sequentially</li>
+                        <li>Read each card's prompt and let it inspire your thinking</li>
+                        <li>Use the "Refresh" button if you want to redraw any card</li>
+                        <li>Once all four cards are drawn, the <strong>Amplify Zone</strong> appears</li>
+                        <li>Write your complete business vision combining all four elements</li>
+                        <li>Submit to see your creative synthesis and earn rewards!</li>
+                    </ol>
+                </div>
+                
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-yellow-300 mb-3">🎮 Gamification Features</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div>
+                            <h4 class="font-bold text-cyan-300 mb-1">Points & XP</h4>
+                            <p>Earn points for drawing cards and XP for completing visions</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-orange-300 mb-1">Achievements</h4>
+                            <p>Unlock special badges for various accomplishments</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-green-300 mb-1">Daily Challenges</h4>
+                            <p>Complete special themed challenges for bonus rewards</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 p-4 rounded-lg">
+                    <h3 class="text-xl font-bold text-purple-300 mb-3">💡 Tips for Success</h3>
+                    <ul class="list-disc list-inside space-y-1 text-sm">
+                        <li>Think creatively - there are no wrong combinations!</li>
+                        <li>Draw all cards without refreshing for a "Perfect Combo" achievement</li>
+                        <li>Write detailed visions (200+ characters) for bonus XP</li>
+                        <li>Complete games quickly for speed bonuses</li>
+                        <li>Check daily challenges for themed inspiration</li>
+                        <li>Build streaks by playing consecutive days</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button id="close-how-to-play" class="btn-primary font-bold py-3 px-8 rounded-full mt-8 w-full">Ready to Play!</button>
         </div>
     </div>
 
     <!-- Alert Modal -->
     <div id="alert-modal" class="modal fixed inset-0 z-50 hidden items-center justify-center p-4">
-        <div class="bg-slate-800 rounded-lg shadow-2xl p-8 max-w-sm w-full text-center border border-yellow-400">
-             <h2 id="alert-title" class="text-2xl font-bold mb-4 text-yellow-400 card-title">Timeout!</h2>
-             <p id="alert-message" class="text-white mb-6"></p>
-             <button id="alert-ok" class="btn-primary font-bold py-2 px-6 rounded-full">Resume Game</button>
+        <div class="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-sm w-full text-center">
+             <h2 id="alert-title" class="text-2xl font-bold mb-4 text-yellow-300 card-title">Alert</h2>
+             <p id="alert-message" class="text-gray-300 mb-6"></p>
+             <button id="alert-ok" class="btn-primary font-bold py-2 px-6 rounded-full">OK</button>
         </div>
     </div>
 
     <script>
         const decks = {
             seed: [
-                "Russell Okung's Bitcoin salary revolution", "Odell Beckham Jr.'s all-crypto contract", "Aaron Rodgers' Bitcoin advocacy", "Saquon Barkley's fan token leadership",
-                "Tom Brady's NFT empire", "Patrick Mahomes' blockchain innovation", "Trevor Lawrence's crypto-native approach", "Dak Prescott's DeFi exploration",
-                "Josh Allen's Bitcoin bull run", "Lamar Jackson's gaming tokenization", "Kyler Murray's metaverse QB experience", "Justin Herbert's Web3 rookie approach",
-                "Cooper Kupp's NFT collection", "Davante Adams' blockchain receiving", "Tyreek Hill's Lightning Network speed", "Stefon Diggs' crypto influence",
-                "Derrick Henry's mining metaphor", "Jonathan Taylor's crypto rush", "Christian McCaffrey's versatile crypto", "Aaron Donald's defensive crypto",
-                "Crypto fantasy football league", "NFT trading card platform", "Blockchain ticket marketplace", "Fan token voting system",
-                "Crypto sports betting pool", "Digital collectible exchange", "Tokenized season tickets", "Blockchain sports media",
-                "Crypto player insurance fund", "NFT highlight ownership", "Tokenized coaching sessions", "Crypto draft combine",
-                "Blockchain Hall of Fame", "Crypto sports education", "NFT championship rings", "Tokenized training facilities",
-                "Crypto sports journalism", "Digital memorabilia vault", "Blockchain fan rewards", "Crypto tailgate experiences",
-                "Token-gated meet & greets", "Crypto podcast network", "NFT art collaborations", "Blockchain social network",
-                "Crypto investment pools", "Digital Hall of Fame voting", "Tokenized retired jerseys", "Crypto workout tracking"
+                "What does self-reliance mean to you?",
+                "If Barbuda could teach the world one lesson, what would it be?",
+                "Name one thing you'd never trade about Barbuda's way of life.",
+                "When you hear sustainable luxury, what image pops into your mind?",
+                "What makes Barbuda home to you?",
+                "How would you define resilience in your own words?",
+                "What's the most important skill every Barbudan should learn?",
+                "If you could preserve one tradition forever, what would it be?",
+                "What does community strength look like to you?",
+                "Name something that makes you proud to be Barbudan.",
+                "What would sustainable living mean for Barbuda?",
+                "How do you want visitors to remember Barbuda?",
+                "What's your vision of Barbuda in 20 years?",
+                "What does economic independence mean for our island?",
+                "Name one natural resource we must protect above all.",
+                "What role should young people play in Barbuda's future?",
+                "How can we balance tradition with progress?",
+                "What would make Barbuda a model for other small islands?",
+                "What does 'owning our future' mean to you?",
+                "Name something we do better than anywhere else.",
+                "What's the foundation of a strong community?",
+                "How should we welcome change while staying true to ourselves?",
+                "What would make you most excited about Barbuda's future?",
+                "Name one thing that connects all Barbudans.",
+                "What does cultural preservation mean to you?",
+                "How can we ensure our children want to stay and build here?",
+                "What would sustainable tourism look like in Barbuda?",
+                "Name something about Barbuda that shouldn't change.",
+                "What's your definition of prosperity for our island?",
+                "How can we turn challenges into opportunities?",
+                "What makes Barbuda unique in the Caribbean?",
+                "Name one value that should guide all development here.",
+                "What would make Barbuda completely self-sufficient?",
+                "How do we honor our past while building our future?",
+                "What's the most important lesson Hurricane Irma taught us?",
+                "Name something that shows Barbuda's resilience.",
+                "What would make our community unbreakable?",
+                "How can we ensure everyone benefits from tourism?",
+                "What does environmental stewardship mean to you?",
+                "Name one thing that makes Barbuda special to visitors.",
+                "What's your vision for Barbuda's young entrepreneurs?",
+                "How can we make sure development serves Barbudans first?",
+                "What would make you confident in Barbuda's future?",
+                "Name something about our culture we should share more.",
+                "What does food security mean for Barbuda?",
+                "How can we create jobs that keep families together?",
+                "What would make Barbuda a place others want to learn from?",
+                "Name one strength we have that we don't use enough.",
+                "What does energy independence look like for our island?",
+                "How can we ensure our voice is heard in our development?",
+                "What would make Barbuda the best version of itself?",
+                "Name something that shows our community spirit."
             ],
             nurture: [
-                "Add why Bitcoin matters to athletes", "Connect to Russell Okung's pioneering story", "Show how crypto creates financial freedom", "Tie to generational wealth building",
-                "Link to global economic inflation", "Add a personal financial journey", "Connect to athlete empowerment", "Show fan ownership benefits",
-                "Add community investment angle", "Tie to social justice movements", "Connect to youth financial education", "Add retirement security story",
-                "Link to family legacy building", "Show economic independence", "Add charitable giving structure", "Tie to local community impact",
-                "Connect to educational initiatives", "Add mentorship opportunities", "Show technology adoption curve", "Link to cultural influence",
-                "Add sustainability benefits", "Connect to next generation", "Show transparency in contracts", "Add fan engagement revolution",
-                "Link to media rights evolution", "Show data ownership benefits", "Add global accessibility", "Connect to innovation leadership",
-                "Tie to decentralized future", "Add cross-platform benefits", "Show reduced intermediaries", "Link to direct fan relationships",
-                "Add programmable money benefits", "Connect to instant settlements", "Show reduced transaction costs", "Add 24/7 market access",
-                "Link to portfolio diversification", "Show inflation hedge properties", "Add digital scarcity value", "Connect to network effects",
-                "Tie to early adopter advantages", "Add technological sovereignty", "Show censorship resistance", "Link to borderless payments",
-                "Add smart contract automation", "Connect to trustless systems", "Show immutable records", "Add peer-to-peer benefits"
+                "Tell a story of when the community came together and solved a problem.",
+                "Imagine you're welcoming visitors. What part of Barbuda do you show first, and why?",
+                "What could make working in tourism feel like ownership instead of service?",
+                "Draw or describe the kind of house you'd like to see more of in Barbuda.",
+                "Share a memory of a time when neighbors helped each other.",
+                "Describe what Barbuda looks like when everyone is thriving.",
+                "Tell about a tradition that brings the whole community together.",
+                "What would make young Barbudans excited to build their careers here?",
+                "Describe how elders and youth can work together on island projects.",
+                "Share a story about someone who embodies Barbuda's spirit.",
+                "What would make Barbuda a place where families can stay together?",
+                "Describe what community leadership looks like at its best.",
+                "Tell about a time when Barbuda showed the world its strength.",
+                "What would make every Barbudan feel valued and heard?",
+                "Describe what sustainable development means in practice here.",
+                "Share how we can honor our ancestors while building for the future.",
+                "Tell about what makes Barbuda's culture worth preserving.",
+                "What would make tourism benefit every household on the island?",
+                "Describe what food sovereignty could look like for Barbuda.",
+                "Share a vision of Barbuda as a model Caribbean community.",
+                "Tell how we can ensure land ownership stays in local hands.",
+                "What would make Barbuda's schools the best in the region?",
+                "Describe what environmental protection means in daily life.",
+                "Share how local businesses can thrive alongside tourism.",
+                "Tell about what makes Barbuda's natural beauty special.",
+                "What would make healthcare accessible to every Barbudan?",
+                "Describe how we can prepare for climate challenges together.",
+                "Share what makes Barbuda's fishing heritage important today.",
+                "Tell how renewable energy could transform our island.",
+                "What would make Barbuda a place of innovation and creativity?",
+                "Describe what community ownership of resources looks like.",
+                "Share how we can keep our culture alive for future generations.",
+                "Tell what makes Barbuda's approach to hospitality unique.",
+                "What would make every voice count in island decisions?",
+                "Describe how we can build without losing our character.",
+                "Share what makes Barbuda's relationship with nature special.",
+                "Tell how we can create prosperity that includes everyone.",
+                "What would make Barbuda completely prepared for any storm?",
+                "Describe what education rooted in local knowledge looks like.",
+                "Share how artists and creators can contribute to island life.",
+                "Tell about what makes Barbuda's work ethic distinctive.",
+                "What would make transportation work for every part of the island?",
+                "Describe how we can grow food that feeds the community.",
+                "Share what makes Barbuda's festivals and celebrations meaningful.",
+                "Tell how technology can serve our traditional ways of life.",
+                "What would make Barbuda a place where creativity flourishes?",
+                "Describe how we can build homes that withstand any weather.",
+                "Share what makes community gatherings important for island life.",
+                "Tell how we can ensure clean water for every generation.",
+                "What would make Barbuda proof against economic uncertainty?",
+                "Describe what makes working together our greatest strength.",
+                "Share how we can welcome change while protecting what matters most."
             ],
             optimize: [
-                "Add AI-powered trading bots", "Use blockchain verification", "Implement smart contracts", "Add DeFi yield farming",
-                "Use Layer 2 scaling solutions", "Add cross-chain bridges", "Implement token staking", "Use NFT marketplaces",
-                "Add prediction markets", "Use DAO governance", "Implement Lightning Network", "Add privacy coins",
-                "Use algorithmic stablecoins", "Add liquidity mining", "Implement flash loans", "Use automated market makers",
-                "Add perpetual contracts", "Use oracle price feeds", "Implement meta-transactions", "Add gas optimization",
-                "Use batched transactions", "Add multi-signature wallets", "Implement time-locked contracts", "Use decentralized identity",
-                "Add zero-knowledge proofs", "Use rollup technology", "Implement sharding", "Add sidechains",
-                "Use state channels", "Add plasma chains", "Implement proof-of-stake", "Use validator networks",
-                "Add slashing conditions", "Use reward mechanisms", "Implement governance tokens", "Add voting mechanisms",
-                "Use quadratic voting", "Add delegation systems", "Implement reputation scoring", "Use credit scoring",
-                "Add insurance protocols", "Use risk assessment", "Implement hedging strategies", "Add arbitrage opportunities",
-                "Use market making", "Add liquidity provision", "Implement yield strategies", "Use composability features"
+                "Rank which matters most for Barbuda's future: Jobs, Land, Environment, Education, Tourism.",
+                "How could Barbuda ensure outsiders investing here leave positive footprints?",
+                "What's the smallest change today that would make recovery feel faster?",
+                "Circle the overlaps: What benefits can both locals and tourists share at once?",
+                "Which three skills should every young Barbudan graduate with?",
+                "How can we turn our greatest challenge into our greatest opportunity?",
+                "What would make Barbuda's voice stronger in regional decisions?",
+                "Prioritize: Community ownership, job creation, environmental protection, cultural preservation.",
+                "How can we ensure tourism money stays and circulates locally?",
+                "What's one regulation that would protect Barbudans without hurting business?",
+                "How could we make renewable energy profitable for families?",
+                "What partnerships would serve Barbuda's interests first?",
+                "How can we build climate resilience while creating jobs?",
+                "What would make young entrepreneurs choose Barbuda over migration?",
+                "How could we turn traditional knowledge into economic advantage?",
+                "What's the fastest way to increase local food production?",
+                "How can we ensure development projects benefit residents long-term?",
+                "What would make Barbuda a regional hub for what industry?",
+                "How could we create jobs that don't depend on tourist seasons?",
+                "What's one policy change that would strengthen community ownership?",
+                "How can we balance welcoming investment with protecting sovereignty?",
+                "What would make Barbuda's infrastructure truly hurricane-proof?",
+                "How could we turn cultural heritage into sustainable income?",
+                "What's the most important thing to negotiate in any development deal?",
+                "How can we ensure equal access to economic opportunities island-wide?",
+                "What would make Barbuda self-sufficient in energy within 10 years?",
+                "How could we create wealth that stays in Barbuda for generations?",
+                "What's one system that would help local businesses compete better?",
+                "How can we make sure technology serves our community goals?",
+                "What would turn Barbuda's size from limitation to advantage?",
+                "How could we create multiple income streams for every household?",
+                "What's the key to making tourism truly community-controlled?",
+                "How can we build local supply chains that support each other?",
+                "What would make Barbuda attractive to the right kind of investors?",
+                "How could we turn environmental protection into job creation?",
+                "What's one change that would make healthcare affordable for all?",
+                "How can we ensure every development project includes skills training?",
+                "What would make Barbuda a model of sustainable island living?",
+                "How could we create financing systems that serve local needs?",
+                "What's the best way to prepare for economic changes beyond our control?",
+                "How can we make education directly relevant to island opportunities?",
+                "What would make Barbuda's fishing industry sustainable and profitable?",
+                "How could we turn waste into resources and income?",
+                "What's one innovation that could transform daily life here?",
+                "How can we ensure water security while supporting development?",
+                "What would make transportation affordable and accessible to all?",
+                "How could we create markets for locally-made products?",
+                "What's the key to balancing growth with environmental protection?",
+                "How can we build resilient communities that support each other?",
+                "What would make Barbuda's recovery a model for other islands?",
+                "How could we ensure every major decision reflects community values?",
+                "What's one strategy that would strengthen Barbuda for any future crisis?"
             ],
             visualize: [
-                "Write a 5-word slogan", "Design the mobile app", "Create a pitch deck", "Write the press release",
-                "Design the website homepage", "Create a TikTok challenge", "Write an elevator pitch", "Design the logo",
-                "Create a commercial script", "Write a Twitter thread", "Design the user interface", "Create a demo video",
-                "Write a product haiku", "Design merchandise", "Create a meme campaign", "Write a testimonial",
-                "Design the onboarding flow", "Create a tutorial series", "Write a manifesto", "Design partnership materials",
-                "Create a roadmap visual", "Write a FAQ section", "Design the analytics dashboard", "Create a case study",
-                "Write a whitepaper summary", "Design the token economics", "Create a community guide", "Write a launch strategy",
-                "Design the governance structure", "Create a rewards program", "Write a compliance guide", "Design the security model",
-                "Create a marketing campaign", "Write a user story", "Design the API documentation", "Create a developer toolkit",
-                "Write a competitive analysis", "Design the integration guide", "Create a success metrics dashboard", "Write a growth strategy",
-                "Design the customer journey", "Create a feedback system", "Write a monetization plan", "Design the scalability framework",
-                "Create a partnership proposal", "Write a regulatory assessment", "Design the risk management plan", "Create a future vision document"
+                "Take a picture of something that symbolizes resilience in Barbuda.",
+                "Place a pin on where you'd build a community-owned eco-lodge.",
+                "Design a slogan that mixes pride + sustainability (e.g., 'Barbuda Together: Roots + Future').",
+                "What song, dish, or dance should always be part of the tourist experience? Write or draw it.",
+                "Create a sketch of your ideal sustainable Barbuda home.",
+                "Design a logo that represents Barbuda's future you want to see.",
+                "Draw a map showing how tourists and locals can share spaces harmoniously.",
+                "Create a poster for a skill-sharing festival in Barbuda.",
+                "Sketch what the perfect community meeting looks like.",
+                "Design a flag that represents Barbuda's resilience and hope.",
+                "Create a photo series showing 'Barbuda Rising' in daily life.",
+                "Draw your vision of Barbuda's main street in 2035.",
+                "Design signage for a community-owned renewable energy project.",
+                "Create a storyboard showing how visitors learn about local culture.",
+                "Sketch the layout for a community garden that feeds families.",
+                "Design a monument celebrating Barbuda's recovery and strength.",
+                "Create an infographic showing local economic flow you'd like to see.",
+                "Draw what a hurricane-proof community center would look like.",
+                "Design a mural celebrating Barbuda's fishing and maritime heritage.",
+                "Create a photo essay of 'Hands that Build Barbuda'.",
+                "Sketch a design for locally-made products that tourists would love.",
+                "Draw your vision of sustainable transportation around the island.",
+                "Create a postcard series showing the 'Real Barbuda' experience.",
+                "Design a community notice board that brings people together.",
+                "Sketch what education looks like when it's rooted in local knowledge.",
+                "Create a diagram of how renewable energy could power every home.",
+                "Draw a festival layout that celebrates both culture and sustainability.",
+                "Design packaging for 'Made in Barbuda' products.",
+                "Create a walking trail map that tells Barbuda's story to visitors.",
+                "Sketch what a community-controlled tourism welcome center looks like.",
+                "Design a calendar celebrating Barbuda's seasons and traditions.",
+                "Create a vision board for young Barbudans' career possibilities.",
+                "Draw what food sovereignty looks like in Barbuda kitchens.",
+                "Design a community brand that makes everyone proud.",
+                "Sketch what climate resilience looks like in daily island life.",
+                "Create a photo story of 'Innovation Meets Tradition' in Barbuda.",
+                "Draw a blueprint for affordable, hurricane-resistant housing.",
+                "Design a community dashboard showing collective progress and goals.",
+                "Create a cookbook cover celebrating Barbuda's food culture.",
+                "Sketch what public spaces look like when they serve everyone.",
+                "Design merchandise that funds community projects.",
+                "Draw what success looks like for Barbuda's next generation.",
+                "Create a social media campaign celebrating local achievements.",
+                "Sketch the perfect setup for community skills workshops.",
+                "Design a welcome package for visitors that educates and inspires.",
+                "Draw what 'Barbuda ownership' looks like in practice.",
+                "Create a timeline mural showing Barbuda's journey from recovery to leadership.",
+                "Sketch what community wealth-building looks like.",
+                "Design a local currency or reward system that keeps money local.",
+                "Create a vision of how elders and youth collaborate on island future.",
+                "Draw what makes Barbuda a place the world wants to learn from.",
+                "Design a celebration that honors both progress and preservation."
             ]
         };
 
         const icons = {
             seed: '🌱',
             nurture: '🌿',
-            optimize: '⚡',
+            optimize: '⚙️',
             visualize: '🎨'
         };
 
@@ -447,34 +676,32 @@
             leaderboard: []
         };
 
-        // NFL×Crypto Themed Achievements
+        // Achievements Definition
         const achievementsList = [
-            { id: 'first_game', title: 'Rookie Season', description: 'Complete your first championship challenge', xp: 50, icon: '🏈' },
-            { id: 'streak_3', title: 'Three-Peat', description: 'Win 3 championships in a row', xp: 150, icon: '🔥' },
-            { id: 'streak_7', title: 'Dynasty Builder', description: 'Win 7 championships in a row', xp: 300, icon: '👑' },
-            { id: 'level_5', title: 'Pro Bowl GM', description: 'Reach GM Level 5', xp: 200, icon: '⭐' },
-            { id: 'level_10', title: 'Hall of Fame GM', description: 'Reach GM Level 10', xp: 500, icon: '🏆' },
-            { id: 'cards_100', title: 'Draft Master', description: 'Draft 100 cards total', xp: 100, icon: '🃏' },
-            { id: 'daily_champion', title: 'Daily Champion', description: 'Complete a daily playbook challenge', xp: 250, icon: '📅' },
-            { id: 'speed_demon', title: 'Two-Minute Drill', description: 'Win a championship in under 2 minutes', xp: 200, icon: '💨' },
-            { id: 'wordsmith', title: 'Sports Journalist', description: 'Write a vision with over 250 characters', xp: 150, icon: '✍️' },
-            { id: 'perfect_combo', title: 'Perfect Season', description: 'Draft all 4 cards without trades', xp: 400, icon: '💎' },
-            { id: 'crypto_pioneer', title: 'Satoshi Nakamoto Award', description: 'Create 10 Bitcoin-focused concepts', xp: 300, icon: '₿' },
-            { id: 'nft_collector', title: 'Digital Memorabilia King', description: 'Feature NFTs in 5 different concepts', xp: 200, icon: '🖼️' }
+            { id: 'first_game', title: 'First Vision', description: 'Complete your first Barbuda Rising challenge', xp: 50, icon: '🎯' },
+            { id: 'streak_3', title: 'Community Builder', description: 'Complete 3 visioning sessions in a row', xp: 100, icon: '🔥' },
+            { id: 'streak_7', title: 'Island Leader', description: 'Complete 7 visioning sessions in a row', xp: 200, icon: '🏛️' },
+            { id: 'level_5', title: 'Rising Voice', description: 'Reach level 5 in community engagement', xp: 150, icon: '⭐' },
+            { id: 'level_10', title: 'Visionary Leader', description: 'Reach level 10 in community visioning', xp: 300, icon: '👑' },
+            { id: 'cards_100', title: 'Community Connector', description: 'Engage with 100 visioning prompts', xp: 100, icon: '🤝' },
+            { id: 'daily_champion', title: 'Daily Champion', description: 'Complete a daily community challenge', xp: 200, icon: '🏆' },
+            { id: 'speed_demon', title: 'Quick Thinker', description: 'Complete a vision in under 2 minutes', xp: 150, icon: '💨' },
+            { id: 'wordsmith', title: 'Vision Weaver', description: 'Craft a detailed community vision (200+ characters)', xp: 100, icon: '✍️' },
+            { id: 'perfect_combo', title: 'Perfect Unity', description: 'Create a vision without redrawing any cards', xp: 250, icon: '💎' }
         ];
 
-        // NFL×Crypto Daily Challenges
+        // Daily Challenges
         const dailyChallenges = [
-            "Revolutionizes how NFL players receive their salaries using Bitcoin",
-            "Creates a new fan engagement model through tokenized experiences",
-            "Integrates blockchain technology into game day operations",
-            "Develops innovative NFT collectibles for superfans",
-            "Builds a DeFi protocol specifically for professional athletes",
-            "Combines fantasy sports with cryptocurrency rewards",
-            "Creates a metaverse experience for NFL fans",
-            "Develops smart contracts for player performance incentives",
-            "Integrates crypto mining with stadium operations",
-            "Creates a DAO for fan-owned team decisions"
+            "Centers community ownership and local control",
+            "Strengthens Barbuda's resilience against climate change",
+            "Creates sustainable jobs that keep families together", 
+            "Preserves cultural heritage while embracing innovation",
+            "Ensures tourism benefits flow to local households",
+            "Builds food security and local self-sufficiency",
+            "Empowers young Barbudans to lead their island's future",
+            "Protects natural resources for future generations",
+            "Fosters collaboration between elders and youth",
+            "Demonstrates how small islands can lead global change"
         ];
 
         let drawnCards = {
@@ -487,34 +714,32 @@
         let remainingDecks = {...decks};
         let gameStartTime = null;
         let refreshCount = 0;
-        let bitcoinConceptCount = 0;
-        let nftConceptCount = 0;
 
         // Initialize game state from localStorage
         function initializeGameState() {
-            const saved = localStorage.getItem('gridiron-crypto-state');
+            const saved = localStorage.getItem('nova-gamified-state');
             if (saved) {
                 const savedState = JSON.parse(saved);
                 gameState = { ...gameState, ...savedState };
                 gameState.achievements = new Set(savedState.achievements || []);
-                bitcoinConceptCount = savedState.bitcoinConceptCount || 0;
-                nftConceptCount = savedState.nftConceptCount || 0;
             }
             
+            // Generate daily challenge
             generateDailyChallenge();
+            
             updateUI();
         }
 
+        // Save game state to localStorage
         function saveGameState() {
             const stateToSave = {
                 ...gameState,
-                achievements: Array.from(gameState.achievements),
-                bitcoinConceptCount,
-                nftConceptCount
+                achievements: Array.from(gameState.achievements)
             };
-            localStorage.setItem('gridiron-crypto-state', JSON.stringify(stateToSave));
+            localStorage.setItem('nova-gamified-state', JSON.stringify(stateToSave));
         }
 
+        // Update UI elements
         function updateUI() {
             document.getElementById('total-points').textContent = gameState.totalPoints;
             document.getElementById('player-level').textContent = gameState.level;
@@ -530,6 +755,7 @@
             document.getElementById('current-xp').textContent = currentLevelXP;
             document.getElementById('xp-needed').textContent = xpNeeded;
             
+            // Update streak fire effect
             const streakElement = document.getElementById('streak-count');
             if (gameState.streak >= 3) {
                 streakElement.classList.add('streak-fire');
@@ -537,6 +763,7 @@
                 streakElement.classList.remove('streak-fire');
             }
             
+            // Show combo multiplier
             if (gameState.comboMultiplier > 1) {
                 document.getElementById('combo-count').textContent = gameState.comboMultiplier;
                 document.getElementById('combo-display').classList.remove('hidden');
@@ -545,10 +772,12 @@
             }
         }
 
+        // Calculate XP needed for a given level
         function getXPForLevel(level) {
-            return Math.floor(150 * Math.pow(1.6, level - 1));
+            return Math.floor(100 * Math.pow(1.5, level - 1));
         }
 
+        // Add XP and handle level ups
         function addXP(amount) {
             gameState.currentXP += amount;
             
@@ -561,14 +790,17 @@
             saveGameState();
         }
 
+        // Handle level up
         function levelUp() {
             gameState.level++;
-            showPointsAnimation(`GM LEVEL ${gameState.level}!`, 'level-up');
+            showPointsAnimation(`LEVEL ${gameState.level}!`, 'level-up');
             
+            // Check for level achievements
             if (gameState.level === 5) unlockAchievement('level_5');
             if (gameState.level === 10) unlockAchievement('level_10');
         }
 
+        // Add points with animation
         function addPoints(amount, element = null) {
             gameState.totalPoints += amount * gameState.comboMultiplier;
             
@@ -580,6 +812,7 @@
             saveGameState();
         }
 
+        // Show points animation
         function showPointsAnimation(text, type = 'points', sourceElement = null) {
             const overlay = document.getElementById('points-overlay');
             const animation = document.createElement('div');
@@ -588,12 +821,12 @@
             animation.textContent = text;
             
             if (type === 'level-up') {
-                animation.className += ' text-yellow-400 text-4xl';
+                animation.className += ' text-yellow-300 text-4xl';
                 animation.style.left = '50%';
                 animation.style.top = '30%';
                 animation.style.transform = 'translateX(-50%)';
             } else {
-                animation.className += ' text-yellow-300';
+                animation.className += ' text-cyan-300';
                 if (sourceElement) {
                     const rect = sourceElement.getBoundingClientRect();
                     animation.style.left = `${rect.left + rect.width / 2}px`;
@@ -612,6 +845,7 @@
             }, 2000);
         }
 
+        // Unlock achievement
         function unlockAchievement(achievementId) {
             if (gameState.achievements.has(achievementId)) return;
             
@@ -621,6 +855,7 @@
             gameState.achievements.add(achievementId);
             addXP(achievement.xp);
             
+            // Show achievement popup
             const popup = document.getElementById('achievement-popup');
             document.getElementById('achievement-title').textContent = achievement.title;
             document.getElementById('achievement-description').textContent = achievement.description;
@@ -636,6 +871,7 @@
             saveGameState();
         }
 
+        // Generate daily challenge
         function generateDailyChallenge() {
             const today = new Date().toDateString();
             if (gameState.dailyChallenge?.date !== today) {
@@ -649,9 +885,11 @@
             }
         }
 
+        // Check if vision meets daily challenge
         function checkDailyChallenge(visionText) {
             if (!gameState.dailyChallenge || gameState.dailyChallenge.completed) return false;
             
+            // Simple keyword matching - in a real app, this could be more sophisticated
             const challengeKeywords = gameState.dailyChallenge.text.toLowerCase().split(' ');
             const visionLower = visionText.toLowerCase();
             
@@ -662,8 +900,8 @@
             if (matches.length >= 2) {
                 gameState.dailyChallenge.completed = true;
                 unlockAchievement('daily_champion');
-                addXP(250);
-                showPointsAnimation('Daily Challenge Complete! +250 XP', 'level-up');
+                addXP(200);
+                showPointsAnimation('Daily Challenge Complete! +200 XP', 'level-up');
                 return true;
             }
             
@@ -689,7 +927,7 @@
                 
                 cardElement.innerHTML = `
                     <div class="card-icon">${icons[deckName]}</div>
-                    <p class="font-semibold text-lg text-center">${cardText}</p>
+                    <p class="font-semibold text-lg">${cardText}</p>
                 `;
                 
                 const deckContainer = document.getElementById(`${deckName}-deck-container`);
@@ -697,16 +935,19 @@
                 
                 document.getElementById(`refresh-${deckName}`).classList.remove('hidden');
 
-                const basePoints = 30;
-                const baseXP = 25;
+                // Gamification: Add points and XP
+                const basePoints = 25;
+                const baseXP = 20;
                 
                 addPoints(basePoints, deckContainer);
                 addXP(baseXP);
                 
+                // Update combo multiplier
                 const cardsDrawn = Object.values(drawnCards).filter(card => card !== null).length;
                 gameState.comboMultiplier = cardsDrawn;
                 updateUI();
                 
+                // Track cards drawn
                 gameState.cardsDrawnToday++;
                 if (gameState.cardsDrawnToday >= 100) {
                     unlockAchievement('cards_100');
@@ -715,6 +956,7 @@
                 if (Object.values(drawnCards).every(card => card !== null)) {
                     document.getElementById('amplify-zone').classList.remove('hidden');
                     
+                    // Check for perfect combo achievement
                     if (refreshCount === 0) {
                         unlockAchievement('perfect_combo');
                     }
@@ -736,6 +978,7 @@
                 document.getElementById(`refresh-${deckName}`).classList.add('hidden');
                 document.getElementById('amplify-zone').classList.add('hidden');
 
+                // Reset combo multiplier
                 const cardsDrawn = Object.values(drawnCards).filter(card => card !== null).length;
                 gameState.comboMultiplier = Math.max(1, cardsDrawn);
                 updateUI();
@@ -747,7 +990,7 @@
             }
         }
 
-        function showAlert(message, title = 'Timeout!') {
+        function showAlert(message, title = 'Alert') {
             document.getElementById('alert-title').textContent = title;
             document.getElementById('alert-message').textContent = message;
             document.getElementById('alert-modal').style.display = 'flex';
@@ -757,70 +1000,152 @@
             document.getElementById('alert-modal').style.display = 'none';
         });
 
-        document.getElementById('submit-vision').addEventListener('click', () => {
-            const visionText = document.getElementById('vision-input').value;
-            if (visionText.trim() === '') {
-                showAlert('Please describe your championship vision before submitting!');
+        // Function to show submission status
+        function showSubmissionStatus(message, isSuccess = true) {
+            const statusElement = document.getElementById('submission-status');
+            statusElement.textContent = message;
+            statusElement.className = `p-3 rounded-lg text-sm font-medium ${isSuccess ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'}`;
+            statusElement.classList.remove('hidden');
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                statusElement.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Function to submit vision to backend
+        async function submitVisionToBackend(email, visionText, cards) {
+            try {
+                // Try the main API endpoint
+                const response = await fetch('/api/save-vision', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        vision: visionText,
+                        cards: cards,
+                        timestamp: new Date().toISOString()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSubmissionStatus('✅ Vision saved successfully! Thank you for contributing to Barbuda\'s future.', true);
+                    return true;
+                } else {
+                    showSubmissionStatus(`❌ Error: ${result.error}`, false);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                
+                // Provide more specific error messages
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    showSubmissionStatus('❌ Network error. Please check your internet connection and try again.', false);
+                } else if (error.message.includes('500')) {
+                    showSubmissionStatus('❌ Server error. The development team has been notified. Please try again later.', false);
+                } else {
+                    showSubmissionStatus('❌ Unable to save vision. Please try again or contact support if the problem persists.', false);
+                }
+                return false;
+            }
+        }
+
+        document.getElementById('vision-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('email-input');
+            const visionInput = document.getElementById('vision-input');
+            const submitButton = document.getElementById('submit-vision');
+            
+            const email = emailInput.value.trim();
+            const visionText = visionInput.value.trim();
+
+            // Validate inputs
+            if (!email || !visionText) {
+                showSubmissionStatus('❌ Please fill in both email and vision fields.', false);
                 return;
             }
 
-            const gameTime = Date.now() - gameStartTime;
-            const completionBonus = Math.max(150, 600 - Math.floor(gameTime / 1000) * 8);
-            const visionBonus = Math.floor(visionText.length / 8) * 6;
-            const streakBonus = gameState.streak * 75;
-            
-            const totalPoints = completionBonus + visionBonus + streakBonus;
-            const totalXP = 150 + (visionText.length > 250 ? 75 : 0);
-
-            // Track concept themes
-            const visionLower = visionText.toLowerCase();
-            if (visionLower.includes('bitcoin') || visionLower.includes('btc')) {
-                bitcoinConceptCount++;
-                if (bitcoinConceptCount >= 10) unlockAchievement('crypto_pioneer');
-            }
-            if (visionLower.includes('nft') || visionLower.includes('collectible') || visionLower.includes('digital art')) {
-                nftConceptCount++;
-                if (nftConceptCount >= 5) unlockAchievement('nft_collector');
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showSubmissionStatus('❌ Please enter a valid email address.', false);
+                return;
             }
 
-            const today = new Date().toDateString();
-            if (gameState.lastPlayDate === today) {
-                // Same day, no streak change
-            } else {
-                const yesterday = new Date();
-                yesterday.setDate(yesterday.getDate() - 1);
-                if (gameState.lastPlayDate === yesterday.toDateString()) {
-                    gameState.streak++;
+            // Disable button during submission
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+
+            // Submit to backend
+            const submitted = await submitVisionToBackend(email, visionText, drawnCards);
+
+            // Re-enable button
+            submitButton.disabled = false;
+            submitButton.textContent = 'Submit Vision';
+
+            if (submitted) {
+                // Continue with game logic
+                const gameTime = Date.now() - gameStartTime;
+                const completionBonus = Math.max(100, 500 - Math.floor(gameTime / 1000) * 5);
+                const visionBonus = Math.floor(visionText.length / 10) * 5;
+                const streakBonus = gameState.streak * 50;
+                
+                const totalPoints = completionBonus + visionBonus + streakBonus;
+                const totalXP = 100 + (visionText.length > 200 ? 50 : 0);
+
+                // Update streak
+                const today = new Date().toDateString();
+                if (gameState.lastPlayDate === today) {
+                    // Same day, no streak change
                 } else {
-                    gameState.streak = 1;
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    if (gameState.lastPlayDate === yesterday.toDateString()) {
+                        gameState.streak++;
+                    } else {
+                        gameState.streak = 1;
+                    }
                 }
+                gameState.lastPlayDate = today;
+                gameState.gamesCompleted++;
+
+                // Check achievements
+                if (gameState.gamesCompleted === 1) unlockAchievement('first_game');
+                if (gameState.streak === 3) unlockAchievement('streak_3');
+                if (gameState.streak === 7) unlockAchievement('streak_7');
+                if (gameTime < 120000) unlockAchievement('speed_demon');
+                if (visionText.length > 200) unlockAchievement('wordsmith');
+
+                // Check daily challenge
+                checkDailyChallenge(visionText);
+
+                // Add rewards
+                addPoints(totalPoints);
+                addXP(totalXP);
+
+                // Update modal with rewards
+                document.getElementById('reward-points').textContent = totalPoints;
+                document.getElementById('reward-xp').textContent = totalXP;
+
+                document.getElementById('modal-seed').textContent = drawnCards.seed;
+                document.getElementById('modal-nurture').textContent = drawnCards.nurture;
+                document.getElementById('modal-optimize').textContent = drawnCards.optimize;
+                document.getElementById('modal-visualize').textContent = drawnCards.visualize;
+                document.getElementById('modal-vision').textContent = visionText;
+
+                document.getElementById('result-modal').style.display = 'flex';
+
+                saveGameState();
             }
-            gameState.lastPlayDate = today;
-            gameState.gamesCompleted++;
-
-            if (gameState.gamesCompleted === 1) unlockAchievement('first_game');
-            if (gameState.streak === 3) unlockAchievement('streak_3');
-            if (gameState.streak === 7) unlockAchievement('streak_7');
-            if (gameTime < 120000) unlockAchievement('speed_demon');
-            if (visionText.length > 250) unlockAchievement('wordsmith');
-
-            checkDailyChallenge(visionText);
-
-            addPoints(totalPoints);
-            addXP(totalXP);
-
-            document.getElementById('reward-points').textContent = totalPoints;
-            document.getElementById('reward-xp').textContent = totalXP;
-
-            document.getElementById('modal-seed').textContent = drawnCards.seed;
-            document.getElementById('modal-nurture').textContent = drawnCards.nurture;
-            document.getElementById('modal-optimize').textContent = drawnCards.optimize;
-            document.getElementById('modal-visualize').textContent = drawnCards.visualize;
-            document.getElementById('modal-vision').textContent = visionText;
-
-            document.getElementById('result-modal').style.display = 'flex';
-
-            saveGameState();
         });
 
         document.getElementById('restart-game').addEventListener('click', () => {
@@ -838,6 +1163,8 @@
 
             document.getElementById('amplify-zone').classList.add('hidden');
             document.getElementById('vision-input').value = '';
+            document.getElementById('email-input').value = '';
+            document.getElementById('submission-status').classList.add('hidden');
             document.getElementById('result-modal').style.display = 'none';
             
             gameStartTime = null;
@@ -870,6 +1197,18 @@
             document.getElementById('leaderboard-modal').style.display = 'none';
         });
 
+        document.getElementById('how-to-play-btn').addEventListener('click', () => {
+            document.getElementById('how-to-play-modal').style.display = 'flex';
+        });
+
+        document.getElementById('close-how-to-play').addEventListener('click', () => {
+            document.getElementById('how-to-play-modal').style.display = 'none';
+        });
+
+        document.getElementById('close-how-to-play-x').addEventListener('click', () => {
+            document.getElementById('how-to-play-modal').style.display = 'none';
+        });
+
         function showAchievements() {
             const grid = document.getElementById('achievements-grid');
             grid.innerHTML = '';
@@ -877,12 +1216,12 @@
             achievementsList.forEach(achievement => {
                 const unlocked = gameState.achievements.has(achievement.id);
                 const div = document.createElement('div');
-                div.className = `p-4 rounded-lg ${unlocked ? 'bg-slate-700 border border-yellow-400' : 'bg-slate-900'} text-center`;
+                div.className = `p-4 rounded-lg ${unlocked ? 'bg-gray-700' : 'bg-gray-900'} text-center`;
                 div.innerHTML = `
                     <div class="text-3xl mb-2 ${unlocked ? '' : 'grayscale opacity-50'}">${achievement.icon}</div>
-                    <div class="font-bold text-sm ${unlocked ? 'text-yellow-400' : 'text-gray-500'}">${achievement.title}</div>
+                    <div class="font-bold text-sm ${unlocked ? 'text-yellow-300' : 'text-gray-500'}">${achievement.title}</div>
                     <div class="text-xs text-gray-400 mt-1">${achievement.description}</div>
-                    <div class="text-xs text-blue-400 mt-1">+${achievement.xp} XP</div>
+                    <div class="text-xs text-cyan-300 mt-1">+${achievement.xp} XP</div>
                     ${unlocked ? '<div class="badge badge-gold mt-2">UNLOCKED</div>' : ''}
                 `;
                 grid.appendChild(div);
@@ -897,12 +1236,13 @@
         }
 
         function showLeaderboard() {
+            // In a real app, this would fetch from a server
             const mockLeaderboard = [
                 { name: 'You', points: gameState.totalPoints, level: gameState.level },
-                { name: 'CryptoPat15', points: Math.max(0, gameState.totalPoints - 200), level: Math.max(1, gameState.level - 1) },
-                { name: 'BitcoinBrady12', points: Math.max(0, gameState.totalPoints - 400), level: Math.max(1, gameState.level - 2) },
-                { name: 'NFTRodgers12', points: Math.max(0, gameState.totalPoints - 600), level: Math.max(1, gameState.level - 2) },
-                { name: 'DeFiDak4', points: Math.max(0, gameState.totalPoints - 800), level: Math.max(1, gameState.level - 3) }
+                { name: 'Alice', points: Math.max(0, gameState.totalPoints - 150), level: Math.max(1, gameState.level - 1) },
+                { name: 'Bob', points: Math.max(0, gameState.totalPoints - 300), level: Math.max(1, gameState.level - 2) },
+                { name: 'Charlie', points: Math.max(0, gameState.totalPoints - 450), level: Math.max(1, gameState.level - 2) },
+                { name: 'Diana', points: Math.max(0, gameState.totalPoints - 600), level: Math.max(1, gameState.level - 3) }
             ].sort((a, b) => b.points - a.points);
 
             const content = document.getElementById('leaderboard-content');
@@ -910,18 +1250,18 @@
             
             mockLeaderboard.forEach((player, index) => {
                 const div = document.createElement('div');
-                div.className = `flex justify-between items-center p-3 rounded ${player.name === 'You' ? 'bg-blue-900 border border-blue-400' : 'bg-slate-700'}`;
+                div.className = `flex justify-between items-center p-3 rounded ${player.name === 'You' ? 'bg-cyan-900' : 'bg-gray-700'}`;
                 div.innerHTML = `
                     <div class="flex items-center space-x-3">
-                        <span class="text-2xl">${index === 0 ? '🏆' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</span>
+                        <span class="text-2xl">${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'}</span>
                         <div>
-                            <div class="font-bold ${player.name === 'You' ? 'text-blue-400' : ''}">${player.name}</div>
-                            <div class="text-xs text-gray-400">Level ${player.level} GM</div>
+                            <div class="font-bold ${player.name === 'You' ? 'text-cyan-300' : ''}">${player.name}</div>
+                            <div class="text-xs text-gray-400">Level ${player.level}</div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-yellow-400">${player.points}</div>
-                        <div class="text-xs text-gray-400">coins</div>
+                        <div class="font-bold text-yellow-300">${player.points}</div>
+                        <div class="text-xs text-gray-400">points</div>
                     </div>
                 `;
                 content.appendChild(div);
@@ -930,6 +1270,7 @@
             document.getElementById('leaderboard-modal').style.display = 'flex';
         }
 
+        // Initialize the game
         initializeGameState();
 
     </script>
