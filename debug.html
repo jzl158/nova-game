@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Barbuda Rising</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .success { color: green; }
+        .error { color: red; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Barbuda Rising - Debug Page</h1>
+    
+    <div class="test-section">
+        <h3>API Endpoint Tests</h3>
+        <button onclick="testEndpoint('/api/test')">Test /api/test</button>
+        <button onclick="testEndpoint('/api/health')">Test /api/health</button>
+        <button onclick="testVisionSave()">Test Vision Save</button>
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Simple Vision Form</h3>
+        <input type="email" id="email" placeholder="your.email@example.com" style="width: 100%; padding: 10px; margin: 5px 0;">
+        <textarea id="vision" placeholder="Your vision for Barbuda..." style="width: 100%; height: 100px; padding: 10px; margin: 5px 0;"></textarea>
+        <button onclick="submitVision()">Submit Vision</button>
+        <div id="form-results"></div>
+    </div>
+
+    <script>
+        async function testEndpoint(url) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += `<p>Testing ${url}...</p>`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultsDiv.innerHTML += `<p class="success">✅ ${url}: SUCCESS</p>`;
+                    resultsDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultsDiv.innerHTML += `<p class="error">❌ ${url}: Status ${response.status}</p>`;
+                    resultsDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `<p class="error">❌ ${url}: Network Error</p>`;
+                resultsDiv.innerHTML += `<pre>${error.message}</pre>`;
+            }
+        }
+
+        async function testVisionSave() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML += `<p>Testing vision save...</p>`;
+            
+            try {
+                const response = await fetch('/api/save-vision', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'test@example.com',
+                        vision: 'This is a test vision for debugging.',
+                        cards: { test: 'test card' }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultsDiv.innerHTML += `<p class="success">✅ Vision Save: SUCCESS</p>`;
+                    resultsDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultsDiv.innerHTML += `<p class="error">❌ Vision Save: Status ${response.status}</p>`;
+                    resultsDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `<p class="error">❌ Vision Save: Network Error</p>`;
+                resultsDiv.innerHTML += `<pre>${error.message}</pre>`;
+            }
+        }
+
+        async function submitVision() {
+            const email = document.getElementById('email').value;
+            const vision = document.getElementById('vision').value;
+            const resultsDiv = document.getElementById('form-results');
+            
+            if (!email || !vision) {
+                resultsDiv.innerHTML = '<p class="error">Please fill in both fields</p>';
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<p>Submitting...</p>';
+            
+            try {
+                const response = await fetch('/api/save-vision', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: email,
+                        vision: vision,
+                        cards: { debug: 'debug submission' }
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultsDiv.innerHTML = '<p class="success">✅ Vision submitted successfully!</p>';
+                    document.getElementById('email').value = '';
+                    document.getElementById('vision').value = '';
+                } else {
+                    resultsDiv.innerHTML = `<p class="error">❌ Error: ${data.error || 'Unknown error'}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p class="error">❌ Network error: ${error.message}</p>`;
+            }
+        }
+
+        // Auto-test on page load
+        window.onload = () => {
+            testEndpoint('/api/test');
+        };
+    </script>
+</body>
+</html>

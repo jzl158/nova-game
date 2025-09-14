@@ -1,24 +1,12 @@
 {
-  "version": 2,
   "rewrites": [
     {
       "source": "/",
-      "destination": "/index.html"
+      "destination": "/debug.html"
     },
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "source": "/debug",
+      "destination": "/debug.html"
     }
-  ],
-  "functions": {
-    "api/save-vision.js": {
-      "maxDuration": 10
-    },
-    "api/health.js": {
-      "maxDuration": 5
-    },
-    "api/visions.js": {
-      "maxDuration": 5
-    }
-  }
+  ]
 }
