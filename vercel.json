@@ -2,36 +2,29 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/debug.html"
+      "destination": "/index.html"
     },
     {
       "source": "/debug",
       "destination": "/debug.html"
+    },
+    {
+      "source": "/game",
+      "destination": "/Nova-Gamified.html"
     }
   ],
   "functions": {
-    "api/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "builds": [
-    {
-      "src": "api/*.js",
-      "use": "@vercel/node"
+    "api/save-vision.js": {
+      "maxDuration": 10
     },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+    "api/health.js": {
+      "maxDuration": 5
     },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+    "api/visions.js": {
+      "maxDuration": 5
+    },
+    "api/test.js": {
+      "maxDuration": 5
     }
-  ]
+  }
 }
