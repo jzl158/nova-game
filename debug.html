@@ -20,6 +20,7 @@
         <h3>API Endpoint Tests</h3>
         <button onclick="testEndpoint('/api/test')">Test /api/test</button>
         <button onclick="testEndpoint('/api/health')">Test /api/health</button>
+        <button onclick="testEndpoint('/api/env-check')">Check Environment Variables</button>
         <button onclick="testNotionConnection()">Test Notion Connection</button>
         <button onclick="testVisionSave()">Test Vision Save</button>
         <div id="results"></div>
@@ -128,6 +129,18 @@
             
             try {
                 const response = await fetch('/api/notion-test');
+                
+                // Check if response is JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    resultsDiv.innerHTML += '<p class="error">❌ Server returned non-JSON response</p>';
+                    resultsDiv.innerHTML += `<p class="error">Status: ${response.status} ${response.statusText}</p>`;
+                    resultsDiv.innerHTML += `<p class="error">Content-Type: ${contentType}</p>`;
+                    resultsDiv.innerHTML += `<pre style="max-height: 300px; overflow-y: auto;">Response: ${text}</pre>`;
+                    return;
+                }
+                
                 const data = await response.json();
                 
                 if (response.ok) {
@@ -147,8 +160,9 @@
                     resultsDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
                 }
             } catch (error) {
-                resultsDiv.innerHTML += '<p class="error">❌ Notion Test: Network Error</p>';
-                resultsDiv.innerHTML += `<pre>${error.message}</pre>`;
+                resultsDiv.innerHTML += '<p class="error">❌ Notion Test: Network/Parse Error</p>';
+                resultsDiv.innerHTML += `<pre>Error: ${error.message}</pre>`;
+                console.error('Notion test error:', error);
             }
         }
 

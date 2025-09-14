@@ -64,13 +64,16 @@ module.exports = async function handler(req, res) {
                 last_edited_time: database.last_edited_time
             };
         } catch (dbError) {
+            console.error('Database access error:', dbError);
             diagnostics.database_access_test = {
                 status: 'failed',
-                error_code: dbError.code,
-                error_message: dbError.message,
-                error_status: dbError.status
+                error_code: dbError.code || 'unknown',
+                error_message: dbError.message || 'Unknown error',
+                error_status: dbError.status || 'no_status',
+                raw_error: dbError.toString(),
+                error_body: dbError.body || 'no_body'
             };
-            diagnostics.error_details = `Database access failed: ${dbError.message}`;
+            diagnostics.error_details = `Database access failed: ${dbError.message || dbError.toString()}`;
         }
 
         // Test 4: Try a simple page creation (if database access worked)
